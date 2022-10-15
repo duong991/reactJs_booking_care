@@ -52,6 +52,12 @@ class Login extends Component {
             isShowPassword: !this.state.isShowPassword,
         });
     };
+    handleKeypress = (e) => {
+        //it triggers by pressing the enter key
+        if (e.charCode === 13) {
+            this.handleLogin();
+        }
+    };
 
     render() {
         return (
@@ -67,6 +73,7 @@ class Login extends Component {
                             onChange={(event) =>
                                 this.handleOnChangeUserName(event)
                             }
+                            onKeyPress={this.handleKeypress}
                         />
                     </div>
                     <div className="col-12 form-group login-input">
@@ -83,6 +90,7 @@ class Login extends Component {
                                 onChange={(event) =>
                                     this.handleOnChangePassword(event)
                                 }
+                                onKeyPress={this.handleKeypress}
                             />
                             <span onClick={() => this.handleShowHidePassword()}>
                                 <i
