@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:600|Work+Sans:400,500,600,700&display=swap");
 
-body {
+.login-background {
     background: linear-gradient(
         135deg,
         rgba(34, 193, 195, 1) 0%,
@@ -8,19 +8,19 @@ body {
     );
     height: 100vh;
     font-family: "work sans";
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .login-container {
-        max-width: 480px;
         min-width: 424px;
+        max-width: 480px;
         min-height: 540px;
-        max-height: 900px;
+        max-height: 550px;
         width: 25%;
         height: 75%;
-        margin: 100px auto;
         background-color: #ffffff;
         border-radius: 25px;
         border: 1px solid none;
-        border-radius: 25px;
-        background-color: #fff;
         .login-content {
             padding-top: 20px;
             .text-login {

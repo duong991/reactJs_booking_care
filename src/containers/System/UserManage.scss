@@ -1,0 +1,16 @@
+.wrapper {
+    height: 100vh;
+}
+.btn {
+    outline: none;
+    i {
+        font-size: 20px;
+        margin-left: 12px;
+    }
+    .icon-delete {
+        color: rgb(155, 12, 12);
+    }
+    .icon-edit {
+        color: rgb(16, 161, 16);
+    }
+}
