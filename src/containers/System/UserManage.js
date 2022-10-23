@@ -14,49 +14,67 @@ class UserManage extends Component {
     }
 
     async componentDidMount() {
-        console.log(">>Mount");
+        this.getAllUserFromReact();
+    }
+
+    getAllUserFromReact = async () => {
         let response = await userService.getAllUser("All");
         if (response && response.errCode === 0) {
             this.setState({
                 arrUsers: response.users,
             });
         }
-    }
+    };
 
-    handleAddNewUser = () => {
+    openModalAddNewUser = () => {
         this.setState({
             isOpenModal: true,
         });
     };
     ToggleUserModal = () => {
         this.setState({
-            isOpenModal: false,
+            isOpenModal: !this.state.isOpenModal,
         });
     };
 
-    // chua hoan thien
+    handleAddNewUser = async (data) => {
+        try {
+            let response = await userService.createNewUser(data);
+            if (response && response.message.errCode !== 0) {
+                alert(response.message.errMessage);
+            } else {
+                this.setState({
+                    isOpenModal: false,
+                });
+                this.getAllUserFromReact();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     handleDelete = async (user) => {
         try {
             let data = await userService.deleteUser(user.id);
-            console.log(data, "---", this.state.arrUsers);
-            console.log(user.id);
             if (data && data.message.errCode === 0) {
+                this.getAllUserFromReact();
             }
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     render() {
-        console.log(">>render", this.state.arrUsers);
         return (
             <div className="wrapper">
                 <ModalUser
                     isOpen={this.state.isOpenModal}
                     ToggleFromParent={this.ToggleUserModal}
-                    test="abc"
+                    handleAddNewUser={this.handleAddNewUser}
                 />
                 <button
                     className="btn btn-primary m-3 px-4"
-                    onClick={this.handleAddNewUser}
+                    onClick={this.openModalAddNewUser}
                 >
                     Add new user
                 </button>
@@ -74,7 +92,6 @@ class UserManage extends Component {
                     </thead>
                     <tbody>
                         {this.state.arrUsers.map((user, index) => {
-                            console.log(user);
                             return (
                                 <tr key={index}>
                                     <td>{++index}</td>

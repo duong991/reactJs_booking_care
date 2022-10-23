@@ -17,6 +17,12 @@ const userService = {
             },
         });
     },
+
+    createNewUser(data) {
+        return axios.post("/api/create-new-user", {
+            data,
+        });
+    },
 };
 
 export default userService;
