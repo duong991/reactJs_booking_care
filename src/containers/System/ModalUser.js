@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Modal } from "reactstrap";
 
 import "./ModalUser.scss";
+import { emitter } from "../../utils";
 
 const optionsGender = [
     {
@@ -42,9 +43,24 @@ class ModalUser extends Component {
             gender: "1",
             roleId: "1",
         };
+        this.listenToEmitter();
     }
 
     async componentDidMount() {}
+
+    listenToEmitter() {
+        emitter.on("CLEAR_INPUT_AFTER_CLOSE_MODAL", () => {
+            this.setState({
+                email: "",
+                password: "",
+                fullName: "",
+                phoneNumber: "",
+                address: "",
+                gender: "1",
+                roleId: "1",
+            });
+        });
+    }
 
     handleToggle = () => {
         this.props.ToggleFromParent();
@@ -65,6 +81,7 @@ class ModalUser extends Component {
     };
 
     checkValidInput = () => {
+        console.log("abc");
         let arrInput = [
             "email",
             "password",
@@ -101,7 +118,8 @@ class ModalUser extends Component {
         if (isValid) {
             let data = this.state;
             this.props.handleAddNewUser(data);
-            this.handleSetInputEmpty();
+
+            // this.handleSetInputEmpty();
         }
     };
 

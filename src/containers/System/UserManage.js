@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { userService } from "../../services";
 import "./UserManage.scss";
 import ModalUser from "./ModalUser";
+import { emitter } from "../../utils";
 class UserManage extends Component {
     constructor(props) {
         super(props);
@@ -47,6 +48,7 @@ class UserManage extends Component {
                     isOpenModal: false,
                 });
                 this.getAllUserFromReact();
+                emitter.emit("CLEAR_INPUT_AFTER_CLOSE_MODAL");
             }
         } catch (error) {
             console.log(error);
