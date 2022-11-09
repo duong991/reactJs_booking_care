@@ -1,1 +1,66 @@
 @import "../styles/common.scss";
+:root {
+    --primary: rgba(254, 44, 85, 1);
+    --black: black;
+    --white: white;
+    --text-color: rgba(22, 24, 35, 1);
+
+    --width-default: 1150px;
+    --height-default: 60px;
+    --box-shadow-default: 0px 1px 1px rgb(0 0 0 / 12%);
+    --font-family: "ProximaNova", sans-serif;
+
+    --width-sidebar-default: 348px;
+}
+@font-face {
+    font-family: ProximaNova;
+    src: url("/asset/fonts/Proxima-Nova-Bold.woff");
+    font-weight: 700;
+}
+@font-face {
+    font-family: ProximaNova;
+    src: url("/asset/fonts/Proxima-Nova-Regular.woff2");
+    font-weight: 400;
+}
+@font-face {
+    font-family: ProximaNova;
+    src: url("/asset/fonts/ProximaNova-Semibold.woff2");
+    font-weight: 600;
+}
+@font-face {
+    font-family: SofiaPro;
+    src: url("/asset/fonts/sofiapro-bold.woff");
+    font-weight: 700;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+    color: var(--text-color);
+
+    overflow-y: overlay;
+}
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
