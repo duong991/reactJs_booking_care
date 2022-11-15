@@ -147,22 +147,24 @@ class UserManage extends Component {
                                             : "Female"}
                                     </td>
                                     <td>
-                                        <button
-                                            className="btn"
-                                            onClick={() =>
-                                                this.handleDelete(user)
-                                            }
-                                        >
-                                            <i className="fas fa-trash icon-delete"></i>
-                                        </button>
-                                        <button
-                                            className="btn"
-                                            onClick={() =>
-                                                this.handleEditUser(user)
-                                            }
-                                        >
-                                            <i className="fas fa-edit icon-edit"></i>
-                                        </button>
+                                        <div className="wrapper-btn">
+                                            <button
+                                                className="btn"
+                                                onClick={() =>
+                                                    this.handleDelete(user)
+                                                }
+                                            >
+                                                <i className="fas fa-trash button-delete"></i>
+                                            </button>
+                                            <button
+                                                className="btn"
+                                                onClick={() =>
+                                                    this.handleEditUser(user)
+                                                }
+                                            >
+                                                <i className="fas fa-edit button-edit "></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             );

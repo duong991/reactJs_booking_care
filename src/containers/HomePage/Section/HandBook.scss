@@ -1,0 +1,80 @@
+.handBook-container {
+    width: 1172px;
+    min-height: 416px;
+    margin: auto;
+    border-top: 1px solid #dfdfe5;
+    margin-bottom: 10px;
+    .handBook-content {
+        width: 90%;
+        height: 100%;
+        margin: auto;
+        margin-top: 50px;
+        display: flex;
+        justify-content: space-around;
+        .handBook-header {
+            padding: 0 20px;
+            width: 360px;
+            .header-main {
+                span {
+                    width: 100%;
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+            }
+            .header-sub {
+                span {
+                    font-size: 14px;
+                }
+                margin-bottom: 32px;
+            }
+            button {
+                width: 200px;
+                height: 47px;
+                background-color: #14bef0;
+            }
+        }
+        .handBook-topics {
+            width: 60%;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            .item {
+                display: inline-block;
+                .item-content {
+                    .item-img {
+                        cursor: pointer;
+
+                        width: 280px;
+                        height: 200px;
+                        background: url("../../../assets/HandBook/covid.webp");
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        background-size: cover;
+                        border-radius: 8px;
+                    }
+                    .item-text {
+                        width: 95%;
+                        .text-label {
+                            text-transform: uppercase;
+                            color: #358588;
+                            font-weight: 700;
+                            font-size: 12px;
+                            line-height: 1.25;
+                            margin-top: 15px;
+                        }
+                        .text-title {
+                            margin-top: 5px;
+                            font-size: 14px;
+                            font-weight: bold;
+                        }
+                        .author {
+                            color: #414146;
+                            margin-top: 10px;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

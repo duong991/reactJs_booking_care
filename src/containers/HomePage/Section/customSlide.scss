@@ -1,0 +1,38 @@
+.slick-prev,
+.slick-next {
+    background-color: #fff !important;
+    border: 1px solid !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 2px 8px 0 RGB(51 60 63 / 22%);
+    z-index: 100;
+    top: 40% !important;
+}
+
+.slick-next {
+    right: -10px !important;
+}
+
+.slick-prev {
+    left: -24px !important;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    font-family: "practicon" !important;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 900;
+}
+
+.slick-prev:before {
+    content: "\E94E" !important;
+    color: black !important;
+}
+
+.slick-next:before {
+    content: "\E93C" !important;
+    color: black !important;
+}

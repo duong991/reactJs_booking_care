@@ -1,12 +1,15 @@
 /*
  * General styles
  */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
 body,
 html {
+    font-family: "Montserrat", sans-serif;
     background-image: "#fff";
     background-repeat: no-repeat;
     background-size: cover;
-    font-family: $fontmain;
+    // font-family: $fontmain;
     font-size: $base-size - 2px;
     height: 100vh;
     overflow: hidden;
@@ -15,6 +18,7 @@ html {
 .btn {
     padding: 0;
     border: none;
+    outline: none;
     cursor: pointer;
     font-weight: 700;
     height: 30px;

@@ -1,0 +1,92 @@
+.section-about {
+    width: 100%;
+    .about-container {
+        padding: 20px 0;
+        border-top: 1px solid #dfdfe5;
+
+        width: 1172px;
+        height: 100%;
+        margin: auto;
+        .about-header {
+            span {
+                font-size: 24px;
+                font-weight: 600;
+            }
+            margin-bottom: 15px;
+        }
+        .about-content {
+            display: flex;
+            width: 1172px;
+            height: inherit;
+            .content-left {
+                width: 53%;
+            }
+            .content-right {
+                width: 47%;
+                height: 358px;
+                padding: 32px 44px;
+                .content-wrapper {
+                    display: inline-block;
+                    height: 50px;
+                    min-width: 50px;
+                    margin-top: 28px;
+                    .truyenThong {
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        display: inline-block;
+                    }
+                    .truyenThong_suckhoedoisong {
+                        background-image: url("../../../assets/About/suckhoedoisong.png");
+                        width: 162px;
+                        height: 50px;
+                        background-size: 142px 30px;
+                    }
+                    .truyenThong_vtv1 {
+                        background-image: url("../../../assets/About/vtv1.png");
+                        width: 106px;
+                        height: 50px;
+                        background-size: 86px 30px;
+                    }
+                    .truyenThong_ictnews {
+                        background-image: url("../../../assets/About/ictnews.png");
+                        width: 127px;
+                        height: 50px;
+                        background-size: 107px 30px;
+                    }
+                    .truyenThong_vnexpress {
+                        background-image: url("../../../assets/About/vnexpress.png");
+                        width: 183px;
+                        height: 50px;
+                        background-size: 163px 30px;
+                    }
+                    .truyenThong_vtcnews {
+                        background-image: url("../../../assets/About/vtcnews.png");
+                        width: 151px;
+                        height: 50px;
+                        background-size: 131px 30px;
+                        background-color: #a3171e;
+                    }
+                    .truyenThong_cnttbyt {
+                        background-image: url("../../../assets/About/cuc-cong-nghe-thong-tin-bo-y-te-2.png");
+                        width: 127px;
+                        height: 50px;
+                        background-size: 107px 40px;
+                    }
+                    .truyenThong_infonet {
+                        background-image: url("../../../assets/About/infonet.png");
+                        width: 129px;
+                        height: 50px;
+                        background-size: 109px 30px;
+                    }
+                    .truyenThong_vtc {
+                        background-image: url("../../../assets/About/vtcgo.png");
+                        width: 96px;
+                        height: 50px;
+                        background-size: 76px 25px;
+                        background-color: #16325c;
+                    }
+                }
+            }
+        }
+    }
+}

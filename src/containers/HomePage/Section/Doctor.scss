@@ -1,0 +1,66 @@
+.doctor-img {
+    background: url("../../../assets/doctor/doctor_5.jpg");
+}
+
+.doctor-container {
+    width: 1172px;
+    padding-bottom: 72px;
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    border-top: 1px solid #dfdfe5;
+    .doctor-header {
+        display: flex;
+        flex-direction: column;
+        height: 58px;
+        margin-bottom: 16px;
+        .main {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .sub {
+            font-size: 14px;
+            font-weight: 400;
+        }
+    }
+    .doctor-custom {
+        height: 350px !important;
+        width: 270px !important;
+        border-radius: 25px;
+        border: 1px solid #f0f0f5;
+        box-shadow: 0 4px 8px RGB(0 0 0 / 12%);
+        border-radius: 24px;
+        margin: 4px;
+        cursor: pointer;
+        .doctor-wrapper {
+            cursor: pointer;
+            height: 300px;
+            .doctor-img {
+                height: 225px;
+                width: 100%;
+                border-radius: 25px 25px 0 0;
+
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+            }
+            .doctor-title {
+                padding: 8px 16px;
+                display: flex;
+                flex-direction: column;
+                .main-title {
+                    font-size: 14px;
+                    font-weight: 600;
+                    margin-bottom: 4px;
+                }
+                .sub-title {
+                    font-size: 14px;
+                    font-weight: 400;
+                    width: inherit;
+                }
+            }
+        }
+    }
+}

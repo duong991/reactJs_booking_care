@@ -1,0 +1,11 @@
+.section-img.specialty-img {
+    background: url("../../../assets/specialtyImg/dentist.jpg");
+}
+
+.section-wrapper.specialty-wrapper {
+    &:hover {
+        .main-title {
+            color: #45c3d2 !important;
+        }
+    }
+}

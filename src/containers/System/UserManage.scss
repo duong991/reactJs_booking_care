@@ -1,16 +1,21 @@
 .wrapper {
     height: 100vh;
 }
+.wrapper-btn {
+    display: flex;
+    justify-content: flex-start;
+}
 .btn {
     outline: none;
+    display: inline-block;
     i {
-        font-size: 20px;
-        margin-left: 12px;
+        text-align: center;
+        font-size: 24px;
     }
-    .icon-delete {
+    .button-delete {
         color: rgb(155, 12, 12);
     }
-    .icon-edit {
+    .button-edit {
         color: rgb(16, 161, 16);
     }
 }

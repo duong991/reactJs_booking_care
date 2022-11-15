@@ -3,7 +3,7 @@
         color: #333;
         text-decoration: none;
     }
-    height: 60px;
+    height: 78px;
     width: 100%;
 
     position: fixed;
@@ -12,8 +12,9 @@
     display: flex;
     justify-content: center;
 
+    background-color: #fff;
     box-shadow: 0px 1px 1px RGBA(0 0 0 / 12%);
-    z-index: 10;
+    z-index: 1000;
     .home-header-content {
         width: 1150px;
         height: 100%;
@@ -28,7 +29,7 @@
             i {
                 padding: 0 8px;
                 font-size: 24px;
-                opacity: 0.8;
+                opacity: 0.9;
             }
             .header-logo {
                 background: url("../../assets/logo.svg") center center no-repeat;
@@ -46,8 +47,12 @@
                     a {
                         display: flex;
                         flex-direction: column;
+                        b {
+                            font-weight: 600;
+                            font-size: 12.5px;
+                        }
                         span {
-                            font-size: 12px;
+                            font-size: 11px;
                         }
                     }
                 }
@@ -60,16 +65,151 @@
                 padding: 0 8px;
                 i {
                     color: #00abb3;
-                    padding: 0 4px;
+                    padding: 0 6px;
                 }
                 span {
                     font-weight: 700;
                 }
             }
             .language {
+                margin-left: 15px;
                 i {
                     color: #3c4048;
+                    padding: 0 3px;
+                }
+                span {
                     padding: 0 4px;
+                    cursor: pointer;
+                    font-weight: 500;
+                    opacity: 0.6;
+                    &:hover {
+                        opacity: 1;
+                        cursor: pointer;
+                    }
+                }
+                .active {
+                    opacity: 1;
+                    color: #00abb3 !important;
+                }
+            }
+        }
+    }
+}
+
+.home-header-banner {
+    background: url("../../assets/banner.jpg");
+    height: 88vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-top: 58px;
+    .banner-wrapper {
+        height: 65%;
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.25),
+            rgba(255, 255, 255, 0.1)
+        );
+        .title {
+            font-size: 30px;
+            color: #fff;
+            text-align: center;
+            text-shadow: 1px 1px 1px rgb(99, 95, 95);
+        }
+        .title1 {
+            padding-top: 12vh;
+            font-weight: 500;
+        }
+        .title2 {
+            font-weight: 600;
+        }
+        .search {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            .search-wrapper {
+                border-radius: 25px;
+                height: 50px;
+                width: 456px;
+                background: #f7d800;
+                display: flex;
+                .search-btn {
+                    width: 50px;
+                    height: 50px;
+                    border: none;
+                    background: none;
+                }
+                .search-input {
+                    border: none;
+                    outline: none;
+                    width: 100%;
+                    border-radius: 0 25px 25px 0;
+                    background: none;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    .banner-options {
+        height: 35%;
+        width: 100%;
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 1)
+        );
+
+        display: flex;
+        justify-content: center;
+
+        .options {
+            height: 100%;
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            .option-child {
+                width: 112px;
+                text-decoration: none;
+
+                .icon {
+                    margin: auto;
+                    background: #fff;
+                    border-radius: 50%;
+                    width: 54px;
+                    height: 54px;
+                    background-size: 36px !important;
+                    background-repeat: no-repeat !important;
+                    background-position: center;
+                }
+                .icon-child-1 {
+                    background-image: url("../../assets/IconImg/133537-khamchuyenkhoa.png");
+                }
+                .icon-child-2 {
+                    background-image: url("../../assets/IconImg//133657-khamtuxa.png");
+                }
+                .icon-child-3 {
+                    background-image: url("../../assets/IconImg//133744-khamtongquat.png");
+                }
+                .icon-child-4 {
+                    background-image: url("../../assets/IconImg//133744-dichvuxetnghiem.png");
+                }
+                .icon-child-5 {
+                    background-image: url("../../assets/IconImg//133744-suckhoetinhthan.png");
+                }
+                .icon-child-6 {
+                    background-image: url("../../assets/IconImg//104635-khamnhakhoa.png");
+                }
+                .text-child {
+                    text-align: center;
+                    color: #333;
+                    font-weight: 600;
+                    font-size: 16px;
+                    opacity: 0.9;
+                }
+                &:hover {
+                    .text-child {
+                        color: #45c3d2;
+                    }
                 }
             }
         }
