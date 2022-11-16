@@ -18,6 +18,30 @@
         }
         i {
             font-size: $base-size + 1px;
+            width: 100%;
+            height: 100%;
         }
+    }
+}
+
+.language {
+    margin-left: 15px;
+    &i {
+        color: #3c4048;
+        padding: 0 3px;
+    }
+    span {
+        padding: 0 4px;
+        cursor: pointer;
+        font-weight: 500;
+        opacity: 0.6;
+        &:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+    .active {
+        opacity: 1;
+        color: #00abb3 !important;
     }
 }

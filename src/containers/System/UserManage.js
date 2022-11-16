@@ -101,12 +101,12 @@ class UserManage extends Component {
     render() {
         return (
             <div className="wrapper">
+                <div className="text-center "> MANAGER USER</div>
                 <ModalUser
                     isOpen={this.state.isOpenModal}
                     ToggleFromParent={this.ToggleUserModal}
                     handleAddNewUser={this.handleAddNewUser}
                 />
-
                 <ModalEditUser
                     isOpen={this.state.isOpenModalEditUser}
                     ToggleFromParent={this.ToggleEditUserModal}
@@ -120,8 +120,8 @@ class UserManage extends Component {
                 >
                     Add new user
                 </button>
-                <table className="table">
-                    <thead>
+                <table className="table table-bordered">
+                    <thead className="table-dark">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Email</th>
