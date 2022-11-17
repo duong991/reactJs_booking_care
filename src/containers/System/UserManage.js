@@ -70,10 +70,8 @@ class UserManage extends Component {
         }
     };
     doEditUser = async (data) => {
-        console.log(">>check data from parent: ", data);
         try {
             let response = await userService.updateUser(data);
-            console.log(response);
             if (response && response.message.errCode !== 0) {
                 alert(response.message.errMessage);
             } else {

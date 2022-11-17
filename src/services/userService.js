@@ -1,10 +1,11 @@
 import axios from "../axios";
 
 const userService = {
+    //------api for login account------
     handleLoginAPI(email, password) {
         return axios.post("/api/login", { email, password });
     },
-
+    //------api for manage user--------
     getAllUser(id) {
         return axios.get(`/api/get-all-user?id=${id}`);
     },
@@ -26,6 +27,10 @@ const userService = {
 
     updateUser(data) {
         return axios.put("/api/update-user", { data });
+    },
+    //-------api for manage user with redux----------
+    getAllCodeServices(type) {
+        return axios.get(`/api/all-code?type=${type}`);
     },
 };
 

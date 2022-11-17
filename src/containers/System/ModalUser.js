@@ -81,7 +81,6 @@ class ModalUser extends Component {
     };
 
     checkValidInput = () => {
-        console.log("abc");
         let arrInput = [
             "email",
             "password",

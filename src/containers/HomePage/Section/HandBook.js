@@ -20,7 +20,7 @@ class HandBook extends Component {
                                 đạt được mục tiêu của bạn.
                             </span>
                         </div>
-                        <button className="btn btn-primary">
+                        <button className="btn btn-primary btn-custom">
                             Xem tất cả các bài báo
                         </button>
                     </div>

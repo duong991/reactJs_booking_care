@@ -1,3 +1,11 @@
+.btn-custom {
+    &:active:focus {
+        box-shadow: none;
+    }
+    outline: none;
+    border: none;
+}
+
 .handBook-container {
     font-family: "Montserrat", sans-serif;
     width: 1172px;

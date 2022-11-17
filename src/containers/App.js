@@ -15,7 +15,6 @@ import { path } from "../utils";
 import Home from "../routes/Home";
 // import Login fr"om "../routes/Login";
 import Login from "./Auth/Login";
-import Header from "./Header/Header";
 import System from "../routes/System";
 import HomePage from "./HomePage/HomePage";
 import { CustomToastCloseButton } from "../components/CustomToast";
@@ -51,13 +50,14 @@ class App extends Component {
                                 <Switch>
                                     <Route
                                         path={path.HOME}
-                                        exact
                                         component={Home}
+                                        exact
                                     />
                                     <Route
                                         path={path.HOMEPAGE}
                                         component={HomePage}
                                     />
+
                                     <Route
                                         path={path.LOGIN}
                                         component={userIsNotAuthenticated(

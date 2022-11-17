@@ -42,7 +42,6 @@ class Login extends Component {
                 this.props.userLoginSuccess(data.userInfo);
             }
         } catch (error) {
-            console.log(error.response);
             this.setState({ errorMessage: error.response.data.message });
         }
     };
