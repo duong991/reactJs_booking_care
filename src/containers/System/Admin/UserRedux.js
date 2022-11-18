@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import userService from "../../../services/userService";
 import { LANGUAGES } from "../../../utils";
-
+import * as actions from "../../../store/actions";
 class UserRedux extends Component {
     constructor(props) {
         super(props);
@@ -12,14 +12,21 @@ class UserRedux extends Component {
         };
     }
     async componentDidMount() {
-        try {
-            const res = await userService.getAllCodeServices("gender");
-            if (res && res.errCode === 0) {
-                this.setState({
-                    genderArr: res.data,
-                });
-            }
-        } catch (error) {}
+        this.props.getGenderStart();
+        // try {
+        //     const res = await userService.getAllCodeServices("gender");
+        //     if (res && res.errCode === 0) {
+        //         this.setState({
+        //             genderArr: res.data,
+        //         });
+        //     }
+        // } catch (error) {}
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.gendersRedux !== this.props.gendersRedux) {
+            this.setState({ genderArr: this.props.gendersRedux });
+        }
     }
 
     render() {
@@ -34,7 +41,10 @@ class UserRedux extends Component {
                                 <FormattedMessage id="manage-user.add" />
                             </div>
                             <div className="col-md-6">
-                                <label for="inputEmail4" className="form-label">
+                                <label
+                                    htmlFor="inputEmail4"
+                                    className="form-label"
+                                >
                                     Email
                                 </label>
                                 <input
@@ -45,7 +55,7 @@ class UserRedux extends Component {
                             </div>
                             <div className="col-md-6">
                                 <label
-                                    for="inputPassword4"
+                                    htmlFor="inputPassword4"
                                     className="form-label"
                                 >
                                     Password
@@ -58,7 +68,7 @@ class UserRedux extends Component {
                             </div>
                             <div className="col-6">
                                 <label
-                                    for="inputAddress"
+                                    htmlFor="inputAddress"
                                     className="form-label"
                                 >
                                     <FormattedMessage id="manage-user.full-name" />
@@ -71,7 +81,7 @@ class UserRedux extends Component {
                             </div>
                             <div className="col-6">
                                 <label
-                                    for="inputAddress"
+                                    htmlFor="inputAddress"
                                     className="form-label"
                                 >
                                     <FormattedMessage id="manage-user.phone-number" />
@@ -84,7 +94,7 @@ class UserRedux extends Component {
                             </div>
                             <div className="col-12">
                                 <label
-                                    for="inputAddress2"
+                                    htmlFor="inputAddress2"
                                     className="form-label"
                                 >
                                     <FormattedMessage id="manage-user.address" />
@@ -98,7 +108,7 @@ class UserRedux extends Component {
                             <div className="col-md-6">
                                 <div>
                                     <label
-                                        for="inputCity"
+                                        htmlFor="inputCity"
                                         className="form-label"
                                     >
                                         <FormattedMessage id="manage-user.gender" />
@@ -110,19 +120,19 @@ class UserRedux extends Component {
                                     genders.map((gender, index) => {
                                         return (
                                             <div
-                                                class="form-check form-check-inline col-md-2"
+                                                className="form-check form-check-inline col-md-2"
                                                 key={gender.id}
                                             >
                                                 <input
-                                                    class="form-check-input"
+                                                    className="form-check-input"
                                                     type="radio"
                                                     name="inlineRadioOptions"
                                                     id={gender.id}
                                                     value={gender.key}
                                                 />
                                                 <label
-                                                    class="form-check-label"
-                                                    for={gender.id}
+                                                    className="form-check-label"
+                                                    htmlFor={gender.id}
                                                 >
                                                     {language &&
                                                     language === LANGUAGES.VI
@@ -133,18 +143,24 @@ class UserRedux extends Component {
                                         );
                                     })}
                             </div>
-                            <div class="col-md-6">
-                                <label for="formFile" class="form-label">
+                            <div className="col-md-6">
+                                <label
+                                    htmlFor="formFile"
+                                    className="form-label"
+                                >
                                     <FormattedMessage id="manage-user.image" />
                                 </label>
                                 <input
-                                    class="form-control"
+                                    className="form-control"
                                     type="file"
                                     id="formFile"
                                 />
                             </div>
                             <div className="col-md-6">
-                                <label for="inputState" className="form-label">
+                                <label
+                                    htmlFor="inputState"
+                                    className="form-label"
+                                >
                                     <FormattedMessage id="manage-user.position" />
                                 </label>
                                 <select id="inputState" className="form-select">
@@ -153,7 +169,10 @@ class UserRedux extends Component {
                                 </select>
                             </div>
                             <div className="col-md-6">
-                                <label for="inputState" className="form-label">
+                                <label
+                                    htmlFor="inputState"
+                                    className="form-label"
+                                >
                                     <FormattedMessage id="manage-user.role" />
                                 </label>
                                 <select id="inputState" className="form-select">
@@ -181,11 +200,17 @@ class UserRedux extends Component {
 const mapStateToProps = (state) => {
     return {
         language: state.app.language,
+        gendersRedux: state.admin.genders,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        // processLogout: () => dispatch(actions.processLogout()),
+        // changeLanguageAppRedux: (language) =>
+        //     dispatch(actions.changeLanguage(language)),
+        getGenderStart: () => dispatch(actions.fetchGenderStart()),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);
