@@ -1,0 +1,20 @@
+.preview-image-container {
+    position: relative;
+    .label-upload {
+        background-color: #00000017;
+        padding: 4px 8px;
+        border-radius: 2px;
+        cursor: pointer;
+        i {
+            opacity: 0.7;
+        }
+    }
+    .preview-image {
+        border-radius: 4px;
+        width: 250px;
+        height: 199px;
+        position: absolute;
+        top: 36px;
+        cursor: pointer;
+    }
+}
