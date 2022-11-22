@@ -1,6 +1,8 @@
 .preview-image-container {
     position: relative;
+    display: flex;
     .label-upload {
+        height: 30px;
         background-color: #00000017;
         padding: 4px 8px;
         border-radius: 2px;
@@ -11,10 +13,25 @@
     }
     .preview-image {
         border-radius: 4px;
-        width: 250px;
-        height: 199px;
-        position: absolute;
-        top: 36px;
+        width: 180px;
+        height: 100px;
         cursor: pointer;
+        margin-left: 8px;
+    }
+}
+
+.wrapper-container {
+    background-color: #6d9886;
+    display: flex;
+    flex-direction: column;
+    .user-redux-body {
+        background-color: white;
+        height: 533px;
+        width: 940px;
+        border-radius: 10px;
+        padding: 20px 40px;
+        margin: auto;
+        margin-top: 20px;
+        box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
     }
 }

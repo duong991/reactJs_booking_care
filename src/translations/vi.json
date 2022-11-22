@@ -52,6 +52,7 @@
     },
     "manage-user": {
         "add": "Thêm mới người dùng",
+        "edit": "Cập nhập thông tin người dùng",
         "email": "Email",
         "password": "Mật khẩu",
         "address": "Địa chỉ",
@@ -62,6 +63,7 @@
         "position": "Chức danh",
         "image": "Ảnh đại diện",
         "upload": "Tải ảnh",
-        "save": "Lưu người dùng"
+        "save": "Lưu người dùng",
+        "update": "Cập nhật user"
     }
 }

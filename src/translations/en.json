@@ -50,7 +50,8 @@
         }
     },
     "manage-user": {
-        "add": "Add new user ",
+        "add": "Add new user",
+        "edit": "Update info user",
         "email": "Email",
         "password": "Password",
         "address": "Address",
@@ -61,6 +62,7 @@
         "position": "Position",
         "image": "Avatar",
         "upload": "Upload",
-        "save": "Save user"
+        "save": "Save user",
+        "update": "Update user"
     }
 }
