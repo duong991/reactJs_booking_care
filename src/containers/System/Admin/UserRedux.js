@@ -30,7 +30,7 @@ class UserRedux extends Component {
             gender: "",
             position: "",
             role: "",
-            avatar: "",
+            image: "",
 
             isCreateForm: true,
         };
@@ -65,7 +65,7 @@ class UserRedux extends Component {
                 role: arrRole && arrRole.length > 0 ? arrRole[0].key : "",
             });
         }
-
+        // clear input when add or update user
         if (prevProps.allUsers !== this.props.allUsers) {
             this.setState({
                 ...this.state,
@@ -80,7 +80,7 @@ class UserRedux extends Component {
                         ? arrPosition[0].key
                         : "",
                 role: arrRole && arrRole.length > 0 ? arrRole[0].key : "",
-                avatar: "",
+                image: "",
                 previewImageURL: "",
             });
         }
@@ -90,8 +90,13 @@ class UserRedux extends Component {
         let file = event.target.files[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
+            console.log(base64);
             let objUrl = URL.createObjectURL(file);
-            this.setState({ previewImageURL: objUrl, avatar: base64 });
+            this.setState({
+                ...this.state,
+                previewImageURL: objUrl,
+                image: base64,
+            });
         }
     };
 
@@ -124,7 +129,7 @@ class UserRedux extends Component {
             position: this.state.position,
             gender: this.state.gender,
             role: this.state.role,
-            avatar: this.state.avatar,
+            image: this.state.image,
         });
     };
 
@@ -171,7 +176,7 @@ class UserRedux extends Component {
             position: data.positionId,
             role: data.roleId,
             previewImageURL: imageBase64,
-            avatar: "",
+            image: "",
             isCreateForm: false,
         });
     };
@@ -181,6 +186,7 @@ class UserRedux extends Component {
         if (!isValid) {
             return;
         }
+        console.log(this.state.image);
         await this.props.editUser({
             id: this.state.id,
             fullName: this.state.fullName,
@@ -189,7 +195,7 @@ class UserRedux extends Component {
             position: this.state.position,
             gender: this.state.gender,
             role: this.state.role,
-            avatar: this.state.avatar,
+            image: this.state.image,
         });
         this.setState({ ...this.state, isCreateForm: true });
     };
@@ -215,7 +221,7 @@ class UserRedux extends Component {
             position,
             gender,
             role,
-            avatar,
+            image,
         } = this.state;
 
         let isCreateForm = this.state.isCreateForm;
@@ -411,7 +417,6 @@ class UserRedux extends Component {
                                     }
                                     value={role}
                                 >
-                                    {console.log(role)}
                                     {roles &&
                                         roles.length > 0 &&
                                         roles.map((role) => {
