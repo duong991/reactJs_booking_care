@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import userService from "../../../services/userService";
-import { LANGUAGES } from "../../../utils";
+import { LANGUAGES, CommonUtils } from "../../../utils";
 import * as actions from "../../../store/actions";
 import "./UserRedux.scss";
 import TableManageUser from "./TableManageUser.js";
@@ -44,10 +44,11 @@ class UserRedux extends Component {
     async componentDidUpdate(prevProps, prevState) {
         let arrPosition = this.props.positionRedux;
         let arrRole = this.props.roleRedux;
-
+        // set default key value of gender arr (M, F , O)
         if (prevProps.genderRedux !== this.props.genderRedux) {
             this.setState({ genderArr: this.props.genderRedux });
         }
+        // set default key value of position arr ()
         if (prevProps.positionRedux !== this.props.positionRedux) {
             this.setState({
                 positionArr: arrPosition,
@@ -57,6 +58,7 @@ class UserRedux extends Component {
                         : "",
             });
         }
+        // set default key value of role arr ()
         if (prevProps.roleRedux !== this.props.roleRedux) {
             this.setState({
                 roleArr: arrRole,
@@ -79,15 +81,17 @@ class UserRedux extends Component {
                         : "",
                 role: arrRole && arrRole.length > 0 ? arrRole[0].key : "",
                 avatar: "",
+                previewImageURL: "",
             });
         }
     }
 
-    handleOnChangeImage = (event) => {
+    handleOnChangeImage = async (event) => {
         let file = event.target.files[0];
         if (file) {
+            let base64 = await CommonUtils.getBase64(file);
             let objUrl = URL.createObjectURL(file);
-            this.setState({ previewImageURL: objUrl, avatar: file }, () => {});
+            this.setState({ previewImageURL: objUrl, avatar: base64 });
         }
     };
 
@@ -150,6 +154,11 @@ class UserRedux extends Component {
     };
 
     renderInfoUserForEdit = (data) => {
+        let imageBase64 = "";
+        if (data.image) {
+            imageBase64 = new Buffer(data.image, "base64").toString("binary");
+            console.log(imageBase64);
+        }
         this.setState({
             ...this.state,
             id: data.id,
@@ -161,7 +170,8 @@ class UserRedux extends Component {
             gender: data.gender,
             position: data.positionId,
             role: data.roleId,
-            avatar: data.image,
+            previewImageURL: imageBase64,
+            avatar: "",
             isCreateForm: false,
         });
     };
