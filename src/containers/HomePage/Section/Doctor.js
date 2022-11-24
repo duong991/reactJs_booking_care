@@ -5,9 +5,29 @@ import "./customSlide.scss";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import * as actions from "../../../store/actions";
+import { LANGUAGES } from "../../../utils";
 class Doctor extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            topDoctors: [],
+        };
+    }
+    componentDidMount() {
+        this.props.loadTopDoctor();
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.topDoctorsRedux !== this.props.topDoctorsRedux) {
+            this.setState({
+                ...this.state,
+                topDoctors: this.props.topDoctorsRedux,
+            });
+        }
+    }
     render() {
+        let { language } = this.props;
+        let topDoctors = this.state.topDoctors;
         var settings = {
             dots: false,
             infinite: false,
@@ -22,78 +42,42 @@ class Doctor extends Component {
                         <span className="main">Bác sĩ tiêu biểu tuần qua</span>
                     </div>
                     <Slider {...settings}>
-                        <div className="doctor-custom">
-                            <div className="doctor-wrapper">
-                                <div className="doctor-img"></div>
-                                <div className="doctor-title">
-                                    <span className="main-title">Nha khoa</span>
-                                    <span className="sub-title">
-                                        Bạn gặp vấn đề về răng miệng? Lên lịch
-                                        khám khoa
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="doctor-custom">
-                            <div className="doctor-wrapper">
-                                <div className="doctor-img"></div>
-                                <div className="doctor-title">
-                                    <span className="main-title">Nha khoa</span>
-                                    <span className="sub-title">
-                                        Bạn gặp vấn đề về răng miệng? Lên lịch
-                                        khám nha khoa
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="doctor-custom">
-                            <div className="doctor-wrapper">
-                                <div className="doctor-img"></div>
-                                <div className="doctor-title">
-                                    <span className="main-title">Nha khoa</span>
-                                    <span className="sub-title">
-                                        Bạn gặp vấn đề về răng miệng? Lên lịch
-                                        khám nha khoa
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="doctor-custom">
-                            <div className="doctor-wrapper">
-                                <div className="doctor-img"></div>
-                                <div className="doctor-title">
-                                    <span className="main-title">Nha khoa</span>
-                                    <span className="sub-title">
-                                        Bạn gặp vấn đề về răng miệng? Lên lịch
-                                        khám nha khoa
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="doctor-custom">
-                            <div className="doctor-wrapper">
-                                <div className="doctor-img"></div>
-                                <div className="doctor-title">
-                                    <span className="main-title">Nha khoa</span>
-                                    <span className="sub-title">
-                                        Bạn gặp vấn đề về răng miệng? Lên lịch
-                                        khám nha khoa
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="doctor-custom">
-                            <div className="doctor-wrapper">
-                                <div className="doctor-img"></div>
-                                <div className="doctor-title">
-                                    <span className="main-title">Nha khoa</span>
-                                    <span className="sub-title">
-                                        Bạn gặp vấn đề về răng miệng? Lên lịch
-                                        khám nha khoa
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                        {topDoctors &&
+                            topDoctors.length > 0 &&
+                            topDoctors.map((item, index) => {
+                                let nameVi = `${item.positionData.valueVi} ${item.fullName}`;
+                                let nameEn = `${item.positionData.valueEn} ${item.fullName}`;
+                                let imageBase64 = "";
+                                if (item.image) {
+                                    imageBase64 = new Buffer(
+                                        item.image,
+                                        "base64"
+                                    ).toString("binary");
+                                }
+                                return (
+                                    <div key={index} className="doctor-custom">
+                                        <div className="doctor-wrapper">
+                                            <div
+                                                className="doctor-img"
+                                                style={{
+                                                    backgroundImage: `url(${imageBase64})`,
+                                                }}
+                                            ></div>
+                                            <div className="doctor-title">
+                                                <span className="main-title">
+                                                    {language === LANGUAGES.VI
+                                                        ? nameVi
+                                                        : nameEn}
+                                                </span>
+                                                <span className="sub-title">
+                                                    Bạn gặp vấn đề về răng
+                                                    miệng? Lên lịch khám khoa
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                     </Slider>
                 </div>
             </div>
@@ -103,13 +87,15 @@ class Doctor extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        topDoctorsRedux: state.admin.topDoctors,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        loadTopDoctor: () => dispatch(actions.fetchTopDoctor()),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Doctor);

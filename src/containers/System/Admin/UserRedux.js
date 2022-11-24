@@ -54,7 +54,7 @@ class UserRedux extends Component {
                 positionArr: arrPosition,
                 position:
                     arrPosition && arrPosition.length > 0
-                        ? arrPosition[0].key
+                        ? arrPosition[0].keyMap
                         : "",
             });
         }
@@ -62,7 +62,7 @@ class UserRedux extends Component {
         if (prevProps.roleRedux !== this.props.roleRedux) {
             this.setState({
                 roleArr: arrRole,
-                role: arrRole && arrRole.length > 0 ? arrRole[0].key : "",
+                role: arrRole && arrRole.length > 0 ? arrRole[0].keyMap : "",
             });
         }
         // clear input when add or update user
@@ -77,9 +77,9 @@ class UserRedux extends Component {
                 gender: "",
                 position:
                     arrPosition && arrPosition.length > 0
-                        ? arrPosition[0].key
+                        ? arrPosition[0].keyMap
                         : "",
-                role: arrRole && arrRole.length > 0 ? arrRole[0].key : "",
+                role: arrRole && arrRole.length > 0 ? arrRole[0].keyMap : "",
                 image: "",
                 previewImageURL: "",
             });
@@ -90,7 +90,6 @@ class UserRedux extends Component {
         let file = event.target.files[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            console.log(base64);
             let objUrl = URL.createObjectURL(file);
             this.setState({
                 ...this.state,
@@ -111,7 +110,9 @@ class UserRedux extends Component {
 
         copyState[type] = event.target.value;
 
-        this.setState({ ...copyState }, () => {});
+        this.setState({ ...copyState }, () => {
+            console.log(this.state.gender);
+        });
     };
 
     handleSaveUser = async () => {
@@ -162,7 +163,6 @@ class UserRedux extends Component {
         let imageBase64 = "";
         if (data.image) {
             imageBase64 = new Buffer(data.image, "base64").toString("binary");
-            console.log(imageBase64);
         }
         this.setState({
             ...this.state,
@@ -358,7 +358,7 @@ class UserRedux extends Component {
                                                     type="radio"
                                                     name="inlineRadioOptions"
                                                     id={gender.id}
-                                                    value={gender.key}
+                                                    value={gender.keyMap}
                                                 />
                                                 <label
                                                     className="form-check-label"
@@ -392,8 +392,9 @@ class UserRedux extends Component {
                                     {positions &&
                                         positions.length > 0 &&
                                         positions.map((position) => {
+                                            console.log(position);
                                             return (
-                                                <option value={position.key}>
+                                                <option value={position.keyMap}>
                                                     {language === LANGUAGES.VI
                                                         ? position.valueVi
                                                         : position.valueEn}
@@ -421,7 +422,7 @@ class UserRedux extends Component {
                                         roles.length > 0 &&
                                         roles.map((role) => {
                                             return (
-                                                <option value={role.key}>
+                                                <option value={role.keyMap}>
                                                     {language === LANGUAGES.VI
                                                         ? role.valueVi
                                                         : role.valueEn}

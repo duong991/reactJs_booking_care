@@ -33,6 +33,9 @@ const actionTypes = Object.freeze({
 
     EDIT_USER_SUCCESS: "EDIT_USER_SUCCESS",
     EDIT_USER_FAIL: "EDIT_USER_FAIL",
+
+    FETCH_TOP_DOCTOR_SUCCESS: "FETCH_TOP_DOCTOR_SUCCESS",
+    FETCH_TOP_DOCTOR_FAIL: "FETCH_TOP_DOCTOR_FAIL",
 });
 
 export default actionTypes;
