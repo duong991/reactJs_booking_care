@@ -70,8 +70,7 @@ class Doctor extends Component {
                                                         : nameEn}
                                                 </span>
                                                 <span className="sub-title">
-                                                    Bạn gặp vấn đề về răng
-                                                    miệng? Lên lịch khám khoa
+                                                    Cơ xương khớp
                                                 </span>
                                             </div>
                                         </div>

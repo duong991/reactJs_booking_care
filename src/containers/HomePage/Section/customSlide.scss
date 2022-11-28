@@ -1,3 +1,10 @@
+.slick-disabled {
+    display: none !important;
+    background-color: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
 .slick-prev,
 .slick-next {
     background-color: #fff !important;
