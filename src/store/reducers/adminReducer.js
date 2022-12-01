@@ -9,6 +9,7 @@ const initialState = {
     roles: [],
     allUser: [],
     topDoctors: [],
+    allDoctors: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -102,24 +103,42 @@ const adminReducer = (state = initialState, action) => {
             };
         // edit user
         case actionTypes.EDIT_USER_SUCCESS:
-            console.log("EDIT_USER_SUCCESS");
             return {
                 ...state,
             };
         case actionTypes.EDIT_USER_FAIL:
-            console.log("EDIT_USER_FAIL");
             return {
                 ...state,
             };
         // fetch top doctors
         case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
-            console.log("FETCH_TOP_DOCTOR_SUCCESS");
             return {
                 ...state,
                 topDoctors: action.data,
             };
         case actionTypes.FETCH_TOP_DOCTOR_FAIL:
-            console.log("FETCH_TOP_DOCTOR_FAIL");
+            return {
+                ...state,
+            };
+        // get all doctors
+        case actionTypes.GET_ALL_DOCTOR_SUCCESS:
+            return {
+                ...state,
+                allDoctors: action.data,
+            };
+        case actionTypes.GET_ALL_DOCTOR_FAIL:
+            return {
+                ...state,
+            };
+
+        // update detail doctor
+        case actionTypes.UPDATE_DETAIL_DOCTOR_SUCCESS:
+            console.log("UPDATE_DETAIL_DOCTOR_SUCCESS");
+            return {
+                ...state,
+            };
+        case actionTypes.UPDATE_DETAIL_DOCTOR_FAIL:
+            console.log("UPDATE_DETAIL_DOCTOR_FAIL");
             return {
                 ...state,
             };

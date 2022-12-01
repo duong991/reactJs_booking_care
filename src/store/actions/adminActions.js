@@ -224,3 +224,82 @@ export const fetchTopDoctorSuccess = (data) => ({
 export const fetchTopDoctorFail = () => ({
     type: actionTypes.FETCH_TOP_DOCTOR_FAIL,
 });
+
+// get all doctor
+export const getAllDoctor = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await userService.getAllDoctorServices();
+            if (res && res.errCode === 0) {
+                dispatch(getAllDoctorSuccess(res.data));
+            } else {
+                dispatch(getAllDoctorFail());
+            }
+        } catch (error) {
+            console.log("get all doctor error: ", error);
+            dispatch(getAllDoctorFail());
+        }
+    };
+};
+
+export const getAllDoctorSuccess = (data) => ({
+    type: actionTypes.GET_ALL_DOCTOR_SUCCESS,
+    data: data,
+});
+export const getAllDoctorFail = () => ({
+    type: actionTypes.GET_ALL_DOCTOR_FAIL,
+});
+
+// update detail doctor
+export const updateDetailDoctor = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await userService.updateDetailDoctorService(data);
+            if (res && res.errCode === 0) {
+                dispatch(getAllDoctorSuccess(res.data));
+                toast.info("🤟🏻 Update detail doctor success !", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            } else {
+                toast.error("🤟🏻 Update detail doctor fail !", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                dispatch(updateDetailDoctorSuccess());
+            }
+        } catch (error) {
+            toast.error("🤟🏻 Update detail doctor fail !", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            console.log("get all doctor error: ", error);
+            dispatch(updateDetailDoctorFail());
+        }
+    };
+};
+
+export const updateDetailDoctorSuccess = () => ({
+    type: actionTypes.UPDATE_DETAIL_DOCTOR_SUCCESS,
+});
+export const updateDetailDoctorFail = () => ({
+    type: actionTypes.UPDATE_DETAIL_DOCTOR_FAIL,
+});

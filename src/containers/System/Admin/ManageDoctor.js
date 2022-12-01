@@ -9,12 +9,6 @@ import "react-markdown-editor-lite/lib/index.css";
 
 import Select from "react-select";
 
-const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-];
-
 const mdParser = new MarkdownIt();
 
 class ManageDoctor extends Component {
@@ -22,22 +16,54 @@ class ManageDoctor extends Component {
         super(props);
         this.state = {
             contentMarkdown: "",
-            contentHtml: "",
+            contentHTML: "",
             selectedDoctor: null,
             description: "",
+            listDoctor: [],
         };
     }
 
-    async componentDidMount() {}
+    async componentDidMount() {
+        this.props.getAllDoctorRedux();
+    }
 
-    async componentDidUpdate(prevProps, prevState) {}
+    async componentDidUpdate(prevProps, prevState) {
+        if (prevProps.allDoctors !== this.props.allDoctors) {
+            let dataSelect = this.buildDataInputSelect(this.props.allDoctors);
+            this.setState({
+                ...this.state,
+                listDoctor: dataSelect,
+            });
+        }
+    }
+
+    buildDataInputSelect = (data) => {
+        let result = [];
+        data &&
+            data.length > 0 &&
+            data.map((item, index) => {
+                let object = {};
+                object.label = item.fullName;
+                object.value = item.id;
+                result.push(object);
+            });
+
+        return result;
+    };
 
     handleEditorChange = ({ html, text }) => {
-        this.setState({ contentHtml: html, contentMarkdown: text });
+        this.setState({ contentHTML: html, contentMarkdown: text });
     };
 
     handleSaveContentMarkDown = () => {
-        console.log(">>check state: ", this.state);
+        let data = {
+            doctorId: this.state.selectedDoctor.value,
+            contentHTML: this.state.contentHTML,
+            contentMarkdown: this.state.contentMarkdown,
+            description: this.state.description,
+        };
+        console.log(">> check data: ", data);
+        this.props.updateDetailDoctorRedux(data);
     };
 
     handleChange = (selectedDoctor) => {
@@ -51,7 +77,7 @@ class ManageDoctor extends Component {
     };
 
     render() {
-        const { selectedDoctor } = this.state;
+        const { selectedDoctor, listDoctor } = this.state;
         return (
             <div className="manage-doctor-container">
                 <div className="manage-doctor-title">
@@ -64,7 +90,7 @@ class ManageDoctor extends Component {
                             className=""
                             value={selectedDoctor}
                             onChange={this.handleChange}
-                            options={options}
+                            options={listDoctor}
                         />
                     </div>
                     <div className="content-right">
@@ -85,7 +111,7 @@ class ManageDoctor extends Component {
                     />
                 </div>
                 <button
-                    class="btn btn-primary save-content-doctor mt-4 float-end"
+                    class="btn btn-primary save-content-doctor mt-3 mb-4 float-end"
                     onClick={() => this.handleSaveContentMarkDown()}
                 >
                     Luu thong tin
@@ -96,11 +122,17 @@ class ManageDoctor extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        allDoctors: state.admin.allDoctors,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        getAllDoctorRedux: () => dispatch(actions.getAllDoctor()),
+        updateDetailDoctorRedux: (data) =>
+            dispatch(actions.updateDetailDoctor(data)),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageDoctor);
