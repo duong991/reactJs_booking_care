@@ -256,7 +256,7 @@ export const updateDetailDoctor = (data) => {
         try {
             let res = await userService.updateDetailDoctorService(data);
             if (res && res.errCode === 0) {
-                dispatch(getAllDoctorSuccess(res.data));
+                dispatch(updateDetailDoctorSuccess());
                 toast.info("🤟🏻 Update detail doctor success !", {
                     position: "top-right",
                     autoClose: 3000,

@@ -36,6 +36,12 @@ const userService = {
     updateDetailDoctorService(data) {
         return axios.post("/api/update-detail-doctor", data);
     },
+    getDetailDoctorById(id) {
+        return axios.get(`/api/get-detail-doctor-by-id?id=${id}`);
+    },
+    getMarkdownByIdDoctor(id) {
+        return axios.get(`/api/get-markdown-by-id-doctor?id=${id}`);
+    },
 };
 
 export default userService;

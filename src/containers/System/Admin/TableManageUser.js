@@ -29,7 +29,6 @@ class TableManageUser extends Component {
         this.props.deleteUser(user.id);
     };
     handleEditUser = (data) => {
-        this.props.getScrollTop();
         this.props.getInfoUserForEdit(data);
     };
 

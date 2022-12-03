@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as actions from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
+import { withRouter } from "react-router-dom";
 class Doctor extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +26,12 @@ class Doctor extends Component {
             });
         }
     }
+
+    handleDetailDoctor = (data) => {
+        let idDoctor = data.id;
+        this.props.history.push(`/detail-doctor/${idDoctor}`);
+    };
+
     render() {
         let { language } = this.props;
         let topDoctors = this.state.topDoctors;
@@ -35,6 +42,7 @@ class Doctor extends Component {
             slidesToShow: 4,
             slidesToScroll: 1,
         };
+
         return (
             <div className="doctor-wrapper">
                 <div className="doctor-container">
@@ -55,7 +63,13 @@ class Doctor extends Component {
                                     ).toString("binary");
                                 }
                                 return (
-                                    <div key={index} className="doctor-custom">
+                                    <div
+                                        key={index}
+                                        className="doctor-custom"
+                                        onClick={() =>
+                                            this.handleDetailDoctor(item)
+                                        }
+                                    >
                                         <div className="doctor-wrapper">
                                             <div
                                                 className="doctor-img"
@@ -97,4 +111,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Doctor);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Doctor));

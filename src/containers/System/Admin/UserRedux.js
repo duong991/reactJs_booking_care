@@ -155,10 +155,6 @@ class UserRedux extends Component {
         return isValid;
     };
 
-    getScrollTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    };
-
     renderInfoUserForEdit = (data) => {
         let imageBase64 = "";
         if (data.image) {

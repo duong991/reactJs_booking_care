@@ -6,6 +6,7 @@ import * as actions from "../../../store/actions";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
+import userService from "../../../services/userService";
 
 import Select from "react-select";
 
@@ -34,6 +35,7 @@ class ManageDoctor extends Component {
                 ...this.state,
                 listDoctor: dataSelect,
             });
+            console.log("hello");
         }
     }
 
@@ -62,14 +64,30 @@ class ManageDoctor extends Component {
             contentMarkdown: this.state.contentMarkdown,
             description: this.state.description,
         };
-        console.log(">> check data: ", data);
         this.props.updateDetailDoctorRedux(data);
+        this.setState({
+            contentMarkdown: "",
+            contentHTML: "",
+            description: "",
+            selectedDoctor: {},
+        });
     };
 
+    // xử lý get dữ liệu markdown mỗi lần chọn bác sĩ mới
     handleChange = (selectedDoctor) => {
-        this.setState({ selectedDoctor }, () =>
-            console.log(`Option selected:`, this.state.selectedDoctor)
-        );
+        this.setState({ selectedDoctor }, async () => {
+            let idDoctor = this.state.selectedDoctor.value;
+            let res = await userService.getMarkdownByIdDoctor(idDoctor);
+            console.log(res);
+            if (res && res.errCode === 0 && res.data) {
+                this.setState({
+                    ...this.state,
+                    contentHTML: res.data.contentHTML,
+                    contentMarkdown: res.data.contentMarkdown,
+                    description: res.data.description,
+                });
+            }
+        });
     };
 
     handleOnChangeDesc = (e) => {
@@ -78,6 +96,7 @@ class ManageDoctor extends Component {
 
     render() {
         const { selectedDoctor, listDoctor } = this.state;
+
         return (
             <div className="manage-doctor-container">
                 <div className="manage-doctor-title">
@@ -108,6 +127,7 @@ class ManageDoctor extends Component {
                         style={{ height: "70vh" }}
                         renderHTML={(text) => mdParser.render(text)}
                         onChange={this.handleEditorChange}
+                        value={this.state.contentMarkdown}
                     />
                 </div>
                 <button
