@@ -68,5 +68,15 @@
         "upload": "Tải ảnh",
         "save": "Lưu người dùng",
         "update": "Cập nhật user"
+    },
+
+    "homepage": {
+        "outstanding-doctor": "Bác sĩ nổi bật tuần qua"
+    },
+    "manage-schedule": {
+        "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
+        "choose-doctor": "Chọn bác sĩ",
+        "choose-date": "Chọn lịch khám bệnh",
+        "save": "Lưu thông tin"
     }
 }

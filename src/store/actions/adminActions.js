@@ -303,3 +303,29 @@ export const updateDetailDoctorSuccess = () => ({
 export const updateDetailDoctorFail = () => ({
     type: actionTypes.UPDATE_DETAIL_DOCTOR_FAIL,
 });
+
+// fetch all schedule hours
+export const fetchAllCodeScheduleTime = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await userService.getAllCodeServices("TIME");
+
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllCodeScheduleTimeSuccess(res.data));
+            } else {
+                dispatch(fetchAllCodeScheduleTimeFail());
+            }
+        } catch (error) {
+            console.log("get all doctor error: ", error);
+            dispatch(fetchAllCodeScheduleTimeFail());
+        }
+    };
+};
+
+export const fetchAllCodeScheduleTimeSuccess = (data) => ({
+    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS,
+    data: data,
+});
+export const fetchAllCodeScheduleTimeFail = () => ({
+    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAIL,
+});

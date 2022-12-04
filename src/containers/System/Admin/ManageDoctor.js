@@ -18,14 +18,14 @@ class ManageDoctor extends Component {
         this.state = {
             contentMarkdown: "",
             contentHTML: "",
-            selectedDoctor: null,
+            selectedDoctor: {},
             description: "",
             listDoctor: [],
         };
     }
 
     async componentDidMount() {
-        this.props.getAllDoctorRedux();
+        await this.props.getAllDoctorRedux();
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -35,7 +35,6 @@ class ManageDoctor extends Component {
                 ...this.state,
                 listDoctor: dataSelect,
             });
-            console.log("hello");
         }
     }
 
@@ -106,7 +105,6 @@ class ManageDoctor extends Component {
                     <div className="content-left">
                         <label className="mb-1">Chon bac si</label>
                         <Select
-                            className=""
                             value={selectedDoctor}
                             onChange={this.handleChange}
                             options={listDoctor}

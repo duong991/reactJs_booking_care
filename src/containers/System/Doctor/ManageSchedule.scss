@@ -1,0 +1,22 @@
+.manage-schedule-container {
+    .m-s-title {
+        text-transform: uppercase;
+        margin-top: 12px;
+        font-weight: 600;
+        font-size: 18px;
+        text-align: center;
+        opacity: 0.8;
+    }
+    .pick-hour-container {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        border-radius: 8px;
+
+        .btn-time {
+            border: 1px solid #333;
+        }
+    }
+}

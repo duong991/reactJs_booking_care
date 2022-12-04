@@ -67,5 +67,15 @@
         "upload": "Upload",
         "save": "Save user",
         "update": "Update user"
+    },
+    "homepage": {
+        "outstanding-doctor": "Bác sĩ nổi bật tuần qua"
+    },
+
+    "manage-schedule": {
+        "title": "Manage doctor's examination plan",
+        "choose-doctor": "Choose doctor",
+        "choose-date": "Choose date",
+        "save": "Save"
     }
 }

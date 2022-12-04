@@ -10,6 +10,7 @@ const initialState = {
     allUser: [],
     topDoctors: [],
     allDoctors: [],
+    scheduleTime: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -133,12 +134,22 @@ const adminReducer = (state = initialState, action) => {
 
         // update detail doctor
         case actionTypes.UPDATE_DETAIL_DOCTOR_SUCCESS:
-            console.log("UPDATE_DETAIL_DOCTOR_SUCCESS");
             return {
                 ...state,
             };
         case actionTypes.UPDATE_DETAIL_DOCTOR_FAIL:
-            console.log("UPDATE_DETAIL_DOCTOR_FAIL");
+            return {
+                ...state,
+            };
+        // fetch all schedule hours
+        case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS:
+            console.log("FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS");
+            return {
+                ...state,
+                scheduleTime: action.data,
+            };
+        case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAIL:
+            console.log("FETCH_ALLCODE_SCHEDULE_TIME_FAIL");
             return {
                 ...state,
             };
