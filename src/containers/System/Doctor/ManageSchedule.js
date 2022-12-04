@@ -7,7 +7,9 @@ import * as actions from "../../../store/actions";
 import userService from "../../../services/userService";
 import DatePicker from "../../../components/Input/DatePicker";
 import moment from "moment";
-import { LANGUAGES } from "../../../utils";
+import { LANGUAGES, dateFormat } from "../../../utils";
+import { toast } from "react-toastify";
+import _ from "lodash";
 class ManageSchedule extends Component {
     constructor(props) {
         super(props);
@@ -34,9 +36,17 @@ class ManageSchedule extends Component {
         }
 
         if (prevProps.scheduleTime !== this.props.scheduleTime) {
+            let data = this.props.scheduleTime;
+            if (data && data.length > 0) {
+                data = data.map((item, index) => ({
+                    ...item,
+                    isActive: false,
+                }));
+            }
+
             this.setState({
                 ...this.state,
-                scheduleTime: this.props.scheduleTime,
+                scheduleTime: data,
             });
         }
     }
@@ -58,18 +68,85 @@ class ManageSchedule extends Component {
         this.setState({ selectedDoctor }, async () => {
             let idDoctor = this.state.selectedDoctor.value;
             let res = await userService.getMarkdownByIdDoctor(idDoctor);
-            console.log(res);
         });
     };
 
     handleOnChangeDatePicker = (date) => {
         this.setState({ currentDate: date[0] });
     };
+
+    handleClickBtnTime = (time) => {
+        let { scheduleTime } = this.state;
+        if (scheduleTime && scheduleTime.length > 0) {
+            scheduleTime = scheduleTime.map((item) => {
+                if (item.id === time.id) item.isActive = !time.isActive;
+                return item;
+            });
+            this.setState({ scheduleTime: scheduleTime });
+        }
+    };
+    handleSaveSchedule = () => {
+        let { scheduleTime, selectedDoctor, currentDate } = this.state;
+        let result = [];
+        if (!currentDate) {
+            toast.error("🤟🏻 Invalid current date!", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return;
+        }
+        if (selectedDoctor && _.isEmpty(selectedDoctor)) {
+            toast.error("🤟🏻 Invalid selected doctor!", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return;
+        }
+        let FormatDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
+        if (scheduleTime && scheduleTime.length > 0) {
+            let selectedTime = scheduleTime.filter(
+                (item) => item.isActive === true
+            );
+
+            if (selectedTime && selectedTime.length > 0) {
+                selectedTime.map((item) => {
+                    let obj = {};
+                    obj.doctorId = selectedDoctor.value;
+                    obj.date = FormatDate;
+                    obj.time = item.keyMap;
+                    result.push(obj);
+                });
+            } else {
+                toast.error("🤟🏻 Invalid selected schedule!", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                return;
+            }
+        }
+        console.log(result);
+    };
     render() {
         const { selectedDoctor, listDoctor, scheduleTime } = this.state;
         const { language } = this.props;
-
-        console.log(language);
         return (
             <div className="manage-schedule-container">
                 <div className="m-s-title">
@@ -104,8 +181,15 @@ class ManageSchedule extends Component {
                                 scheduleTime.map((item, index) => {
                                     return (
                                         <button
-                                            className="btn btn-time"
+                                            className={
+                                                item.isActive === true
+                                                    ? "btn btn-time btn-success"
+                                                    : "btn btn-time"
+                                            }
                                             key={index}
+                                            onClick={() =>
+                                                this.handleClickBtnTime(item)
+                                            }
                                         >
                                             {language === LANGUAGES.VI
                                                 ? item.valueVi
@@ -115,7 +199,10 @@ class ManageSchedule extends Component {
                                 })}
                         </div>
                     </div>
-                    <button className="btn btn-primary mt-3">
+                    <button
+                        className="btn btn-primary mt-3"
+                        onClick={this.handleSaveSchedule}
+                    >
                         <FormattedMessage id="manage-schedule.save" />
                     </button>
                 </div>
