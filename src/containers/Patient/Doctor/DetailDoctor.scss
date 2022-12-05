@@ -29,6 +29,16 @@
             }
         }
         .schedule-doctor {
+            display: flex;
+            height: 250px;
+            .content-left {
+                width: 50%;
+                border: 1px solid red;
+            }
+            .content-right {
+                width: 50%;
+                border: 1px solid green;
+            }
         }
         .detail-info-doctor {
             background-color: rgb(251, 250, 250);

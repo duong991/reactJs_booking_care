@@ -5,7 +5,8 @@ import "./DetailDoctor.scss";
 import userService from "../../../services/userService";
 import { LANGUAGES } from "../../../utils";
 import HomeHeader from "../../HomePage/HomeHeader";
-class UserManage extends Component {
+import DoctorSchedule from "./DoctorSchedule";
+class DetailDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,7 +31,6 @@ class UserManage extends Component {
     getInfoDoctor = async () => {
         let idDoctor = this.props.match.params.id;
         let result = await userService.getDetailDoctorById(idDoctor);
-        console.log(result);
         if (result && result.errCode === 0 && result.data.Markdown) {
             this.setState({
                 image: result.data.image,
@@ -46,7 +46,8 @@ class UserManage extends Component {
 
     render() {
         let { positionData, fullName, description, contentHTML } = this.state;
-        console.log(description);
+        let doctorId = this.props.match.params.id;
+
         return (
             <div className="detail-doctor-wrapper">
                 <HomeHeader isShowBanner={false} />
@@ -76,7 +77,12 @@ class UserManage extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="schedule-doctor"></div>
+                    <div className="schedule-doctor">
+                        <div className="content-left">
+                            <DoctorSchedule doctorId={doctorId} />
+                        </div>
+                        <div className="content-right"></div>
+                    </div>
                     <div
                         className="detail-info-doctor"
                         dangerouslySetInnerHTML={{ __html: contentHTML }}
@@ -98,4 +104,4 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserManage);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailDoctor);
