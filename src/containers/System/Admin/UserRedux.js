@@ -182,7 +182,6 @@ class UserRedux extends Component {
         if (!isValid) {
             return;
         }
-        console.log(this.state.image);
         await this.props.editUser({
             id: this.state.id,
             fullName: this.state.fullName,
@@ -388,7 +387,6 @@ class UserRedux extends Component {
                                     {positions &&
                                         positions.length > 0 &&
                                         positions.map((position) => {
-                                            console.log(position);
                                             return (
                                                 <option value={position.keyMap}>
                                                     {language === LANGUAGES.VI

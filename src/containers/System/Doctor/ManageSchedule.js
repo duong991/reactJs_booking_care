@@ -10,6 +10,7 @@ import moment from "moment";
 import { LANGUAGES, dateFormat } from "../../../utils";
 import { toast } from "react-toastify";
 import _ from "lodash";
+
 class ManageSchedule extends Component {
     constructor(props) {
         super(props);
@@ -85,7 +86,7 @@ class ManageSchedule extends Component {
             this.setState({ scheduleTime: scheduleTime });
         }
     };
-    handleSaveSchedule = () => {
+    handleSaveSchedule = async () => {
         let { scheduleTime, selectedDoctor, currentDate } = this.state;
         let result = [];
         if (!currentDate) {
@@ -114,7 +115,7 @@ class ManageSchedule extends Component {
             });
             return;
         }
-        let FormatDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
+        let FormatDate = new Date(currentDate).getTime();
         if (scheduleTime && scheduleTime.length > 0) {
             let selectedTime = scheduleTime.filter(
                 (item) => item.isActive === true
@@ -125,7 +126,7 @@ class ManageSchedule extends Component {
                     let obj = {};
                     obj.doctorId = selectedDoctor.value;
                     obj.date = FormatDate;
-                    obj.time = item.keyMap;
+                    obj.timeType = item.keyMap;
                     result.push(obj);
                 });
             } else {
@@ -142,7 +143,13 @@ class ManageSchedule extends Component {
                 return;
             }
         }
-        console.log(result);
+
+        let res = await userService.saveBulkScheduleDoctor({
+            result,
+            doctorId: selectedDoctor.value,
+            date: FormatDate,
+        });
+        console.log("check res: ", res);
     };
     render() {
         const { selectedDoctor, listDoctor, scheduleTime } = this.state;

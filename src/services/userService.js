@@ -42,6 +42,9 @@ const userService = {
     getMarkdownByIdDoctor(id) {
         return axios.get(`/api/get-markdown-by-id-doctor?id=${id}`);
     },
+    saveBulkScheduleDoctor(data) {
+        return axios.post("/api/bulk-create-schedule", data);
+    },
 };
 
 export default userService;
