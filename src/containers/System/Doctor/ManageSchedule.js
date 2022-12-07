@@ -86,6 +86,23 @@ class ManageSchedule extends Component {
             this.setState({ scheduleTime: scheduleTime });
         }
     };
+    clearInput = () => {
+        let { scheduleTime } = this.state;
+        if (scheduleTime && scheduleTime.length > 0) {
+            scheduleTime.map((item) => {
+                item.isActive = false;
+                return item;
+            });
+        }
+        console.log(">check scheduleTime: ", scheduleTime);
+        this.setState({
+            ...this.state,
+            selectedDoctor: {},
+            currentDate: "",
+            scheduleTime: scheduleTime,
+        });
+    };
+
     handleSaveSchedule = async () => {
         let { scheduleTime, selectedDoctor, currentDate } = this.state;
         let result = [];
@@ -149,11 +166,18 @@ class ManageSchedule extends Component {
             doctorId: selectedDoctor.value,
             date: FormatDate,
         });
-        console.log("check res: ", res);
+
+        if (res && res.errCode === 0) {
+            toast.info("🤟🏻 Selected schedule success!");
+            this.clearInput();
+        } else {
+            toast.error("🤟🏻 Selected schedule fail!");
+        }
     };
     render() {
         const { selectedDoctor, listDoctor, scheduleTime } = this.state;
         const { language } = this.props;
+        console.log(scheduleTime);
         return (
             <div className="manage-schedule-container">
                 <div className="m-s-title">
@@ -179,7 +203,13 @@ class ManageSchedule extends Component {
                                 onChange={this.handleOnChangeDatePicker}
                                 className="form-control"
                                 value={this.state.currentDate}
-                                minDate={new Date()}
+                                minDate={
+                                    new Date(
+                                        new Date().setDate(
+                                            new Date().getDate() - 1
+                                        )
+                                    )
+                                }
                             />
                         </div>
                         <div className="col-12 pick-hour-container mt-4">
