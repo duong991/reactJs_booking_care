@@ -1,6 +1,6 @@
 .manage-doctor-container {
     padding: 16px 31px;
-    height: 110vh;
+    height: 130vh;
     .manage-doctor-title {
         text-align: center;
         margin: 15px;
@@ -10,13 +10,13 @@
         opacity: 0.8;
     }
     .more-info {
-        display: flex;
-        gap: 15px;
+        // display: flex;
+        // gap: 15px;
         .content-left {
-            width: 40%;
+            // width: 40%;
         }
         .content-right {
-            width: 60%;
+            // width: 60%;
         }
     }
     .manage-doctor-editor {

@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 import * as actions from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
 import { withRouter } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
+
 class Doctor extends Component {
     constructor(props) {
         super(props);
@@ -47,7 +49,9 @@ class Doctor extends Component {
             <div className="doctor-wrapper">
                 <div className="doctor-container">
                     <div className="doctor-header">
-                        <span className="main">Bác sĩ tiêu biểu tuần qua</span>
+                        <span className="main">
+                            <FormattedMessage id="homepage.outstanding-doctor" />
+                        </span>
                     </div>
                     <Slider {...settings}>
                         {topDoctors &&
