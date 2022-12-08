@@ -87,9 +87,15 @@
         }
     },
     "admin": {
-        "title": "Create doctor's information",
+        "title": "Create more information doctor",
         "choose-doctor": "Choose doctor",
-        "intro-info": "Introduction information",
-        "save": "Save"
+        "intro-info": "Introduction",
+        "save": "Save",
+        "price": "Price",
+        "payment": "Payment",
+        "province": "Province",
+        "nameClinic": "Clinic's name",
+        "addressClinic": "Clinic's address",
+        "note": "Note"
     }
 }

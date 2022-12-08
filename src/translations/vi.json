@@ -91,6 +91,12 @@
         "title": "Tạo thêm thông tin Bác sĩ",
         "choose-doctor": "Chọn bác sĩ",
         "intro-info": "Thông tin giới thiệu",
-        "save": "Lưu thông tin"
+        "save": "Lưu thông tin",
+        "price": "Giá khám bệnh",
+        "payment": "Phương thức thanh toán",
+        "province": "Tỉnh thành",
+        "nameClinic": "Tên phòng khám",
+        "addressClinic": "Địa chỉ phòng khám",
+        "note": "Ghi chú"
     }
 }
