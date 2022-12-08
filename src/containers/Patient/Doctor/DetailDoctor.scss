@@ -30,13 +30,12 @@
         }
         .schedule-doctor {
             display: flex;
-            height: 280px;
+            min-height: 280px;
             .content-left {
                 width: 50%;
             }
             .content-right {
                 width: 50%;
-                border: 1px solid green;
             }
         }
         .detail-info-doctor {

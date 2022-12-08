@@ -103,7 +103,7 @@ class ManageDoctor extends Component {
                 let object = {};
                 if (type === "PRICE") {
                     if (language === LANGUAGES.VI) {
-                        object.label = item.valueVi;
+                        object.label = item.valueVi + " " + "VND";
                     } else {
                         object.label = item.valueEn + " " + "USD";
                     }
@@ -162,12 +162,50 @@ class ManageDoctor extends Component {
         this.setState({ selectedDoctor }, async () => {
             let idDoctor = this.state.selectedDoctor.value;
             let res = await userService.getMarkdownByIdDoctor(idDoctor);
+
+            let addressClinic = "",
+                nameClinic = "",
+                note = "",
+                paymentId = "",
+                priceId = "",
+                provinceId = "",
+                selectedPrice = "",
+                selectedPayment = "",
+                selectedProvince = "";
+
+            let { listPrice, listPayment, listProvince } = this.state;
+            if (res && res.data && res.data.Doctor_Info) {
+                addressClinic = res.data.Doctor_Info.addressClinic;
+                nameClinic = res.data.Doctor_Info.nameClinic;
+                note = res.data.Doctor_Info.note;
+                priceId = res.data.Doctor_Info.priceId;
+                paymentId = res.data.Doctor_Info.paymentId;
+                provinceId = res.data.Doctor_Info.provinceId;
+
+                // Xử lý data để lấy selected option cho react-select
+                selectedPrice = listPrice.find(
+                    (item) => item && item.value === priceId
+                );
+                selectedPayment = listPayment.find(
+                    (item) => item && item.value === paymentId
+                );
+                selectedProvince = listProvince.find(
+                    (item) => item && item.value === provinceId
+                );
+            }
+
             if (res && res.errCode === 0 && res.data) {
                 this.setState({
                     ...this.state,
                     contentHTML: res.data.contentHTML,
                     contentMarkdown: res.data.contentMarkdown,
                     description: res.data.description,
+                    addressClinic: addressClinic,
+                    nameClinic: nameClinic,
+                    note: note,
+                    selectedPrice: selectedPrice,
+                    selectedPayment: selectedPayment,
+                    selectedProvince: selectedProvince,
                 });
             }
         });
@@ -196,6 +234,9 @@ class ManageDoctor extends Component {
             listPrice,
             listPayment,
             listProvince,
+            nameClinic,
+            addressClinic,
+            note,
         } = this.state;
 
         return (
@@ -279,6 +320,7 @@ class ManageDoctor extends Component {
                         </label>
                         <input
                             className="form-control"
+                            value={nameClinic}
                             onChange={(e) =>
                                 this.handleOnChangeText(e, "nameClinic")
                             }
@@ -290,6 +332,7 @@ class ManageDoctor extends Component {
                         </label>
                         <input
                             className="form-control"
+                            value={addressClinic}
                             onChange={(e) =>
                                 this.handleOnChangeText(e, "addressClinic")
                             }
@@ -299,9 +342,11 @@ class ManageDoctor extends Component {
                         <label>
                             <FormattedMessage id="admin.note" />
                         </label>
-                        <input
+                        <textarea
                             className="form-control"
+                            rows="4"
                             onChange={(e) => this.handleOnChangeText(e, "note")}
+                            value={note}
                         />
                     </div>
                 </div>
