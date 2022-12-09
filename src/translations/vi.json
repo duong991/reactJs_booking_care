@@ -85,6 +85,13 @@
             "no-schedule": "Bác sĩ không có lịch khám hôm nay",
             "choose": "Chọn",
             "book-free": "và đặt (miễn phí)"
+        },
+        "extra-info-doctor": {
+            "text-address": "Địa chỉ khám",
+            "price": "Giá khám",
+            "detail": "Xem chi tiết",
+            "hidePrice": "Ẩn bảng giá",
+            "payment": "Người bệnh có thể thanh toán chi phí bằng hình thức: "
         }
     },
     "admin": {

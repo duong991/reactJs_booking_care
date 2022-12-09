@@ -83,7 +83,7 @@ class DetailDoctor extends Component {
                             <DoctorSchedule doctorId={doctorId} />
                         </div>
                         <div className="content-right">
-                            <DoctorExtraInfo />
+                            <DoctorExtraInfo doctorId={doctorId} />
                         </div>
                     </div>
                     <div
