@@ -25,11 +25,9 @@ class DoctorSchedule extends Component {
         let arrDate = [];
         if (language === LANGUAGES.VI) {
             arrDate = await this.setSelectedDateVI();
-            console.log(arrDate);
         } else {
             arrDate = await this.setSelectedDateEN();
         }
-        console.log(arrDate);
         // Thực hiện lấy dự liệu lịch hẹn trong ngày hôm nay
         if (
             arrDate &&

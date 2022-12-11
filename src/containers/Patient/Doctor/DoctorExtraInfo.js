@@ -53,7 +53,6 @@ class DoctorExtraInfo extends Component {
             paymentVi = extraInfo.paymentData.valueVi;
             paymentEn = extraInfo.paymentData.valueEn;
         }
-        console.log(extraInfo);
         return (
             <div className="doctor-extra-info-container">
                 <div className="content-up">

@@ -1,4 +1,12 @@
 .profile-wrapper {
+    .time-wrapper {
+        display: flex;
+    }
+    .label {
+        font-size: 13px;
+        font-weight: 600;
+        margin-right: 5px;
+    }
     .intro-doctor {
         display: flex;
         width: 100%;

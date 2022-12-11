@@ -5,7 +5,8 @@ import "./ProfileDoctor.scss";
 import userService from "../../../services/userService";
 import { LANGUAGES } from "../../../utils";
 import NumberFormat from "react-number-format";
-
+import moment from "moment";
+import _ from "lodash";
 class ProfileDoctor extends Component {
     constructor(props) {
         super(props);
@@ -35,12 +36,47 @@ class ProfileDoctor extends Component {
         return result;
     };
 
-    render() {
-        console.log("check state: ", this.state);
-        let { dataProfile } = this.state;
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    renderTimeBooking = (dataTime) => {
         let { language } = this.props;
 
-        console.log(dataProfile);
+        if (dataTime && !_.isEmpty(dataTime)) {
+            let hoursVi = dataTime.timeTypeData.valueVi;
+            let hoursEn = dataTime.timeTypeData.valueEn;
+            let dateVi = moment(new Date(+dataTime.date)).format(
+                "dddd - DD/MM/YYYY"
+            );
+            dateVi = this.capitalizeFirstLetter(dateVi);
+            let dateEn = moment(new Date(+dataTime.date))
+                .locale("en")
+                .format("dddd - MMMM Do YYYY");
+            return (
+                <React.Fragment>
+                    <div className="time-wrapper">
+                        <div className="label">Thời gian: </div>
+                        <div className="time">
+                            <div>
+                                {language === LANGUAGES.VI ? hoursVi : hoursEn}
+                            </div>
+                            <div>
+                                {language === LANGUAGES.VI ? dateVi : dateEn}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="text-free">( Đặt lịch miễn phí )</div>
+                </React.Fragment>
+            );
+        }
+        return <React.Fragment></React.Fragment>;
+    };
+
+    render() {
+        let { dataProfile } = this.state;
+        let { language, dataTime } = this.props;
+
         let nameVi = "",
             nameEn = "",
             nameClinic = "",
@@ -93,8 +129,15 @@ class ProfileDoctor extends Component {
                             </span>
                         </div>
                         <div className="info">
-                            <div>Cơ sở: {nameClinic}</div>
-                            <div>Địa chỉ: {addressClinic}</div>
+                            <div>
+                                <span className="label">Cơ sở:</span>{" "}
+                                {nameClinic}
+                            </div>
+                            <div>
+                                <span className="label">Địa chỉ:</span>{" "}
+                                {addressClinic}
+                            </div>
+                            {this.renderTimeBooking(dataTime)}
                         </div>
                     </div>
                 </div>
