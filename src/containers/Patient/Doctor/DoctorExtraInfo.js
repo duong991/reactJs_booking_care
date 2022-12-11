@@ -88,7 +88,7 @@ class DoctorExtraInfo extends Component {
                                                 value={priceVi}
                                                 displayType={"text"}
                                                 thousandSeparator={true}
-                                                suffix={" VND"}
+                                                suffix={" VNĐ"}
                                             />
                                         ) : (
                                             <NumberFormat

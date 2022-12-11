@@ -55,6 +55,9 @@ const userService = {
             `/api/get-extra-info-doctor-by-id?doctorId=${doctorId}`
         );
     },
+    getProfileDoctorById(doctorId) {
+        return axios.get(`/api/get-profile-doctor-by-id?doctorId=${doctorId}`);
+    },
 };
 
 export default userService;
