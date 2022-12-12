@@ -7,6 +7,7 @@ import { LANGUAGES } from "../../../utils";
 import NumberFormat from "react-number-format";
 import moment from "moment";
 import _ from "lodash";
+
 class ProfileDoctor extends Component {
     constructor(props) {
         super(props);
@@ -56,7 +57,9 @@ class ProfileDoctor extends Component {
             return (
                 <React.Fragment>
                     <div className="time-wrapper">
-                        <div className="label">Thời gian: </div>
+                        <div className="label">
+                            <FormattedMessage id="patient.profile-doctor.time" />
+                        </div>
                         <div className="time">
                             <div>
                                 {language === LANGUAGES.VI ? hoursVi : hoursEn}
@@ -66,7 +69,11 @@ class ProfileDoctor extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="text-free">( Đặt lịch miễn phí )</div>
+                    <div className="text-free">
+                        (
+                        <FormattedMessage id="patient.profile-doctor.text-free" />
+                        )
+                    </div>
                 </React.Fragment>
             );
         }
@@ -130,11 +137,15 @@ class ProfileDoctor extends Component {
                         </div>
                         <div className="info">
                             <div>
-                                <span className="label">Cơ sở:</span>{" "}
+                                <span className="label">
+                                    <FormattedMessage id="patient.profile-doctor.medical-facility" />
+                                </span>{" "}
                                 {nameClinic}
                             </div>
                             <div>
-                                <span className="label">Địa chỉ:</span>{" "}
+                                <span className="label">
+                                    <FormattedMessage id="patient.profile-doctor.address" />
+                                </span>{" "}
                                 {addressClinic}
                             </div>
                             {this.renderTimeBooking(dataTime)}
@@ -143,7 +154,7 @@ class ProfileDoctor extends Component {
                 </div>
                 <div className="content-down">
                     <div className="price">
-                        Giá khám:{" "}
+                        <FormattedMessage id="patient.profile-doctor.price" />{" "}
                         {language === LANGUAGES.VI ? (
                             <NumberFormat
                                 value={priceVi}

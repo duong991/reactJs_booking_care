@@ -92,6 +92,25 @@
             "detail": "Xem chi tiết",
             "hidePrice": "Ẩn bảng giá",
             "payment": "Người bệnh có thể thanh toán chi phí bằng hình thức: "
+        },
+        "profile-doctor": {
+            "medical-facility": "Cơ sở y tế: ",
+            "address": "Địa chỉ: ",
+            "price": "Giá khám: ",
+            "time": "Thời gian: ",
+            "text-free": "Đặt lịch miễn phí"
+        },
+        "booking-modal": {
+            "title": "Thông tin đặt lịch khám bệnh",
+            "fullName": "Họ tên",
+            "phoneNumber": "Số điện thoại",
+            "email": "Email",
+            "address": "Địa chỉ",
+            "birthDay": "Ngày sinh",
+            "gender": "Giới tính",
+            "reason": "Lý do khám bệnh",
+            "submit": "Xác nhận",
+            "cancel": "Hủy"
         }
     },
     "admin": {
