@@ -12,6 +12,7 @@ import { LANGUAGES } from "../../../utils";
 import { toast } from "react-toastify";
 import userService from "../../../services/userService";
 import { FormattedMessage } from "react-intl";
+import moment from "moment";
 
 class BookingModal extends Component {
     constructor(props) {
@@ -57,6 +58,7 @@ class BookingModal extends Component {
             console.log(dataTime);
             this.setState({
                 doctorId: doctorIdFromProps,
+                doctorName: this.props.dataTime.doctorName.fullName,
                 timeType: timeType,
                 date: dataTime.date,
             });
@@ -109,6 +111,7 @@ class BookingModal extends Component {
 
     handleConfirmBooking = async () => {
         // validate input
+        let timeString = this.buildTimeBooking(this.props.dataTime);
 
         let res = await userService.postPatientBookAppointment({
             fullName: this.state.fullName,
@@ -119,8 +122,11 @@ class BookingModal extends Component {
             birthDay: this.state.birthDay,
             selectedGender: this.state.selectedGender.value,
             doctorId: this.state.doctorId,
+            doctorName: this.state.doctorName,
             timeType: this.state.timeType,
             date: this.state.date,
+            language: this.props.language,
+            timeString: timeString,
         });
 
         if (res && res.errCode === 0) {
@@ -131,6 +137,31 @@ class BookingModal extends Component {
             toast.error("🤟🏻 Booking a new appointment fail !");
         }
     };
+
+    buildTimeBooking = (dataTime) => {
+        let { language } = this.props;
+        if (dataTime && !_.isEmpty(dataTime)) {
+            let hoursVi = dataTime.timeTypeData.valueVi;
+            let hoursEn = dataTime.timeTypeData.valueEn;
+            let dateVi = moment(new Date(+dataTime.date)).format(
+                "dddd - DD/MM/YYYY"
+            );
+            dateVi = this.capitalizeFirstLetter(dateVi);
+            let dateEn = moment(new Date(+dataTime.date))
+                .locale("en")
+                .format("dddd - MMMM Do YYYY");
+
+            let time = language === LANGUAGES.VI ? hoursVi : hoursEn;
+            let date = language === LANGUAGES.VI ? dateVi : dateEn;
+
+            return `${time} , ${date}`;
+        }
+        return "";
+    };
+
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     render() {
         let { closeBookingModal, isOpenModal, dataTime } = this.props;
@@ -149,7 +180,10 @@ class BookingModal extends Component {
             selectedGender,
         } = this.state;
 
-        console.log("check state: ", this.state);
+        if (this.state.doctorName) {
+            console.log(this.state.doctorName);
+        }
+
         return (
             <Modal isOpen={isOpenModal} centered={true} size={"lg"}>
                 <div className="booking-modal-content">
