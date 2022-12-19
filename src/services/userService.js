@@ -20,7 +20,7 @@ const userService = {
         return axios.post("/api/create-new-user", data);
     },
     updateUser(data) {
-        return axios.put("/api/update-user", { data });
+        return axios.put("/api/update-user", data);
     },
     //-------api for manage user with redux----------
     getAllCodeServices(type) {
@@ -60,6 +60,10 @@ const userService = {
     },
     postPatientBookAppointment(data) {
         return axios.post("/api/patient-book-appointment", data);
+    },
+
+    postVerifyBookAppointment(data) {
+        return axios.post("/api/verify-book-appointment", data);
     },
 };
 
