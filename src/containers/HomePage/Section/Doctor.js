@@ -80,7 +80,7 @@ class Doctor extends Component {
                                                 style={{
                                                     backgroundImage: `url(${imageBase64})`,
                                                 }}
-                                            ></div>
+                                            />
                                             <div className="doctor-title">
                                                 <span className="main-title">
                                                     {language === LANGUAGES.VI

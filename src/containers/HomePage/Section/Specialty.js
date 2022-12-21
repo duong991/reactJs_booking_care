@@ -5,7 +5,26 @@ import "./customSlide.scss";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { userService } from "../../../services";
+import { FormattedMessage } from "react-intl";
+
 class Specialty extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataSpecialty: [],
+        };
+    }
+
+    async componentDidMount() {
+        let res = await userService.getAllSpecialty();
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataSpecialty: res.data,
+            });
+        }
+    }
+
     render() {
         var settings = {
             dots: false,
@@ -14,89 +33,43 @@ class Specialty extends Component {
             slidesToShow: 4,
             slidesToScroll: 1,
         };
+
+        let { dataSpecialty } = this.state;
+        console.log(dataSpecialty);
         return (
             <div className="section-container">
                 <div className="section-header">
                     <span className="main">
-                        Đặt hẹn để được tư vấn tại phòng khám
+                        <FormattedMessage id="homepage.specialty-popular" />
                     </span>
                     <span className="sub">
-                        Tìm bác sĩ có kinh nghiệm trong tất cả các chuyên khoa
+                        <FormattedMessage id="homepage.sub-specialty" />
                     </span>
                 </div>
                 <Slider {...settings}>
-                    <div className="section-custom">
-                        <div className="section-wrapper specialty-wrapper">
-                            <div className="section-img specialty-img"></div>
-                            <div className="section-title ">
-                                <span className="main-title">Nha khoa</span>
-                                <span className="sub-title">
-                                    Bạn gặp vấn đề về răng miệng? Lên lịch khám
-                                    nha khoa
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="section-custom">
-                        <div className="section-wrapper specialty-wrapper">
-                            <div className="section-img specialty-img"></div>
-                            <div className="section-title ">
-                                <span className="main-title">Nha khoa</span>
-                                <span className="sub-title">
-                                    Bạn gặp vấn đề về răng miệng? Lên lịch khám
-                                    nha khoa
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="section-custom">
-                        <div className="section-wrapper specialty-wrapper">
-                            <div className="section-img specialty-img"></div>
-                            <div className="section-title ">
-                                <span className="main-title">Nha khoa</span>
-                                <span className="sub-title">
-                                    Bạn gặp vấn đề về răng miệng? Lên lịch khám
-                                    nha khoa
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="section-custom">
-                        <div className="section-wrapper specialty-wrapper">
-                            <div className="section-img specialty-img"></div>
-                            <div className="section-title ">
-                                <span className="main-title">Nha khoa</span>
-                                <span className="sub-title">
-                                    Bạn gặp vấn đề về răng miệng? Lên lịch khám
-                                    nha khoa
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="section-custom">
-                        <div className="section-wrapper specialty-wrapper">
-                            <div className="section-img specialty-img"></div>
-                            <div className="section-title ">
-                                <span className="main-title">Nha khoa</span>
-                                <span className="sub-title">
-                                    Bạn gặp vấn đề về răng miệng? Lên lịch khám
-                                    nha khoa
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="section-custom">
-                        <div className="section-wrapper specialty-wrapper">
-                            <div className="section-img specialty-img"></div>
-                            <div className="section-title ">
-                                <span className="main-title">Nha khoa</span>
-                                <span className="sub-title">
-                                    Bạn gặp vấn đề về răng miệng? Lên lịch khám
-                                    nha khoa
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    {dataSpecialty &&
+                        dataSpecialty.length > 0 &&
+                        dataSpecialty.map((item, index) => {
+                            let nameSpecialty = item.name;
+                            let imageSpecial = item.image;
+                            return (
+                                <div className="section-custom" key={index}>
+                                    <div className="section-wrapper specialty-wrapper">
+                                        <div
+                                            className="section-img specialty-img"
+                                            style={{
+                                                backgroundImage: `url(${imageSpecial})`,
+                                            }}
+                                        ></div>
+                                        <div className="section-title ">
+                                            <span className="main-title">
+                                                {nameSpecialty}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                 </Slider>
             </div>
         );

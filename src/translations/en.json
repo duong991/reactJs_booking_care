@@ -69,7 +69,9 @@
         "update": "Update user"
     },
     "homepage": {
-        "outstanding-doctor": "Doctor of the Week"
+        "outstanding-doctor": "Doctor of the Week",
+        "specialty-popular": "Book an appointment for a consultation at the clinic",
+        "sub-specialty": "Find doctors with experience in all specialties"
     },
 
     "manage-schedule": {

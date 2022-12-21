@@ -71,7 +71,9 @@
     },
 
     "homepage": {
-        "outstanding-doctor": "Bác sĩ nổi bật tuần qua"
+        "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
+        "specialty-popular": "Đặt hẹn để được tư vấn tại phòng khám",
+        "sub-specialty": "Tìm bác sĩ có kinh nghiệm trong tất cả các chuyên khoa"
     },
     "manage-schedule": {
         "title": "Quản lý kế hoạch khám bệnh của bác sĩ",

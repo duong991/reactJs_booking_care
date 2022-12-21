@@ -79,6 +79,7 @@ class ManageSpecialty extends Component {
                 progress: undefined,
                 theme: "light",
             });
+            this.handleClearData();
         } else {
             toast.error("🤟🏻 Create a new specialty fail !", {
                 position: "bottom-right",
@@ -92,6 +93,17 @@ class ManageSpecialty extends Component {
             });
             console.log("check res:", res);
         }
+    };
+
+    handleClearData = () => {
+        this.setState({
+            name: "",
+            imageBase64: "",
+            descriptionHTML: "",
+            descriptionMarkdown: "",
+            previewImageURL: "",
+            isOpen: false,
+        });
     };
     render() {
         console.log(this.state);
