@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import "./ManageSpecialty.scss";
+import "./ManageClinic.scss";
 import { LANGUAGES, CommonUtils } from "../../../utils";
 import userService from "../../../services/userService";
 import { toast } from "react-toastify";
@@ -13,11 +13,12 @@ import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 const mdParser = new MarkdownIt();
 
-class ManageSpecialty extends Component {
+class ManageClinic extends Component {
     constructor(props) {
         super(props);
         this.state = {
             name: "",
+            address: "",
             imageBase64: "",
             descriptionHTML: "",
             descriptionMarkdown: "",
@@ -59,17 +60,23 @@ class ManageSpecialty extends Component {
         }
     };
 
-    handleSaveSpecialty = async () => {
-        let { name, imageBase64, descriptionHTML, descriptionMarkdown } =
-            this.state;
-        let res = await userService.createNewSpecialty({
+    handleSaveClinic = async () => {
+        let {
             name,
+            address,
+            imageBase64,
+            descriptionHTML,
+            descriptionMarkdown,
+        } = this.state;
+        let res = await userService.createNewClinic({
+            name,
+            address,
             imageBase64,
             descriptionHTML,
             descriptionMarkdown,
         });
         if (res && res.errCode === 0) {
-            toast.info("🤟🏻 Create a new specialty success !", {
+            toast.info("🤟🏻 Create a new clinic success !", {
                 position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: true,
@@ -81,7 +88,7 @@ class ManageSpecialty extends Component {
             });
             this.handleClearData();
         } else {
-            toast.error("🤟🏻 Create a new specialty fail !", {
+            toast.error("🤟🏻 Create a new clinic fail !", {
                 position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: true,
@@ -94,11 +101,11 @@ class ManageSpecialty extends Component {
             console.log("check res:", res);
         }
     };
-
     handleClearData = () => {
         this.setState({
             name: "",
             imageBase64: "",
+            address: "",
             descriptionHTML: "",
             descriptionMarkdown: "",
             previewImageURL: "",
@@ -108,12 +115,12 @@ class ManageSpecialty extends Component {
     render() {
         return (
             <div className="manager-specialty-container">
-                <div className="ms-title">Quản ly chuyên khoa</div>
+                <div className="ms-title">Quản lý phòng khám</div>
                 <div className="btn-add-new-specialty"></div>
 
                 <div className="add-new-specialty row">
-                    <div className="col-6 form-group mt-2">
-                        <label>Ten chuyen khoa</label>
+                    <div className="col-6 form-group mb-3">
+                        <label>Ten phòng khám</label>
                         <input
                             type="text"
                             className="form-control"
@@ -123,18 +130,18 @@ class ManageSpecialty extends Component {
                             }
                         />
                     </div>
-
-                    {/* <div className="col-6 form-group mt-2">
-                        <label>Anh chuyen khoa</label>
+                    <div className="col-6 form-group mb-3">
+                        <label>Địa chỉ phòng khám</label>
                         <input
-                            type="file"
+                            type="text"
                             className="form-control"
-                            value={this.state.imageBase64}
-                            onChange={(event) => {
-                                this.handleOnChangeImage(event);
-                            }}
+                            value={this.state.address}
+                            onChange={(e) =>
+                                this.handleOnChangeInput(e, "address")
+                            }
                         />
-                        </div> */}
+                    </div>
+
                     <div className="col-6">
                         <label htmlFor="formFile" className="form-label">
                             <FormattedMessage id="manage-user.image" />
@@ -185,7 +192,7 @@ class ManageSpecialty extends Component {
                     <div className="col-12 form-group mt-4 d-flex justify-content-end">
                         <button
                             className="btn btn-primary flex-end"
-                            onClick={this.handleSaveSpecialty}
+                            onClick={this.handleSaveClinic}
                         >
                             Submit
                         </button>
@@ -204,4 +211,4 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageClinic);

@@ -1,6 +1,7 @@
 .detail-specialty-wrapper {
     font-family: "Montserrat", sans-serif;
     background-color: #f7f6f6;
+    padding-bottom: 16px;
     .description-specialty {
         min-height: 200px;
         line-height: 1.4;
@@ -47,8 +48,9 @@
         display: flex;
         width: 1140px;
         margin: auto;
-        min-height: 320px;
         margin-top: 16px;
+        margin-bottom: 32px;
+        min-height: 320px;
         box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
             rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         border-radius: 4px;
