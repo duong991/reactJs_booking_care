@@ -175,19 +175,32 @@ class ManageDoctor extends Component {
             note: this.state.note,
         };
 
-        console.log(this.state);
-        console.log("check data: ", data);
         this.props.updateDetailDoctorRedux(data);
+        this.handleClearInput();
+    };
+
+    handleClearInput = () => {
         this.setState({
             contentMarkdown: "",
             contentHTML: "",
             description: "",
+            nameClinic: "",
+            addressClinic: "",
+            note: "",
+
             selectedDoctor: {},
+            selectedClinic: {},
+            selectedPrice: {},
+            selectedPayment: {},
+            selectedProvince: {},
+            selectedSpecialty: [],
         });
     };
 
     // xử lý get dữ liệu markdown mỗi lần chọn bác sĩ mới
     handleChange = (selectedDoctor) => {
+        this.handleClearInput();
+
         this.setState({ selectedDoctor }, async () => {
             let idDoctor = this.state.selectedDoctor.value;
             let res = await userService.getMarkdownByIdDoctor(idDoctor);
@@ -198,18 +211,31 @@ class ManageDoctor extends Component {
                 paymentId = "",
                 priceId = "",
                 provinceId = "",
+                clinicId = "",
+                specialtyId = "",
                 selectedPrice = "",
                 selectedPayment = "",
-                selectedProvince = "";
+                selectedProvince = "",
+                selectedSpecialty = "",
+                selectedClinic = "";
 
-            let { listPrice, listPayment, listProvince } = this.state;
+            let {
+                listPrice,
+                listPayment,
+                listProvince,
+                listClinic,
+                listSpecialty,
+            } = this.state;
             if (res && res.data && res.data.Doctor_Info) {
+                // Lấy dữ liệu thông tin bác sĩ từ database
                 addressClinic = res.data.Doctor_Info.addressClinic;
                 nameClinic = res.data.Doctor_Info.nameClinic;
                 note = res.data.Doctor_Info.note;
                 priceId = res.data.Doctor_Info.priceId;
                 paymentId = res.data.Doctor_Info.paymentId;
                 provinceId = res.data.Doctor_Info.provinceId;
+                clinicId = res.data.Doctor_Info.clinicId;
+                specialtyId = res.data.Doctor_Info.specialtyId;
 
                 // Xử lý data để lấy selected option cho react-select
                 selectedPrice = listPrice.find(
@@ -220,6 +246,12 @@ class ManageDoctor extends Component {
                 );
                 selectedProvince = listProvince.find(
                     (item) => item && item.value === provinceId
+                );
+                selectedClinic = listClinic.find(
+                    (item) => item && item.value === clinicId
+                );
+                selectedSpecialty = listSpecialty.find(
+                    (item) => item && item.value === specialtyId
                 );
             }
 
@@ -235,6 +267,8 @@ class ManageDoctor extends Component {
                     selectedPrice: selectedPrice,
                     selectedPayment: selectedPayment,
                     selectedProvince: selectedProvince,
+                    selectedSpecialty: selectedSpecialty,
+                    selectedClinic: selectedClinic,
                 });
             }
         });

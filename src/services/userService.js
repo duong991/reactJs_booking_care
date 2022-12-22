@@ -73,6 +73,12 @@ const userService = {
     getAllSpecialty() {
         return axios.get("/api/get-all-specialty");
     },
+
+    getDetailSpecialtyById(id, location) {
+        return axios.get(
+            `/api/get-detail-specialty-by-id?id=${id}&location=${location}`
+        );
+    },
 };
 
 export default userService;
