@@ -29,7 +29,7 @@
         .content-right {
             width: 100%;
             align-items: center;
-            .title {
+            .title-profile-doctor {
                 .name-doctor {
                     font-weight: 600;
                     font-size: 16px;
@@ -44,4 +44,8 @@
             }
         }
     }
+}
+
+.content-description {
+    white-space: pre-line;
 }

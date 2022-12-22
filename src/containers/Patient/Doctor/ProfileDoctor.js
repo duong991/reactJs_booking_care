@@ -19,6 +19,13 @@ class ProfileDoctor extends Component {
     async componentDidMount() {
         let result = await this.getInfoDoctorById(this.props.doctorId);
         this.setState({ ...this.state, dataProfile: result });
+
+        if (this.props.isShowDescription) {
+            let res = await userService.getMarkdownByIdDoctor(
+                this.props.doctorId
+            );
+            this.setState({ ...this.state, description: res.data.description });
+        }
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -130,48 +137,60 @@ class ProfileDoctor extends Component {
                         />
                     </div>
                     <div className="content-right">
-                        <div className="title">
+                        <div className="title-profile-doctor">
                             <span className="name-doctor">
                                 {language === LANGUAGES.VI ? nameVi : nameEn}
                             </span>
                         </div>
-                        <div className="info">
-                            <div>
-                                <span className="label">
-                                    <FormattedMessage id="patient.profile-doctor.medical-facility" />
-                                </span>{" "}
-                                {nameClinic}
+                        {this.props.isShowDescription ? (
+                            <div className="content-description">
+                                {this.state.description}
                             </div>
-                            <div>
-                                <span className="label">
-                                    <FormattedMessage id="patient.profile-doctor.address" />
-                                </span>{" "}
-                                {addressClinic}
-                            </div>
-                            {this.renderTimeBooking(dataTime)}
-                        </div>
-                    </div>
-                </div>
-                <div className="content-down">
-                    <div className="price">
-                        <FormattedMessage id="patient.profile-doctor.price" />{" "}
-                        {language === LANGUAGES.VI ? (
-                            <NumberFormat
-                                value={priceVi}
-                                displayType={"text"}
-                                thousandSeparator={true}
-                                suffix={" VNĐ"}
-                            />
                         ) : (
-                            <NumberFormat
-                                value={priceEn}
-                                displayType={"text"}
-                                thousandSeparator={true}
-                                prefix={"$"}
-                            />
+                            <React.Fragment>
+                                <div className="info">
+                                    <div>
+                                        <span className="label">
+                                            <FormattedMessage id="patient.profile-doctor.medical-facility" />
+                                        </span>{" "}
+                                        {nameClinic}
+                                    </div>
+                                    <div>
+                                        <span className="label">
+                                            <FormattedMessage id="patient.profile-doctor.address" />
+                                        </span>{" "}
+                                        {addressClinic}
+                                    </div>
+                                    {this.renderTimeBooking(dataTime)}
+                                </div>
+                            </React.Fragment>
                         )}
                     </div>
                 </div>
+                {this.props.isShowDescription ? (
+                    <React.Fragment></React.Fragment>
+                ) : (
+                    <div className="content-down">
+                        <div className="price">
+                            <FormattedMessage id="patient.profile-doctor.price" />{" "}
+                            {language === LANGUAGES.VI ? (
+                                <NumberFormat
+                                    value={priceVi}
+                                    displayType={"text"}
+                                    thousandSeparator={true}
+                                    suffix={" VNĐ"}
+                                />
+                            ) : (
+                                <NumberFormat
+                                    value={priceEn}
+                                    displayType={"text"}
+                                    thousandSeparator={true}
+                                    prefix={"$"}
+                                />
+                            )}
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
