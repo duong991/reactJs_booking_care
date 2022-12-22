@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { LANGUAGES } from "../../../utils";
 
 import Select from "react-select";
+import Specialty from "./../../HomePage/Section/Specialty";
 
 const mdParser = new MarkdownIt();
 
@@ -38,6 +39,13 @@ class ManageDoctor extends Component {
             nameClinic: "",
             addressClinic: "",
             note: "",
+
+            clinicId: "",
+            listClinic: [],
+
+            specialtyId: "",
+            selectedSpecialty: [],
+            listSpecialty: [],
         };
     }
 
@@ -60,22 +68,31 @@ class ManageDoctor extends Component {
                 this.props.allRequirementDoctorInfo ||
             prevProps.language !== this.props.language
         ) {
-            let data = this.props.allRequirementDoctorInfo;
+            let { resPrice, resPayment, resProvince, resSpecialty } =
+                this.props.allRequirementDoctorInfo;
             let dataSelectPrice = this.buildDataRequiredDoctorSelect(
-                data.resPrice,
+                resPrice,
                 "PRICE"
             );
             let dataSelectPayment = this.buildDataRequiredDoctorSelect(
-                data.resPayment
+                resPayment,
+                "PAYMENT"
             );
             let dataSelectProvince = this.buildDataRequiredDoctorSelect(
-                data.resProvince
+                resProvince,
+                "PROVINCE"
+            );
+
+            let dataSelectSpecialty = this.buildDataRequiredDoctorSelect(
+                resSpecialty,
+                "SPECIALTY"
             );
             this.setState({
                 ...this.state,
                 listPrice: dataSelectPrice,
                 listPayment: dataSelectPayment,
                 listProvince: dataSelectProvince,
+                listSpecialty: dataSelectSpecialty,
             });
         }
     }
@@ -107,14 +124,18 @@ class ManageDoctor extends Component {
                     } else {
                         object.label = item.valueEn + " " + "USD";
                     }
+                    object.value = item.keyMap;
+                } else if (type === "SPECIALTY") {
+                    object.label = item.name;
+                    object.value = item.id;
                 } else {
                     if (language === LANGUAGES.VI) {
                         object.label = item.valueVi;
                     } else {
                         object.label = item.valueEn;
                     }
+                    object.value = item.keyMap;
                 }
-                object.value = item.keyMap;
                 result.push(object);
             });
 
@@ -144,10 +165,18 @@ class ManageDoctor extends Component {
             selectedPrice: this.state.selectedPrice.value,
             selectedPayment: this.state.selectedPayment.value,
             selectedProvince: this.state.selectedProvince.value,
+            selectedClinic:
+                this.state.selectedClinic && this.state.selectedClinic.value
+                    ? this.state.selectedClinic.value
+                    : "",
+            selectedSpecialty: this.state.selectedSpecialty.value,
             nameClinic: this.state.nameClinic,
             addressClinic: this.state.addressClinic,
             note: this.state.note,
         };
+
+        console.log(this.state);
+        console.log("check data: ", data);
         this.props.updateDetailDoctorRedux(data);
         this.setState({
             contentMarkdown: "",
@@ -230,15 +259,18 @@ class ManageDoctor extends Component {
             selectedPrice,
             selectedPayment,
             selectedProvince,
+            selectedSpecialty,
+            selectedClinic,
+            listClinic,
             listDoctor,
             listPrice,
             listPayment,
             listProvince,
+            listSpecialty,
             nameClinic,
             addressClinic,
             note,
         } = this.state;
-
         return (
             <div className="manage-doctor-container">
                 <div className="manage-doctor-title">
@@ -302,7 +334,7 @@ class ManageDoctor extends Component {
                     </div>
                     <div className="col-4 mb-3 form-group">
                         <label>
-                            <FormattedMessage id="admin.province" />
+                            <FormattedMessage id="admin.select-clinic" />
                         </label>
                         <Select
                             options={listProvince}
@@ -339,6 +371,34 @@ class ManageDoctor extends Component {
                         />
                     </div>
                     <div className="col-4 mb-3 form-group">
+                        <label>
+                            <FormattedMessage id="admin.select-specialty" />
+                        </label>
+                        <Select
+                            options={listSpecialty}
+                            value={selectedSpecialty}
+                            onChange={this.handleChangeSelectDoctorInfo}
+                            name="selectedSpecialty"
+                            placeholder={
+                                <FormattedMessage id="admin.select-specialty" />
+                            }
+                        />
+                    </div>
+                    <div className="col-4 mb-3 form-group">
+                        <label>
+                            <FormattedMessage id="admin.select-clinic" />
+                        </label>
+                        <Select
+                            options={listClinic}
+                            value={selectedClinic}
+                            onChange={this.handleChangeSelectDoctorInfo}
+                            name="selectedClinic"
+                            placeholder={
+                                <FormattedMessage id="admin.select-clinic" />
+                            }
+                        />
+                    </div>
+                    <div className="col-8 mb-3 form-group">
                         <label>
                             <FormattedMessage id="admin.note" />
                         </label>

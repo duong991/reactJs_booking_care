@@ -18,6 +18,7 @@ import Login from "./Auth/Login";
 import System from "../routes/System";
 import HomePage from "./HomePage/HomePage";
 import DetailDoctor from "./Patient/Doctor/DetailDoctor";
+import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
 import DoctorRoutes from "../routes/DoctorRoutes";
 import VerifyEmail from "./Patient/VerifyEmail";
 
@@ -80,6 +81,10 @@ class App extends Component {
                                     <Route
                                         path={path.DETAIL_DOCTOR}
                                         component={DetailDoctor}
+                                    />
+                                    <Route
+                                        path={path.DETAIL_SPECIALTY}
+                                        component={DetailSpecialty}
                                     />
                                     <Route
                                         path={path.VERIFY_EMAIL_BOOKING}
