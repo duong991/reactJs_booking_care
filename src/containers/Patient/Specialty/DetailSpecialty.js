@@ -87,7 +87,9 @@ class DetailSpecialty extends Component {
                     <div className="search-sp-doctor">
                         <select onChange={(e) => this.handleOnchangeSelect(e)}>
                             <option value="All" key="All">
-                                {language === LANGUAGES.VI ? "Tất cả" : "All"}
+                                {language === LANGUAGES.VI
+                                    ? "Toàn quốc"
+                                    : "All"}
                             </option>
 
                             {listProvince &&
@@ -124,6 +126,14 @@ class DetailSpecialty extends Component {
                                 </div>
                             );
                         })}
+
+                    {arrDoctor && arrDoctor.length === 0 && (
+                        <div className="list-doctor-empty">
+                            <span className="tde-text">
+                                Khu vực hiện chưa được hỗ trợ
+                            </span>
+                        </div>
+                    )}
                 </div>
             </React.Fragment>
         );

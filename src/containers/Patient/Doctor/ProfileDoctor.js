@@ -7,6 +7,7 @@ import { LANGUAGES } from "../../../utils";
 import NumberFormat from "react-number-format";
 import moment from "moment";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 class ProfileDoctor extends Component {
     constructor(props) {
@@ -89,7 +90,7 @@ class ProfileDoctor extends Component {
 
     render() {
         let { dataProfile } = this.state;
-        let { language, dataTime } = this.props;
+        let { language, dataTime, doctorId } = this.props;
 
         let nameVi = "",
             nameEn = "",
@@ -168,27 +169,31 @@ class ProfileDoctor extends Component {
                     </div>
                 </div>
                 {this.props.isShowDescription ? (
-                    <React.Fragment></React.Fragment>
+                    <div className="content-down-more">
+                        <span>
+                            <Link to={`/detail-doctor/${doctorId}`}>
+                                Xem thêm
+                            </Link>
+                        </span>
+                    </div>
                 ) : (
-                    <div className="content-down">
-                        <div className="price">
-                            <FormattedMessage id="patient.profile-doctor.price" />{" "}
-                            {language === LANGUAGES.VI ? (
-                                <NumberFormat
-                                    value={priceVi}
-                                    displayType={"text"}
-                                    thousandSeparator={true}
-                                    suffix={" VNĐ"}
-                                />
-                            ) : (
-                                <NumberFormat
-                                    value={priceEn}
-                                    displayType={"text"}
-                                    thousandSeparator={true}
-                                    prefix={"$"}
-                                />
-                            )}
-                        </div>
+                    <div className="price">
+                        <FormattedMessage id="patient.profile-doctor.price" />{" "}
+                        {language === LANGUAGES.VI ? (
+                            <NumberFormat
+                                value={priceVi}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                suffix={" VNĐ"}
+                            />
+                        ) : (
+                            <NumberFormat
+                                value={priceEn}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"$"}
+                            />
+                        )}
                     </div>
                 )}
             </div>
