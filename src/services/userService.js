@@ -94,6 +94,13 @@ const userService = {
     updateDetailClinicById(data) {
         return axios.put(`/api/update-detail-clinic-by-id`, data);
     },
+    deleteDetailClinicById(id) {
+        return axios.delete("/api/delete-clinic-by-id", {
+            data: {
+                id,
+            },
+        });
+    },
 };
 
 export default userService;

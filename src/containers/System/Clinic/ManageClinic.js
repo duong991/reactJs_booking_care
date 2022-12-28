@@ -95,7 +95,34 @@ class ManageClinic extends Component {
             typeUpdate: true,
         });
     };
-
+    deleteClinicById = async (id) => {
+        let res = await userService.deleteDetailClinicById(id);
+        if (res && res.errCode === 0) {
+            toast.info("🤟🏻 Delete clinic success !", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            this.reloadListClinic();
+        } else {
+            toast.error("🤟🏻 Create a new clinic fail !", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            console.log("check res:", res);
+        }
+    };
     handleSaveClinic = async () => {
         let {
             name,
@@ -125,6 +152,7 @@ class ManageClinic extends Component {
                 theme: "light",
             });
             this.handleClearData();
+            this.reloadListClinic();
         } else {
             toast.error("🤟🏻 Create a new clinic fail !", {
                 position: "bottom-right",
@@ -170,19 +198,7 @@ class ManageClinic extends Component {
                 theme: "light",
             });
             this.handleClearData();
-            // Cập nhật lại list Clinic
-            let resClinic = await userService.getAllClinic();
-            if (
-                res &&
-                res.errCode === 0 &&
-                resClinic &&
-                resClinic.errCode === 0
-            ) {
-                this.setState({
-                    ...this.state,
-                    listClinic: resClinic.data,
-                });
-            }
+            this.reloadListClinic();
         } else {
             toast.error("🤟🏻 Update clinic fail !", {
                 position: "bottom-right",
@@ -195,6 +211,17 @@ class ManageClinic extends Component {
                 theme: "light",
             });
             console.log("check res:", res);
+        }
+    };
+
+    reloadListClinic = async () => {
+        // Cập nhật lại list Clinic
+        let resClinic = await userService.getAllClinic();
+        if (resClinic && resClinic.errCode === 0) {
+            this.setState({
+                ...this.state,
+                listClinic: resClinic.data,
+            });
         }
     };
     handleClearData = () => {
@@ -370,6 +397,7 @@ class ManageClinic extends Component {
                     <TableManage
                         listClinic={listClinic}
                         renderInfoClinicForEdit={this.renderInfoClinicForEdit}
+                        deleteClinicById={this.deleteClinicById}
                     />
                 </div>
             </div>

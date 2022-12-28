@@ -17,7 +17,9 @@ class TableManagerClinic extends Component {
 
     async componentDidUpdate(prevProps, prevState) {}
 
-    handleDelete = (clinic) => {};
+    handleDelete = (id) => {
+        this.props.deleteClinicById(id);
+    };
     handleEditClinic = (data) => {
         this.props.renderInfoClinicForEdit(data);
     };
@@ -51,7 +53,7 @@ class TableManagerClinic extends Component {
                                                         className="btn"
                                                         onClick={() =>
                                                             this.handleDelete(
-                                                                clinic
+                                                                clinic.id
                                                             )
                                                         }
                                                     >
