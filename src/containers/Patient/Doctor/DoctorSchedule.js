@@ -50,6 +50,34 @@ class DoctorSchedule extends Component {
         this.setState({ allDay: arrDate });
     }
 
+    async componentDidUpdate(prevProps, prevState) {
+        if (
+            prevProps.language !== this.props.language ||
+            this.props.doctorId !== prevProps.doctorId
+        ) {
+            let { language } = this.props;
+            let arrDate = [];
+            if (language === LANGUAGES.VI) {
+                arrDate = this.setSelectedDateVI();
+            } else {
+                arrDate = this.setSelectedDateEN();
+            }
+            this.setState({ allDay: arrDate });
+
+            let doctorId = this.props.doctorId;
+            let today = arrDate[0].value;
+            let res = await userService.getScheduleDoctorByDate(
+                doctorId,
+                today
+            );
+            if (res && res.errCode === 0) {
+                this.setState({
+                    allAvailableTime: res.data ? res.data : [],
+                });
+            }
+        }
+    }
+
     setSelectedDateVI = () => {
         let arrDate = [];
         for (let i = 0; i < 7; i++) {
@@ -95,19 +123,6 @@ class DoctorSchedule extends Component {
         }
         return arrDate;
     };
-
-    async componentDidUpdate(prevProps, prevState) {
-        if (prevProps.language !== this.props.language) {
-            let { language } = this.props;
-            let arrDate = [];
-            if (language === LANGUAGES.VI) {
-                arrDate = this.setSelectedDateVI();
-            } else {
-                arrDate = this.setSelectedDateEN();
-            }
-            this.setState({ allDay: arrDate });
-        }
-    }
 
     onChangeSelectTime = async (e) => {
         if (this.props.doctorId && this.props.doctorId !== -1) {

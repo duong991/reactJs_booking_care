@@ -80,6 +80,14 @@
         "choose-date": "Choose date",
         "save": "Save"
     },
+    "manage-clinic": {
+        "title": "Manage Clinic",
+        "name-clinic": "Clinic's name",
+        "address-clinic": "Clinic's address",
+        "special-of-clinic": "Clinic's specialty",
+        "avatar": "Avatar",
+        "save": "Submit"
+    },
     "patient": {
         "detail-doctor": {
             "schedule": "Schedule",

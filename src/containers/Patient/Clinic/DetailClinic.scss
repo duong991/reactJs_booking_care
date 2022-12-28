@@ -1,0 +1,38 @@
+.detail-clinic-wrapper {
+    margin-top: 78px;
+    padding: 16px;
+    .description-clinic {
+        width: 1140px;
+        margin: auto;
+        padding-bottom: 8px;
+        .description-clinic-content {
+            margin-bottom: 20px;
+        }
+    }
+    .hidden-button-wrapper {
+        width: 1140px;
+        margin: auto;
+        margin-top: 12px;
+        display: flex;
+        justify-content: center;
+
+        .hidden-button {
+            border: none;
+            padding: 4px 8px;
+            background: none;
+            color: #45c3d2;
+            font-size: 16px;
+        }
+    }
+
+    .search-sp-doctor {
+    }
+    .search-sp-doctor {
+        .content-left-parent {
+        }
+        .content-right-parent {
+        }
+        .doctor-extra-info {
+        }
+    }
+}

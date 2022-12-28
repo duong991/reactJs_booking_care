@@ -12,7 +12,7 @@ class DetailSpecialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            arrDoctor: [],
+            arrDoctor: "",
             description: "",
             listProvince: [],
         };
@@ -42,11 +42,12 @@ class DetailSpecialty extends Component {
             this.setState({ ...this.state, listProvince: resProvince.data });
         }
         if (result && result.errCode === 0 && result.data) {
+            let arrDoctor = result.data.doctorSpecialty
+                ? result.data.doctorSpecialty.map((item) => item.doctorId)
+                : [];
             this.setState({
                 description: result.data.descriptionHTML,
-                arrDoctor: result.data.doctorSpecialty
-                    ? result.data.doctorSpecialty.map((item) => item.doctorId)
-                    : [],
+                arrDoctor: arrDoctor,
             });
         }
     };
@@ -61,10 +62,13 @@ class DetailSpecialty extends Component {
         );
 
         if (result && result.errCode === 0 && result.data) {
+            let arrDoctor = result.data.doctorSpecialty
+                ? result.data.doctorSpecialty.map((item) => item.doctorId)
+                : [];
+            let newState = { ...this.state };
+            newState.arrDoctor = arrDoctor;
             this.setState({
-                arrDoctor: result.data.doctorSpecialty
-                    ? result.data.doctorSpecialty.map((item) => item.doctorId)
-                    : [],
+                ...newState,
             });
         }
     };
@@ -72,7 +76,6 @@ class DetailSpecialty extends Component {
     render() {
         let { arrDoctor, description, listProvince } = this.state;
         let { language } = this.props;
-
         return (
             <React.Fragment>
                 <HomeHeader isShowBanner={false} />

@@ -110,9 +110,7 @@ class UserRedux extends Component {
 
         copyState[type] = event.target.value;
 
-        this.setState({ ...copyState }, () => {
-            console.log(this.state.gender);
-        });
+        this.setState({ ...copyState });
     };
 
     handleSaveUser = async () => {
@@ -219,6 +217,7 @@ class UserRedux extends Component {
             image,
         } = this.state;
 
+        console.log(gender);
         let isCreateForm = this.state.isCreateForm;
         return (
             <div className="wrapper-container">
@@ -327,46 +326,33 @@ class UserRedux extends Component {
                                     }
                                 />
                             </div>
+
                             <div className="col-md-6">
                                 <div>
                                     <label className="form-label">
                                         <FormattedMessage id="manage-user.gender" />
                                     </label>
                                 </div>
-
-                                {genders &&
-                                    genders.length > 0 &&
-                                    genders.map((gender, index) => {
-                                        return (
-                                            <div
-                                                className="form-check form-check-inline col-md-2"
-                                                key={gender.id}
-                                                onChange={(e) =>
-                                                    this.handleOnChangeInput(
-                                                        e,
-                                                        "gender"
-                                                    )
-                                                }
-                                            >
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="inlineRadioOptions"
-                                                    id={gender.id}
-                                                    value={gender.keyMap}
-                                                />
-                                                <label
-                                                    className="form-check-label"
-                                                    htmlFor={gender.id}
-                                                >
-                                                    {language &&
-                                                    language === LANGUAGES.VI
+                                <select
+                                    id="inputState"
+                                    className="form-select"
+                                    onChange={(e) =>
+                                        this.handleOnChangeInput(e, "gender")
+                                    }
+                                    value={gender}
+                                >
+                                    {genders &&
+                                        genders.length > 0 &&
+                                        genders.map((gender) => {
+                                            return (
+                                                <option value={gender.keyMap}>
+                                                    {language === LANGUAGES.VI
                                                         ? gender.valueVi
                                                         : gender.valueEn}
-                                                </label>
-                                            </div>
-                                        );
-                                    })}
+                                                </option>
+                                            );
+                                        })}
+                                </select>
                             </div>
 
                             <div className="col-md-6">
@@ -488,7 +474,6 @@ class UserRedux extends Component {
                 </div>
                 <TableManageUser
                     getInfoUserForEdit={this.renderInfoUserForEdit}
-                    getScrollTop={this.getScrollTop}
                 />
                 {this.state.isOpen === true && (
                     <Lightbox

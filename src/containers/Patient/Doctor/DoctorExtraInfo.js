@@ -27,7 +27,18 @@ class DoctorExtraInfo extends Component {
         }
     }
 
-    async componentDidUpdate(prevProps, prevState) {}
+    async componentDidUpdate(prevProps, prevState) {
+        if (this.props.doctorId !== prevProps.doctorId) {
+            let { doctorId } = this.props;
+            let res = await userService.getExtraInfoDoctorById(doctorId);
+            if (res && res.errCode === 0) {
+                this.setState({
+                    ...this.state,
+                    extraInfo: res.data,
+                });
+            }
+        }
+    }
 
     toggleDetailInfo = () => {
         this.setState({ isShowDetailInfo: !this.state.isShowDetailInfo });

@@ -2,70 +2,56 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { userService } from "../../../services";
-import "./TableManageUser.scss";
+import "./TableManagerClinic.scss";
 import * as actions from "../../../store/actions";
 
-class TableManageUser extends Component {
+class TableManagerClinic extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            allUserRedux: [],
+            listClinic: {},
         };
     }
 
-    async componentDidMount() {
-        this.props.fetchAllUser();
-    }
+    async componentDidMount() {}
 
-    async componentDidUpdate(prevProps, prevState) {
-        if (this.props.allUsers !== prevProps.allUsers) {
-            this.setState({
-                allUserRedux: this.props.allUsers,
-            });
-        }
-    }
+    async componentDidUpdate(prevProps, prevState) {}
 
-    handleDelete = (user) => {
-        this.props.deleteUser(user.id);
-    };
-    handleEditUser = (data) => {
-        this.props.getInfoUserForEdit(data);
+    handleDelete = (clinic) => {};
+    handleEditClinic = (data) => {
+        this.props.renderInfoClinicForEdit(data);
     };
 
     render() {
-        let allUser = this.state.allUserRedux;
+        let { listClinic } = this.props;
         return (
             <React.Fragment>
-                <div id="TableManageUser" className="wrapper">
+                <div id="TableManagerClinic" className="wrapper">
                     <table className="table table-bordered">
                         <thead className="table-success">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">FullName</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">PhoneNumber</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col">Tên phòng khám</th>
+                                <th scope="col">Địa chỉ phòng khám</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {allUser &&
-                                allUser.length > 0 &&
-                                allUser.map((user, index) => {
+                            {listClinic &&
+                                listClinic.length > 0 &&
+                                listClinic.map((clinic, index) => {
                                     return (
                                         <tr key={index}>
                                             <td>{++index}</td>
-                                            <td>{user.email}</td>
-                                            <td>{user.fullName}</td>
-                                            <td>{user.address}</td>
-                                            <td>{user.phoneNumber}</td>
+                                            <td>{clinic.name}</td>
+                                            <td>{clinic.address}</td>
                                             <td>
                                                 <div className="wrapper-btn">
                                                     <button
                                                         className="btn"
                                                         onClick={() =>
                                                             this.handleDelete(
-                                                                user
+                                                                clinic
                                                             )
                                                         }
                                                     >
@@ -74,8 +60,8 @@ class TableManageUser extends Component {
                                                     <button
                                                         className="btn"
                                                         onClick={() =>
-                                                            this.handleEditUser(
-                                                                user
+                                                            this.handleEditClinic(
+                                                                clinic
                                                             )
                                                         }
                                                     >
@@ -95,20 +81,11 @@ class TableManageUser extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        allUsers: state.admin.allUser,
-    };
+    return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchAllUser: () => {
-            dispatch(actions.fetchAllUser("All"));
-        },
-        deleteUser: (id) => {
-            dispatch(actions.deleteUser(id));
-        },
-    };
+    return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageUser);
+export default connect(mapStateToProps, mapDispatchToProps)(TableManagerClinic);

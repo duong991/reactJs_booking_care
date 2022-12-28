@@ -11,6 +11,8 @@ import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
+import TableManage from "./TableManagerClinic";
+
 const mdParser = new MarkdownIt();
 
 class ManageClinic extends Component {
@@ -24,10 +26,24 @@ class ManageClinic extends Component {
             descriptionMarkdown: "",
             previewImageURL: "",
             isOpen: false,
+            listSpecialty: {},
+            selectedSpecialties: [],
+            listClinic: {},
+            typeUpdate: false,
         };
     }
 
-    async componentDidMount() {}
+    async componentDidMount() {
+        let res = await userService.getAllSpecialty("Name");
+        let resClinic = await userService.getAllClinic();
+        if (res && res.errCode === 0 && resClinic && resClinic.errCode === 0) {
+            this.setState({
+                ...this.state,
+                listSpecialty: res.data,
+                listClinic: resClinic.data,
+            });
+        }
+    }
 
     handleEditorChange = ({ html, text }) => {
         this.setState({ descriptionHTML: html, descriptionMarkdown: text });
@@ -60,6 +76,26 @@ class ManageClinic extends Component {
         }
     };
 
+    renderInfoClinicForEdit = async (data) => {
+        this.handleClearData();
+        let res = await userService.getDetailClinicById(data.id);
+        if (res && res.data && res.data.specialtyOfClinic.length > 0) {
+            this.setState({
+                ...this.state,
+                selectedSpecialties: res.data.specialtyOfClinic,
+            });
+        }
+        this.setState({
+            ...this.state,
+            id: data.id,
+            name: data.name,
+            address: data.address,
+            descriptionMarkdown: data.descriptionMarkDown,
+            previewImageURL: data.image,
+            typeUpdate: true,
+        });
+    };
+
     handleSaveClinic = async () => {
         let {
             name,
@@ -67,6 +103,7 @@ class ManageClinic extends Component {
             imageBase64,
             descriptionHTML,
             descriptionMarkdown,
+            selectedSpecialties,
         } = this.state;
         let res = await userService.createNewClinic({
             name,
@@ -74,6 +111,7 @@ class ManageClinic extends Component {
             imageBase64,
             descriptionHTML,
             descriptionMarkdown,
+            selectedSpecialties,
         });
         if (res && res.errCode === 0) {
             toast.info("🤟🏻 Create a new clinic success !", {
@@ -101,6 +139,64 @@ class ManageClinic extends Component {
             console.log("check res:", res);
         }
     };
+    handleUpdateClinic = async () => {
+        let {
+            id,
+            name,
+            address,
+            imageBase64,
+            descriptionHTML,
+            descriptionMarkdown,
+            selectedSpecialties,
+        } = this.state;
+        let res = await userService.updateDetailClinicById({
+            id,
+            name,
+            address,
+            imageBase64,
+            descriptionHTML,
+            descriptionMarkdown,
+            selectedSpecialties,
+        });
+        if (res && res.errCode === 0) {
+            toast.info("🤟🏻 Update clinic success !", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            this.handleClearData();
+            // Cập nhật lại list Clinic
+            let resClinic = await userService.getAllClinic();
+            if (
+                res &&
+                res.errCode === 0 &&
+                resClinic &&
+                resClinic.errCode === 0
+            ) {
+                this.setState({
+                    ...this.state,
+                    listClinic: resClinic.data,
+                });
+            }
+        } else {
+            toast.error("🤟🏻 Update clinic fail !", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            console.log("check res:", res);
+        }
+    };
     handleClearData = () => {
         this.setState({
             name: "",
@@ -109,18 +205,48 @@ class ManageClinic extends Component {
             descriptionHTML: "",
             descriptionMarkdown: "",
             previewImageURL: "",
+            selectedSpecialties: [],
             isOpen: false,
         });
+        this.unCheck();
     };
+
+    handleChangeCheckBox = (e) => {
+        let { selectedSpecialties } = this.state;
+        if (e.target.checked) {
+            selectedSpecialties.push(e.target.value);
+        } else {
+            let index = selectedSpecialties.indexOf(+e.target.value);
+            if (index !== -1) {
+                selectedSpecialties.splice(index, 1);
+            }
+        }
+
+        this.setState({
+            selectedSpecialties: selectedSpecialties.map((item) => +item),
+        });
+    };
+    unCheck() {
+        let x = document.getElementsByClassName("checkbox");
+        for (let i = 0; i < x.length; i++) {
+            x[i].checked = false;
+        }
+    }
     render() {
+        console.log(this.state);
+        let { listSpecialty, listClinic, selectedSpecialties, typeUpdate } =
+            this.state;
         return (
             <div className="manager-specialty-container">
-                <div className="ms-title">Quản lý phòng khám</div>
-                <div className="btn-add-new-specialty"></div>
+                <div className="ms-title">
+                    <FormattedMessage id="manage-clinic.title" />
+                </div>
 
                 <div className="add-new-specialty row">
                     <div className="col-6 form-group mb-3">
-                        <label>Ten phòng khám</label>
+                        <label>
+                            <FormattedMessage id="manage-clinic.name-clinic" />
+                        </label>
                         <input
                             type="text"
                             className="form-control"
@@ -131,7 +257,9 @@ class ManageClinic extends Component {
                         />
                     </div>
                     <div className="col-6 form-group mb-3">
-                        <label>Địa chỉ phòng khám</label>
+                        <label>
+                            <FormattedMessage id="manage-clinic.address-clinic" />
+                        </label>
                         <input
                             type="text"
                             className="form-control"
@@ -140,6 +268,36 @@ class ManageClinic extends Component {
                                 this.handleOnChangeInput(e, "address")
                             }
                         />
+                    </div>
+
+                    <div className="col-6 form-group mb-3">
+                        <label>
+                            <FormattedMessage id="manage-clinic.special-of-clinic" />
+                        </label>
+                        {listSpecialty &&
+                            listSpecialty.length > 0 &&
+                            listSpecialty.map((item) => (
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input checkbox"
+                                        type="checkbox"
+                                        value={item.id}
+                                        id={item.id}
+                                        onChange={(e) =>
+                                            this.handleChangeCheckBox(e)
+                                        }
+                                        checked={selectedSpecialties.includes(
+                                            item.id
+                                        )}
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for={item.id}
+                                    >
+                                        {item.name}
+                                    </label>
+                                </div>
+                            ))}
                     </div>
 
                     <div className="col-6">
@@ -190,13 +348,29 @@ class ManageClinic extends Component {
                         />
                     )}
                     <div className="col-12 form-group mt-4 d-flex justify-content-end">
-                        <button
-                            className="btn btn-primary flex-end"
-                            onClick={this.handleSaveClinic}
-                        >
-                            Submit
-                        </button>
+                        {typeUpdate ? (
+                            <button
+                                className="btn btn-warning flex-end"
+                                onClick={this.handleUpdateClinic}
+                            >
+                                Update
+                            </button>
+                        ) : (
+                            <button
+                                className="btn btn-primary flex-end"
+                                onClick={this.handleSaveClinic}
+                            >
+                                Submit
+                            </button>
+                        )}
                     </div>
+                </div>
+
+                <div className="list-clinic">
+                    <TableManage
+                        listClinic={listClinic}
+                        renderInfoClinicForEdit={this.renderInfoClinicForEdit}
+                    />
                 </div>
             </div>
         );

@@ -70,8 +70,8 @@ const userService = {
         return axios.post("/api/create-new-specialty", data);
     },
 
-    getAllSpecialty() {
-        return axios.get("/api/get-all-specialty");
+    getAllSpecialty(type) {
+        return axios.get(`/api/get-all-specialty?type=${type}`);
     },
 
     getDetailSpecialtyById(id, location) {
@@ -85,13 +85,14 @@ const userService = {
     },
 
     getAllClinic() {
-        return axios.get("/api/get-all-specialty");
+        return axios.get(`/api/get-all-clinic`);
     },
 
-    getDetailClinicById(id, location) {
-        return axios.get(
-            `/api/get-detail-clinic-by-id?id=${id}&location=${location}`
-        );
+    getDetailClinicById(id) {
+        return axios.get(`/api/get-detail-clinic-by-id?id=${id}`);
+    },
+    updateDetailClinicById(data) {
+        return axios.put(`/api/update-detail-clinic-by-id`, data);
     },
 };
 

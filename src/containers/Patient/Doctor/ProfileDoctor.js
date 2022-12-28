@@ -20,7 +20,6 @@ class ProfileDoctor extends Component {
     async componentDidMount() {
         let result = await this.getInfoDoctorById(this.props.doctorId);
         this.setState({ ...this.state, dataProfile: result });
-
         if (this.props.isShowDescription) {
             let res = await userService.getMarkdownByIdDoctor(
                 this.props.doctorId
@@ -30,7 +29,18 @@ class ProfileDoctor extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if (this.props.doctorId !== prevState.doctorId) {
+        if (this.props.doctorId !== prevProps.doctorId) {
+            let result = await this.getInfoDoctorById(this.props.doctorId);
+            this.setState({ ...this.state, dataProfile: result });
+            if (this.props.isShowDescription) {
+                let res = await userService.getMarkdownByIdDoctor(
+                    this.props.doctorId
+                );
+                this.setState({
+                    ...this.state,
+                    description: res.data.description,
+                });
+            }
         }
     }
 

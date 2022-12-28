@@ -81,6 +81,14 @@
         "choose-date": "Chọn lịch khám bệnh",
         "save": "Lưu thông tin"
     },
+    "manage-clinic": {
+        "title": "Quản lý phòng khám",
+        "name-clinic": "Tên phòng khám",
+        "address-clinic": "Địa chỉ phòng khám",
+        "special-of-clinic": "Danh sách chuyên khoa",
+        "avatar": "Hình ảnh",
+        "save": "Lưu thông tin"
+    },
     "patient": {
         "detail-doctor": {
             "schedule": "Lịch khám",

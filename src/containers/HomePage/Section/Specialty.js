@@ -18,7 +18,7 @@ class Specialty extends Component {
     }
 
     async componentDidMount() {
-        let res = await userService.getAllSpecialty();
+        let res = await userService.getAllSpecialty("ALL");
         if (res && res.errCode === 0) {
             this.setState({
                 dataSpecialty: res.data,
@@ -41,16 +41,25 @@ class Specialty extends Component {
         };
 
         let { dataSpecialty } = this.state;
-        console.log(dataSpecialty);
+        let { specialOfClinic } = this.props;
+
         return (
             <div className="section-container">
                 <div className="section-header">
-                    <span className="main">
-                        <FormattedMessage id="homepage.specialty-popular" />
-                    </span>
-                    <span className="sub">
-                        <FormattedMessage id="homepage.sub-specialty" />
-                    </span>
+                    {specialOfClinic ? (
+                        <span className="main">
+                            Các chuyên khoa thuộc bệnh viện
+                        </span>
+                    ) : (
+                        <React.Fragment>
+                            <span className="main">
+                                <FormattedMessage id="homepage.specialty-popular" />
+                            </span>
+                            <span className="sub">
+                                <FormattedMessage id="homepage.sub-specialty" />
+                            </span>
+                        </React.Fragment>
+                    )}
                 </div>
                 <Slider {...settings}>
                     {dataSpecialty &&
