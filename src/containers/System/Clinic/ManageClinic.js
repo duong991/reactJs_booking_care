@@ -11,7 +11,7 @@ import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-import TableManage from "./TableManagerClinic";
+import TableManagerClinic from "./TableManagerClinic";
 
 const mdParser = new MarkdownIt();
 
@@ -110,7 +110,7 @@ class ManageClinic extends Component {
             });
             this.reloadListClinic();
         } else {
-            toast.error("🤟🏻 Create a new clinic fail !", {
+            toast.error("🤟🏻 Delete clinic fail !", {
                 position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: true,
@@ -177,6 +177,7 @@ class ManageClinic extends Component {
             descriptionMarkdown,
             selectedSpecialties,
         } = this.state;
+        console.log(descriptionHTML);
         let res = await userService.updateDetailClinicById({
             id,
             name,
@@ -394,7 +395,7 @@ class ManageClinic extends Component {
                 </div>
 
                 <div className="list-clinic">
-                    <TableManage
+                    <TableManagerClinic
                         listClinic={listClinic}
                         renderInfoClinicForEdit={this.renderInfoClinicForEdit}
                         deleteClinicById={this.deleteClinicById}

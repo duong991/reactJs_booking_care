@@ -65,7 +65,7 @@ const userService = {
     postVerifyBookAppointment(data) {
         return axios.post("/api/verify-book-appointment", data);
     },
-
+    // api quản lý chuyên khoa
     createNewSpecialty(data) {
         return axios.post("/api/create-new-specialty", data);
     },
@@ -79,7 +79,17 @@ const userService = {
             `/api/get-detail-specialty-by-id?id=${id}&location=${location}`
         );
     },
-
+    updateDetailSpecialtyById(data) {
+        return axios.put(`/api/update-detail-specialty-by-id`, data);
+    },
+    deleteDetailSpecialtyById(id) {
+        return axios.delete("/api/delete-specialty-by-id", {
+            data: {
+                id,
+            },
+        });
+    },
+    // api quản lý phòng khám
     createNewClinic(data) {
         return axios.post("/api/create-new-clinic", data);
     },

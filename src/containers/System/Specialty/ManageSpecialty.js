@@ -5,7 +5,7 @@ import "./ManageSpecialty.scss";
 import { LANGUAGES, CommonUtils } from "../../../utils";
 import userService from "../../../services/userService";
 import { toast } from "react-toastify";
-
+import TableManagerSpecialty from "./TableManagerSpecialty";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
@@ -22,11 +22,22 @@ class ManageSpecialty extends Component {
             descriptionHTML: "",
             descriptionMarkdown: "",
             previewImageURL: "",
+            listSpecialty: [],
             isOpen: false,
+            typeUpdate: false,
         };
     }
 
-    async componentDidMount() {}
+    async componentDidMount() {
+        this.reloadListSpecialty();
+    }
+
+    reloadListSpecialty = async () => {
+        let res = await userService.getAllSpecialty("ALL");
+        if (res && res.errCode === 0) {
+            this.setState({ ...this.state, listSpecialty: res.data });
+        }
+    };
 
     handleEditorChange = ({ html, text }) => {
         this.setState({ descriptionHTML: html, descriptionMarkdown: text });
@@ -105,12 +116,98 @@ class ManageSpecialty extends Component {
             isOpen: false,
         });
     };
+
+    renderSpecialtyForEdit = async (data) => {
+        this.handleClearData();
+        console.log(data);
+        this.setState({
+            ...this.state,
+            id: data.id,
+            name: data.name,
+            descriptionMarkdown: data.descriptionMarkDown,
+            previewImageURL: data.image,
+            typeUpdate: true,
+        });
+    };
+
+    deleteSpecialtyById = async (id) => {
+        let res = await userService.deleteDetailSpecialtyById(id);
+        if (res && res.errCode === 0) {
+            toast.info("🤟🏻 Delete specialty success !", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            this.reloadListSpecialty();
+        } else {
+            toast.error("🤟🏻 Delete specialty fail !", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            console.log("check res:", res);
+        }
+    };
+
+    handleUpdateSpecialty = async () => {
+        let {
+            id,
+            name,
+            imageBase64,
+            descriptionHTML,
+            descriptionMarkdown,
+            selectedSpecialties,
+        } = this.state;
+        let res = await userService.updateDetailSpecialtyById({
+            id,
+            name,
+            imageBase64,
+            descriptionHTML,
+            descriptionMarkdown,
+            selectedSpecialties,
+        });
+        if (res && res.errCode === 0) {
+            toast.info("🤟🏻 Update clinic success !", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            this.handleClearData();
+            this.reloadListSpecialty();
+        } else {
+            toast.error("🤟🏻 Update clinic fail !", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            console.log("check res:", res);
+        }
+    };
     render() {
+        let { listSpecialty, typeUpdate } = this.state;
         return (
             <div className="manager-specialty-container">
                 <div className="ms-title">Quản ly chuyên khoa</div>
-                <div className="btn-add-new-specialty"></div>
-
                 <div className="add-new-specialty row">
                     <div className="col-6 form-group mt-2">
                         <label>Ten chuyen khoa</label>
@@ -124,17 +221,6 @@ class ManageSpecialty extends Component {
                         />
                     </div>
 
-                    {/* <div className="col-6 form-group mt-2">
-                        <label>Anh chuyen khoa</label>
-                        <input
-                            type="file"
-                            className="form-control"
-                            value={this.state.imageBase64}
-                            onChange={(event) => {
-                                this.handleOnChangeImage(event);
-                            }}
-                        />
-                        </div> */}
                     <div className="col-6">
                         <label htmlFor="formFile" className="form-label">
                             <FormattedMessage id="manage-user.image" />
@@ -183,13 +269,29 @@ class ManageSpecialty extends Component {
                         />
                     )}
                     <div className="col-12 form-group mt-4 d-flex justify-content-end">
-                        <button
-                            className="btn btn-primary flex-end"
-                            onClick={this.handleSaveSpecialty}
-                        >
-                            Submit
-                        </button>
+                        {typeUpdate ? (
+                            <button
+                                className="btn btn-warning flex-end"
+                                onClick={this.handleUpdateSpecialty}
+                            >
+                                Update
+                            </button>
+                        ) : (
+                            <button
+                                className="btn btn-primary flex-end"
+                                onClick={this.handleSaveSpecialty}
+                            >
+                                Submit
+                            </button>
+                        )}
                     </div>
+                </div>
+                <div className="list-clinic">
+                    <TableManagerSpecialty
+                        listSpecialty={listSpecialty}
+                        renderSpecialtyForEdit={this.renderSpecialtyForEdit}
+                        deleteSpecialtyById={this.deleteSpecialtyById}
+                    />
                 </div>
             </div>
         );
