@@ -168,7 +168,7 @@ class ManageDoctor extends Component {
             selectedClinic:
                 this.state.selectedClinic && this.state.selectedClinic.value
                     ? this.state.selectedClinic.value
-                    : "",
+                    : 1,
             selectedSpecialty: this.state.selectedSpecialty.value,
             nameClinic: this.state.nameClinic,
             addressClinic: this.state.addressClinic,
