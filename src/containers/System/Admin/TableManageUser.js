@@ -4,38 +4,94 @@ import { connect } from "react-redux";
 import { userService } from "../../../services";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
+import { LANGUAGES } from "../../../utils";
+import Modal from "react-modal";
+import "../modal.scss";
 
 class TableManageUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
             allUserRedux: [],
+            type: "All",
+            isOpenModal: false,
+            itemSelected: "",
         };
     }
 
     async componentDidMount() {
         this.props.fetchAllUser();
+        this.props.getRoleStart();
     }
 
     async componentDidUpdate(prevProps, prevState) {
         if (this.props.allUsers !== prevProps.allUsers) {
             this.setState({
+                ...this.state,
                 allUserRedux: this.props.allUsers,
             });
         }
     }
+    openModal(user) {
+        this.setState({
+            ...this.state,
+            isOpenModal: true,
+            itemSelected: user,
+        });
+    }
 
-    handleDelete = (user) => {
-        this.props.deleteUser(user.id);
+    closeModal() {
+        this.setState({
+            isOpenModal: false,
+        });
+    }
+
+    handleDelete = (user, type) => {
+        this.props.deleteUser(user.id, type);
+        this.closeModal();
     };
     handleEditUser = (data) => {
         this.props.getInfoUserForEdit(data);
     };
 
+    handleOnchangeSelect = async (e) => {
+        let result = await userService.getAllUser(e.target.value);
+        this.setState({ type: e.target.value });
+
+        if (result && result.errCode === 0 && result.users) {
+            let arrAccount = result.users;
+            let newState = { ...this.state };
+            newState.allUserRedux = arrAccount;
+            this.setState({
+                ...newState,
+            });
+        }
+    };
+
     render() {
         let allUser = this.state.allUserRedux;
+
+        let { type, isOpenModal, itemSelected } = this.state;
+        let { language, roleRedux } = this.props;
         return (
             <React.Fragment>
+                <div className="search-type-account">
+                    <select onChange={(e) => this.handleOnchangeSelect(e)}>
+                        <option value="All" key="All">
+                            {language === LANGUAGES.VI ? "Tất cả" : "All"}
+                        </option>
+
+                        {roleRedux &&
+                            roleRedux.length > 0 &&
+                            roleRedux.map((item, index) => (
+                                <option value={item.keyMap} key={index}>
+                                    {language === LANGUAGES.VI
+                                        ? item.valueVi
+                                        : item.valueEn}
+                                </option>
+                            ))}
+                    </select>
+                </div>
                 <div id="TableManageUser" className="wrapper">
                     <table className="table table-bordered">
                         <thead className="table-success">
@@ -64,9 +120,7 @@ class TableManageUser extends Component {
                                                     <button
                                                         className="btn"
                                                         onClick={() =>
-                                                            this.handleDelete(
-                                                                user
-                                                            )
+                                                            this.openModal(user)
                                                         }
                                                     >
                                                         <i className="fas fa-trash button-delete"></i>
@@ -89,6 +143,28 @@ class TableManageUser extends Component {
                         </tbody>
                     </table>
                 </div>
+                <Modal
+                    isOpen={isOpenModal}
+                    onRequestClose={() => this.closeModal()}
+                >
+                    <h4>Are you sure you want to delete this item?</h4>
+                    <div className="wrap-btn">
+                        <button
+                            className="btn btn-danger"
+                            onClick={() =>
+                                this.handleDelete(itemSelected, type)
+                            }
+                        >
+                            Yes
+                        </button>
+                        <button
+                            className="btn btn-success"
+                            onClick={() => this.closeModal()}
+                        >
+                            No
+                        </button>
+                    </div>
+                </Modal>
             </React.Fragment>
         );
     }
@@ -96,7 +172,9 @@ class TableManageUser extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        language: state.app.language,
         allUsers: state.admin.allUser,
+        roleRedux: state.admin.roles,
     };
 };
 
@@ -105,9 +183,10 @@ const mapDispatchToProps = (dispatch) => {
         fetchAllUser: () => {
             dispatch(actions.fetchAllUser("All"));
         },
-        deleteUser: (id) => {
-            dispatch(actions.deleteUser(id));
+        deleteUser: (id, type) => {
+            dispatch(actions.deleteUser(id, type));
         },
+        getRoleStart: () => dispatch(actions.fetchRoleStart()),
     };
 };
 

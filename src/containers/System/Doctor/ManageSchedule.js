@@ -19,6 +19,7 @@ class ManageSchedule extends Component {
             listDoctor: [],
             currentDate: "",
             scheduleTime: [],
+            listScheduleTimeType: [],
         };
     }
 
@@ -65,15 +66,46 @@ class ManageSchedule extends Component {
         return result;
     };
 
-    handleChange = (selectedDoctor) => {
-        this.setState({ selectedDoctor }, async () => {
-            let idDoctor = this.state.selectedDoctor.value;
-            let res = await userService.getMarkdownByIdDoctor(idDoctor);
-        });
+    handleChange = async (selectedDoctor) => {
+        let { currentDate, scheduleTime } = this.state;
+        let FormatDate = new Date(currentDate).getTime();
+        if (FormatDate) {
+            let scheduleOld = await userService.getScheduleDoctorByDate(
+                selectedDoctor.value,
+                FormatDate
+            );
+            let listScheduleTimeType = scheduleOld.data.map(
+                (item) => item.timeType
+            );
+
+            scheduleTime.forEach((item) => {
+                if (listScheduleTimeType.includes(item.keyMap)) {
+                    item.isActive = true;
+                }
+            });
+        }
+        this.setState({ selectedDoctor });
     };
 
-    handleOnChangeDatePicker = (date) => {
+    handleOnChangeDatePicker = async (date) => {
         this.setState({ currentDate: date[0] });
+        let { currentDate, selectedDoctor, scheduleTime } = this.state;
+        let FormatDate = new Date(currentDate).getTime();
+        if (selectedDoctor.value) {
+            let scheduleOld = await userService.getScheduleDoctorByDate(
+                selectedDoctor.value,
+                FormatDate
+            );
+            let listScheduleTimeType = scheduleOld.data.map(
+                (item) => item.timeType
+            );
+
+            scheduleTime.forEach((item) => {
+                if (listScheduleTimeType.includes(item.keyMap)) {
+                    item.isActive = true;
+                }
+            });
+        }
     };
 
     handleClickBtnTime = (time) => {

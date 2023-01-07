@@ -35,7 +35,7 @@ class ManageClinic extends Component {
 
     async componentDidMount() {
         let res = await userService.getAllSpecialty("Name");
-        let resClinic = await userService.getAllClinic();
+        let resClinic = await userService.getAllClinic("ALL");
         if (res && res.errCode === 0 && resClinic && resClinic.errCode === 0) {
             this.setState({
                 ...this.state,
@@ -217,7 +217,7 @@ class ManageClinic extends Component {
 
     reloadListClinic = async () => {
         // Cập nhật lại list Clinic
-        let resClinic = await userService.getAllClinic();
+        let resClinic = await userService.getAllClinic("ALL");
         if (resClinic && resClinic.errCode === 0) {
             this.setState({
                 ...this.state,

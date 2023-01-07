@@ -1,0 +1,21 @@
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    background-color: hwb(0deg 27% 73% / 41%) !important ;
+}
+
+.ReactModal__Content.ReactModal__Content--after-open {
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin-right: -50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.wrap-btn {
+    display: flex;
+    justify-content: flex-end;
+    wrap: 12px;
+    button {
+        margin: 4px;
+    }
+}

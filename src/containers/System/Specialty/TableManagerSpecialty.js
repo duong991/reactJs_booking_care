@@ -5,17 +5,35 @@ import { userService } from "../../../services";
 import "./TableManagerSpecialty.scss";
 import * as actions from "../../../store/actions";
 
+import Modal from "react-modal";
+import "../modal.scss";
+
 class TableManagerSpecialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listClinic: {},
+            isOpenModal: false,
+            itemSelected: "",
         };
     }
 
     async componentDidMount() {}
 
     async componentDidUpdate(prevProps, prevState) {}
+
+    openModal(item) {
+        this.setState({
+            ...this.state,
+            isOpenModal: true,
+            itemSelected: item,
+        });
+    }
+
+    closeModal() {
+        this.setState({
+            isOpenModal: false,
+        });
+    }
 
     handleDelete = (id) => {
         this.props.deleteSpecialtyById(id);
@@ -26,6 +44,7 @@ class TableManagerSpecialty extends Component {
 
     render() {
         let { listSpecialty } = this.props;
+        let { isOpenModal, itemSelected } = this.state;
         return (
             <React.Fragment>
                 <div id="TableManagerSpecialty" className="wrapper">
@@ -50,7 +69,7 @@ class TableManagerSpecialty extends Component {
                                                     <button
                                                         className="btn"
                                                         onClick={() =>
-                                                            this.handleDelete(
+                                                            this.openModal(
                                                                 specialty.id
                                                             )
                                                         }
@@ -75,6 +94,26 @@ class TableManagerSpecialty extends Component {
                         </tbody>
                     </table>
                 </div>
+                <Modal
+                    isOpen={isOpenModal}
+                    onRequestClose={() => this.closeModal()}
+                >
+                    <h4>Are you sure you want to delete this item?</h4>
+                    <div className="wrap-btn">
+                        <button
+                            className="btn btn-danger"
+                            onClick={() => this.handleDelete(itemSelected)}
+                        >
+                            Yes
+                        </button>
+                        <button
+                            className="btn btn-success"
+                            onClick={() => this.closeModal()}
+                        >
+                            No
+                        </button>
+                    </div>
+                </Modal>
             </React.Fragment>
         );
     }

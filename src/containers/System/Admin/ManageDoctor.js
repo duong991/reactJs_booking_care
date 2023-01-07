@@ -36,8 +36,6 @@ class ManageDoctor extends Component {
             selectedProvince: [],
             listProvince: [],
 
-            nameClinic: "",
-            addressClinic: "",
             note: "",
 
             clinicId: "",
@@ -68,7 +66,7 @@ class ManageDoctor extends Component {
                 this.props.allRequirementDoctorInfo ||
             prevProps.language !== this.props.language
         ) {
-            let { resPrice, resPayment, resProvince, resSpecialty } =
+            let { resPrice, resPayment, resProvince, resSpecialty, resClinic } =
                 this.props.allRequirementDoctorInfo;
             let dataSelectPrice = this.buildDataRequiredDoctorSelect(
                 resPrice,
@@ -87,12 +85,18 @@ class ManageDoctor extends Component {
                 resSpecialty,
                 "SPECIALTY"
             );
+
+            let dataSelectClinic = this.buildDataRequiredDoctorSelect(
+                resClinic,
+                "CLINIC"
+            );
             this.setState({
                 ...this.state,
                 listPrice: dataSelectPrice,
                 listPayment: dataSelectPayment,
                 listProvince: dataSelectProvince,
                 listSpecialty: dataSelectSpecialty,
+                listClinic: dataSelectClinic,
             });
         }
     }
@@ -128,6 +132,9 @@ class ManageDoctor extends Component {
                 } else if (type === "SPECIALTY") {
                     object.label = item.name;
                     object.value = item.id;
+                } else if (type === "CLINIC") {
+                    object.label = item.name;
+                    object.value = item.id;
                 } else {
                     if (language === LANGUAGES.VI) {
                         object.label = item.valueVi;
@@ -151,8 +158,8 @@ class ManageDoctor extends Component {
             !this.state.selectedPrice.value ||
             !this.state.selectedPayment.value ||
             !this.state.selectedProvince.value ||
-            !this.state.addressClinic ||
-            !this.state.nameClinic
+            !this.state.selectedClinic.value ||
+            !this.state.selectedSpecialty.value
         ) {
             toast.error("🤟🏻 Missing required parameters !");
             return;
@@ -165,13 +172,8 @@ class ManageDoctor extends Component {
             selectedPrice: this.state.selectedPrice.value,
             selectedPayment: this.state.selectedPayment.value,
             selectedProvince: this.state.selectedProvince.value,
-            selectedClinic:
-                this.state.selectedClinic && this.state.selectedClinic.value
-                    ? this.state.selectedClinic.value
-                    : 1,
+            selectedClinic: this.state.selectedClinic.value,
             selectedSpecialty: this.state.selectedSpecialty.value,
-            nameClinic: this.state.nameClinic,
-            addressClinic: this.state.addressClinic,
             note: this.state.note,
         };
 
@@ -301,10 +303,10 @@ class ManageDoctor extends Component {
             listPayment,
             listProvince,
             listSpecialty,
-            nameClinic,
-            addressClinic,
             note,
         } = this.state;
+
+        console.log(listClinic);
         return (
             <div className="manage-doctor-container">
                 <div className="manage-doctor-title">
@@ -380,7 +382,7 @@ class ManageDoctor extends Component {
                             }
                         />
                     </div>
-                    <div className="col-4 mb-3 form-group">
+                    {/*    <div className="col-4 mb-3 form-group">
                         <label>
                             <FormattedMessage id="admin.nameClinic" />
                         </label>
@@ -403,6 +405,20 @@ class ManageDoctor extends Component {
                                 this.handleOnChangeText(e, "addressClinic")
                             }
                         />
+                        </div> */}
+                    <div className="col-4 mb-3 form-group">
+                        <label>
+                            <FormattedMessage id="admin.select-clinic" />
+                        </label>
+                        <Select
+                            options={listClinic}
+                            value={selectedClinic}
+                            onChange={this.handleChangeSelectDoctorInfo}
+                            name="selectedClinic"
+                            placeholder={
+                                <FormattedMessage id="admin.select-clinic" />
+                            }
+                        />
                     </div>
                     <div className="col-4 mb-3 form-group">
                         <label>
@@ -418,20 +434,7 @@ class ManageDoctor extends Component {
                             }
                         />
                     </div>
-                    <div className="col-4 mb-3 form-group">
-                        <label>
-                            <FormattedMessage id="admin.select-clinic" />
-                        </label>
-                        <Select
-                            options={listClinic}
-                            value={selectedClinic}
-                            onChange={this.handleChangeSelectDoctorInfo}
-                            name="selectedClinic"
-                            placeholder={
-                                <FormattedMessage id="admin.select-clinic" />
-                            }
-                        />
-                    </div>
+
                     <div className="col-8 mb-3 form-group">
                         <label>
                             <FormattedMessage id="admin.note" />

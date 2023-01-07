@@ -142,12 +142,22 @@ export const fetchAllUserFail = () => ({
 });
 
 // delete user
-export const deleteUser = (id) => {
+export const deleteUser = (id, type) => {
     return async (dispatch, getState) => {
         try {
             let res = await userService.deleteUser(id);
             if (res && res.errCode === 0) {
-                dispatch(fetchAllUser("All"));
+                toast.info("🤟🏻 Delete user success !", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                dispatch(fetchAllUser(type));
                 dispatch(deleteUserSuccess());
             } else {
                 dispatch(deleteUserFail());
@@ -338,6 +348,7 @@ export const getRequiredDoctorInfo = () => {
             let resPayment = await userService.getAllCodeServices("PAYMENT");
             let resProvince = await userService.getAllCodeServices("PROVINCE");
             let resSpecialty = await userService.getAllSpecialty("ALL");
+            let resClinic = await userService.getAllClinic("Name");
             if (
                 resPrice &&
                 resPrice.errCode === 0 &&
@@ -346,14 +357,18 @@ export const getRequiredDoctorInfo = () => {
                 resProvince &&
                 resProvince.errCode === 0 &&
                 resSpecialty &&
-                resSpecialty.errCode === 0
+                resSpecialty.errCode === 0 &&
+                resClinic &&
+                resClinic.errCode === 0
             ) {
                 let data = {
                     resPrice: resPrice.data,
                     resPayment: resPayment.data,
                     resProvince: resProvince.data,
                     resSpecialty: resSpecialty.data,
+                    resClinic: resClinic.data,
                 };
+                console.log(data);
                 dispatch(getRequiredDoctorInfoSuccess(data));
             } else {
                 dispatch(getRequiredDoctorInfoFail());

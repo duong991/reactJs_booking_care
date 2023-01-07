@@ -66,7 +66,8 @@
         "image": "Avatar",
         "upload": "Upload",
         "save": "Save user",
-        "update": "Update user"
+        "update": "Update user",
+        "clinic": "Clinic"
     },
     "homepage": {
         "outstanding-doctor": "Doctor of the Week",

@@ -8,6 +8,7 @@ import "./UserRedux.scss";
 import TableManageUser from "./TableManageUser.js";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
+import { SyncLoader } from "react-spinners";
 
 class UserRedux extends Component {
     constructor(props) {
@@ -27,23 +28,42 @@ class UserRedux extends Component {
             fullName: "",
             phoneNumber: "",
             address: "",
-            gender: "",
+            gender: "M",
             position: "",
+            positionDefaultDoctor: "",
             role: "",
             image: "",
 
+            clinic: "",
+            listClinic: {},
+
             isCreateForm: true,
+
+            loading: true,
         };
     }
     async componentDidMount() {
         this.props.getGenderStart();
         this.props.getPositionStart();
         this.props.getRoleStart();
+
+        let resClinic = await userService.getAllClinic("Name");
+        let clinicArr = resClinic.data;
+        if (resClinic && resClinic.errCode === 0) {
+            this.setState({
+                ...this.state,
+                listClinic: clinicArr,
+                clinic:
+                    clinicArr && clinicArr.length > 0 ? clinicArr[0].id : "",
+                loading: false,
+            });
+        }
     }
 
     async componentDidUpdate(prevProps, prevState) {
         let arrPosition = this.props.positionRedux;
         let arrRole = this.props.roleRedux;
+        let { listClinic } = this.state;
         // set default key value of gender arr (M, F , O)
         if (prevProps.genderRedux !== this.props.genderRedux) {
             this.setState({ genderArr: this.props.genderRedux });
@@ -52,7 +72,7 @@ class UserRedux extends Component {
         if (prevProps.positionRedux !== this.props.positionRedux) {
             this.setState({
                 positionArr: arrPosition,
-                position:
+                positionDefaultDoctor:
                     arrPosition && arrPosition.length > 0
                         ? arrPosition[0].keyMap
                         : "",
@@ -74,14 +94,13 @@ class UserRedux extends Component {
                 fullName: "",
                 phoneNumber: "",
                 address: "",
-                gender: "",
-                position:
-                    arrPosition && arrPosition.length > 0
-                        ? arrPosition[0].keyMap
-                        : "",
+                gender: "M",
+                position: "",
                 role: arrRole && arrRole.length > 0 ? arrRole[0].keyMap : "",
                 image: "",
                 previewImageURL: "",
+                clinic:
+                    listClinic && listClinic.length > 0 ? listClinic[0].id : "",
             });
         }
     }
@@ -114,22 +133,30 @@ class UserRedux extends Component {
     };
 
     handleSaveUser = async () => {
+        this.setState({ ...this.state, loading: true });
         let isValid = this.checkValidInput();
         if (!isValid) {
             return;
         }
-        // fire redux action
-        await this.props.createNewUser({
+        let data = {
             email: this.state.email,
             password: this.state.password,
             fullName: this.state.fullName,
             phoneNumber: this.state.phoneNumber,
             address: this.state.address,
-            position: this.state.position,
+            position:
+                this.state.role === "R2"
+                    ? this.state.positionDefaultDoctor
+                    : "",
             gender: this.state.gender,
             role: this.state.role,
             image: this.state.image,
-        });
+            clinic: this.state.role === "R4" ? this.state.clinic : "",
+        };
+        // fire redux action
+
+        await this.props.createNewUser(data);
+        this.setState({ ...this.state, loading: false });
     };
 
     checkValidInput = () => {
@@ -172,39 +199,53 @@ class UserRedux extends Component {
             previewImageURL: imageBase64,
             image: "",
             isCreateForm: false,
+            clinic: data.clinic ? data.clinic : "",
         });
     };
 
     handleUpdateUser = async () => {
+        this.setState({ ...this.state, loading: true });
+
         let isValid = this.checkValidInput();
         if (!isValid) {
             return;
         }
-        await this.props.editUser({
+        let data = {
             id: this.state.id,
             fullName: this.state.fullName,
             phoneNumber: this.state.phoneNumber,
             address: this.state.address,
-            position: this.state.position,
             gender: this.state.gender,
             role: this.state.role,
+            position: "",
             image: this.state.image,
-        });
-        this.setState({ ...this.state, isCreateForm: true });
+            clinic: this.state.clinic,
+        };
+        if (data.role === "R2") {
+            data.position = this.state.positionDefaultDoctor;
+        }
+
+        await this.props.editUser(data);
+        this.setState({ ...this.state, isCreateForm: true, loading: false });
+    };
+    handleOnchangeSelect = async (e) => {
+        this.setState({ ...this.state, loading: true });
+
+        let result = await userService.getAllUser(e.target.value);
+
+        if (result && result.errCode === 0 && result.users) {
+            let arrAccount = result.users;
+            let newState = { ...this.state };
+            newState.arrAccount = arrAccount;
+            this.setState({
+                ...newState,
+            });
+        }
+        this.setState({ ...this.state, loading: false });
     };
 
     render() {
         let language = this.props.language;
-
-        let genders = this.state.genderArr;
-        let isLoadingGender = this.props.isLoadingGender;
-
-        let positions = this.state.positionArr;
-        let isLoadingPosition = this.props.isLoadingPosition;
-
-        let roles = this.state.roleArr;
-        let isLoadingRole = this.props.isLoadingRole;
-
         let {
             email,
             password,
@@ -215,18 +256,25 @@ class UserRedux extends Component {
             gender,
             role,
             image,
-        } = this.state;
+            genderArr,
+            positionArr,
+            roleArr,
+            positionDefaultDoctor,
 
-        console.log(gender);
+            listClinic,
+            clinic,
+            loading,
+        } = this.state;
         let isCreateForm = this.state.isCreateForm;
+
         return (
             <div className="wrapper-container">
                 <div className="container">
-                    <div hidden>
-                        {/*isLoadingGender || isLoadingPosition || isLoadingRole
-                            ? "Loading"
-        : ""*/}
-                    </div>
+                    <SyncLoader
+                        color="black"
+                        cssOverride={{}}
+                        loading={loading}
+                    />
                     <div className="user-redux-body">
                         <div className="row g-3">
                             <div className="col-12 my-3 fs-3">
@@ -341,43 +389,14 @@ class UserRedux extends Component {
                                     }
                                     value={gender}
                                 >
-                                    {genders &&
-                                        genders.length > 0 &&
-                                        genders.map((gender) => {
+                                    {genderArr &&
+                                        genderArr.length > 0 &&
+                                        genderArr.map((gender) => {
                                             return (
                                                 <option value={gender.keyMap}>
                                                     {language === LANGUAGES.VI
                                                         ? gender.valueVi
                                                         : gender.valueEn}
-                                                </option>
-                                            );
-                                        })}
-                                </select>
-                            </div>
-
-                            <div className="col-md-6">
-                                <label
-                                    htmlFor="inputState"
-                                    className="form-label"
-                                >
-                                    <FormattedMessage id="manage-user.position" />
-                                </label>
-                                <select
-                                    id="inputState"
-                                    className="form-select"
-                                    onChange={(e) =>
-                                        this.handleOnChangeInput(e, "position")
-                                    }
-                                    value={position}
-                                >
-                                    {positions &&
-                                        positions.length > 0 &&
-                                        positions.map((position) => {
-                                            return (
-                                                <option value={position.keyMap}>
-                                                    {language === LANGUAGES.VI
-                                                        ? position.valueVi
-                                                        : position.valueEn}
                                                 </option>
                                             );
                                         })}
@@ -398,9 +417,9 @@ class UserRedux extends Component {
                                     }
                                     value={role}
                                 >
-                                    {roles &&
-                                        roles.length > 0 &&
-                                        roles.map((role) => {
+                                    {roleArr &&
+                                        roleArr.length > 0 &&
+                                        roleArr.map((role) => {
                                             return (
                                                 <option value={role.keyMap}>
                                                     {language === LANGUAGES.VI
@@ -411,6 +430,92 @@ class UserRedux extends Component {
                                         })}
                                 </select>
                             </div>
+                            {role === "R4" ? (
+                                <div className="col-md-6">
+                                    <label
+                                        htmlFor="inputState"
+                                        className="form-label"
+                                    >
+                                        <FormattedMessage id="manage-user.clinic" />
+                                    </label>
+                                    <select
+                                        id="inputState"
+                                        className="form-select"
+                                        onChange={(e) =>
+                                            this.handleOnChangeInput(
+                                                e,
+                                                "clinic"
+                                            )
+                                        }
+                                        value={clinic}
+                                    >
+                                        {listClinic &&
+                                            listClinic.length > 0 &&
+                                            listClinic.map((item) => {
+                                                return (
+                                                    <option value={item.id}>
+                                                        {item.name}
+                                                    </option>
+                                                );
+                                            })}
+                                    </select>
+                                </div>
+                            ) : (
+                                <div className="col-md-6">
+                                    <label
+                                        htmlFor="inputState"
+                                        className="form-label"
+                                    >
+                                        <FormattedMessage id="manage-user.position" />
+                                    </label>
+                                    {role === "R2" ? (
+                                        <select
+                                            id="inputState"
+                                            className="form-select"
+                                            onChange={(e) =>
+                                                this.handleOnChangeInput(
+                                                    e,
+                                                    "positionDefaultDoctor"
+                                                )
+                                            }
+                                            value={positionDefaultDoctor}
+                                        >
+                                            {positionArr &&
+                                                positionArr.length > 0 &&
+                                                positionArr.map((position) => {
+                                                    return (
+                                                        <option
+                                                            value={
+                                                                position.keyMap
+                                                            }
+                                                        >
+                                                            {language ===
+                                                            LANGUAGES.VI
+                                                                ? position.valueVi
+                                                                : position.valueEn}
+                                                        </option>
+                                                    );
+                                                })}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            disabled={true}
+                                            className="form-control"
+                                            id="inputAddress"
+                                            placeholder="Không"
+                                            value=""
+                                            onChange={(e) =>
+                                                this.handleOnChangeInput(
+                                                    e,
+                                                    "position"
+                                                )
+                                            }
+                                        />
+                                    )}
+                                </div>
+                            )}
+
                             <div className="col-md-6">
                                 <label
                                     htmlFor="formFile"
@@ -472,6 +577,7 @@ class UserRedux extends Component {
                         </div>
                     </div>
                 </div>
+
                 <TableManageUser
                     getInfoUserForEdit={this.renderInfoUserForEdit}
                 />

@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 import { userService } from "../../../services";
 import "./TableManagerClinic.scss";
 import * as actions from "../../../store/actions";
-
+import Modal from "react-modal";
+import "../modal.scss";
 class TableManagerClinic extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listClinic: {},
+            isOpenModal: false,
+            itemSelected: "",
         };
     }
 
@@ -17,8 +19,23 @@ class TableManagerClinic extends Component {
 
     async componentDidUpdate(prevProps, prevState) {}
 
+    openModal(clinic) {
+        this.setState({
+            ...this.state,
+            isOpenModal: true,
+            itemSelected: clinic,
+        });
+    }
+
+    closeModal() {
+        this.setState({
+            isOpenModal: false,
+        });
+    }
+
     handleDelete = (id) => {
         this.props.deleteClinicById(id);
+        this.closeModal();
     };
     handleEditClinic = (data) => {
         this.props.renderInfoClinicForEdit(data);
@@ -26,6 +43,7 @@ class TableManagerClinic extends Component {
 
     render() {
         let { listClinic } = this.props;
+        let { isOpenModal, itemSelected } = this.state;
         return (
             <React.Fragment>
                 <div id="TableManagerClinic" className="wrapper">
@@ -52,7 +70,7 @@ class TableManagerClinic extends Component {
                                                     <button
                                                         className="btn"
                                                         onClick={() =>
-                                                            this.handleDelete(
+                                                            this.openModal(
                                                                 clinic.id
                                                             )
                                                         }
@@ -77,6 +95,26 @@ class TableManagerClinic extends Component {
                         </tbody>
                     </table>
                 </div>
+                <Modal
+                    isOpen={isOpenModal}
+                    onRequestClose={() => this.closeModal()}
+                >
+                    <h4>Are you sure you want to delete this item?</h4>
+                    <div className="wrap-btn">
+                        <button
+                            className="btn btn-danger"
+                            onClick={() => this.handleDelete(itemSelected)}
+                        >
+                            Yes
+                        </button>
+                        <button
+                            className="btn btn-success"
+                            onClick={() => this.closeModal()}
+                        >
+                            No
+                        </button>
+                    </div>
+                </Modal>
             </React.Fragment>
         );
     }

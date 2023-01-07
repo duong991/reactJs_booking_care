@@ -6,8 +6,8 @@ const userService = {
         return axios.post("/api/login", { email, password });
     },
     //------api for manage user--------
-    getAllUser(id) {
-        return axios.get(`/api/get-all-user?id=${id}`);
+    getAllUser(type) {
+        return axios.get(`/api/get-all-user?type=${type}`);
     },
     deleteUser(id) {
         return axios.delete("/api/delete-user", {
@@ -94,8 +94,8 @@ const userService = {
         return axios.post("/api/create-new-clinic", data);
     },
 
-    getAllClinic() {
-        return axios.get(`/api/get-all-clinic`);
+    getAllClinic(type) {
+        return axios.get(`/api/get-all-clinic?type=${type}`);
     },
 
     getDetailClinicById(id) {
