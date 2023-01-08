@@ -55,7 +55,6 @@ class BookingModal extends Component {
                 doctorIdFromProps = dataTime.doctorId;
                 timeType = dataTime.timeType;
             }
-            console.log(dataTime);
             this.setState({
                 doctorId: doctorIdFromProps,
                 doctorName: this.props.dataTime.doctorName.fullName,
@@ -179,10 +178,6 @@ class BookingModal extends Component {
             genders,
             selectedGender,
         } = this.state;
-
-        if (this.state.doctorName) {
-            console.log(this.state.doctorName);
-        }
 
         return (
             <Modal isOpen={isOpenModal} centered={true} size={"lg"}>

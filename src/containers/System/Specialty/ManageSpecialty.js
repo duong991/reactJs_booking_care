@@ -45,7 +45,6 @@ class ManageSpecialty extends Component {
 
     handleOnChangeImage = async (event) => {
         let file = event.target.files[0];
-        console.log(file);
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
             let objUrl = URL.createObjectURL(file);
@@ -119,7 +118,6 @@ class ManageSpecialty extends Component {
 
     renderSpecialtyForEdit = async (data) => {
         this.handleClearData();
-        console.log(data);
         this.setState({
             ...this.state,
             id: data.id,

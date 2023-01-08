@@ -53,10 +53,10 @@ export const doctorMenu = [
     {
         name: "menu.admin.manage-user",
         menus: [
-            // Quản lý kế hoạch khám bệnh
+            // Quản lý bệnh nhân khám bệnh
             {
-                name: "menu.doctor.manage-schedule",
-                link: "/doctor/manage-schedule",
+                name: "menu.doctor.manage-patient",
+                link: "/doctor/manage-patient",
             },
         ],
     },

@@ -126,7 +126,6 @@ class ManageSchedule extends Component {
                 return item;
             });
         }
-        console.log(">check scheduleTime: ", scheduleTime);
         this.setState({
             ...this.state,
             selectedDoctor: {},
@@ -209,7 +208,6 @@ class ManageSchedule extends Component {
     render() {
         const { selectedDoctor, listDoctor, scheduleTime } = this.state;
         const { language } = this.props;
-        console.log(scheduleTime);
         return (
             <div className="manage-schedule-container">
                 <div className="m-s-title">

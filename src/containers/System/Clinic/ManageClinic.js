@@ -177,7 +177,6 @@ class ManageClinic extends Component {
             descriptionMarkdown,
             selectedSpecialties,
         } = this.state;
-        console.log(descriptionHTML);
         let res = await userService.updateDetailClinicById({
             id,
             name,
@@ -261,7 +260,6 @@ class ManageClinic extends Component {
         }
     }
     render() {
-        console.log(this.state);
         let { listSpecialty, listClinic, selectedSpecialties, typeUpdate } =
             this.state;
         return (

@@ -1,0 +1,46 @@
+.modal-content {
+    font-family: "Montserrat", sans-serif;
+    padding: 16px;
+    border-radius: 8px;
+    .remedy-modal-content {
+        height: 240px;
+        display: flex;
+        flex-direction: column;
+        .remedy-modal-header {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+
+            .modal-header-left {
+                font-size: 20px;
+                font-weight: 600;
+                color: #333;
+            }
+            .modal-header-right {
+                float: right;
+                i {
+                    font-size: 20px;
+                    padding: 4px;
+                    color: #716e6e;
+                    cursor: pointer;
+                }
+            }
+        }
+        .remedy-modal-body {
+            height: 100%;
+            padding-top: 15px;
+        }
+        .remedy-modal-footer {
+            padding: 10px;
+            height: 54px;
+            display: flex;
+            justify-content: flex-end;
+            .btn-booking {
+                min-width: 90px;
+                margin-left: 8px;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}

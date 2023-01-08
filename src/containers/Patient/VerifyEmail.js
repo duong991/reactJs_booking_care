@@ -37,7 +37,6 @@ class VerifyEmail extends Component {
 
     render() {
         let { statusVerified, errCode } = this.state;
-        console.log(this.state);
         return (
             <React.Fragment>
                 <HomeHeader />

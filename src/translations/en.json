@@ -49,8 +49,29 @@
             "manage-handbook": "Manage handbook"
         },
         "doctor": {
-            "manage-schedule": "Mange Doctor's schedule"
+            "manage-patient": "Manage Doctor's patient",
+            "submit": "Submit"
+        },
+        "admin-hospital": {
+            "manage-schedule": "Manage Doctor's schedule"
         }
+    },
+    "manage-patient": {
+        "title": "Manage Doctor's patient",
+        "submit": "Submit",
+        "stt": "#",
+        "time": "Time",
+        "fullName": "Full Name",
+        "address": "Address",
+        "gender": "Gender",
+        "choose-date": "Choose a date of examination",
+
+        "remedy-modal": {
+            "title": "Confirmation of sending medical bills",
+            "submit": "Submit",
+            "cancel": "Cancel"
+        },
+        "clinic": "Clinic"
     },
     "manage-user": {
         "add": "Add new user",

@@ -65,6 +65,16 @@ const userService = {
     postVerifyBookAppointment(data) {
         return axios.post("/api/verify-book-appointment", data);
     },
+
+    getListPatientsForDoctor(doctorId, date) {
+        return axios.get(
+            `/api/get-list-patient-for-doctor?doctorId=${doctorId}&date=${date}`
+        );
+    },
+
+    sendRemedy(data) {
+        return axios.post("/api/send-remedy", data);
+    },
     // api quản lý chuyên khoa
     createNewSpecialty(data) {
         return axios.post("/api/create-new-specialty", data);

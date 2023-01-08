@@ -27,7 +27,6 @@ class MedicalFacility extends Component {
 
     handleDetailClinic = (data) => {
         let idClinic = data.id;
-        console.log(idClinic);
         this.props.history.push(`/detail-clinic/${idClinic}`);
     };
 

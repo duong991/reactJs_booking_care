@@ -306,7 +306,6 @@ class ManageDoctor extends Component {
             note,
         } = this.state;
 
-        console.log(listClinic);
         return (
             <div className="manage-doctor-container">
                 <div className="manage-doctor-title">

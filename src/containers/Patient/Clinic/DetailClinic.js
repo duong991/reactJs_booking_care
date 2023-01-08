@@ -45,7 +45,6 @@ class DetailClinic extends Component {
         if (result && result.errCode === 0 && result.data) {
             // lấy danh sách các chuyên khoa thuộc bệnh viện
             let { specialtyOfClinic } = result.data;
-            console.log(specialtyOfClinic);
             this.setState({
                 description: result.data.descriptionHTML,
             });
