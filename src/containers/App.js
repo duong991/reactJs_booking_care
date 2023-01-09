@@ -22,7 +22,9 @@ import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
 import DetailClinic from "./Patient/Clinic/DetailClinic";
 
 import DoctorRoutes from "../routes/DoctorRoutes";
+import AdminHospital from "../routes/AdminHospital";
 import VerifyEmail from "./Patient/VerifyEmail";
+import CancelEmail from "./Patient/CancelEmail";
 
 import { CustomToastCloseButton } from "../components/CustomToast";
 import CustomScrollbars from "../components/CustomScrollbars";
@@ -75,9 +77,16 @@ class App extends Component {
                                         component={userIsAuthenticated(System)}
                                     />
                                     <Route
-                                        path={`/doctor/`}
+                                        path={path.DOCTOR_SYSTEM}
                                         component={userIsAuthenticated(
                                             DoctorRoutes
+                                        )}
+                                    />
+
+                                    <Route
+                                        path={path.ADMIN_HOSPITAL_SYSTEM}
+                                        component={userIsAuthenticated(
+                                            AdminHospital
                                         )}
                                     />
                                     <Route
@@ -95,6 +104,10 @@ class App extends Component {
                                     <Route
                                         path={path.VERIFY_EMAIL_BOOKING}
                                         component={VerifyEmail}
+                                    />
+                                    <Route
+                                        path={path.CANCEL_EMAIL_BOOKING}
+                                        component={CancelEmail}
                                     />
                                 </Switch>
                             </CustomScrollbars>

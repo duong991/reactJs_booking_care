@@ -261,7 +261,7 @@ export const getAllDoctorFail = () => ({
 });
 
 // update detail doctor
-export const updateDetailDoctor = (data) => {
+export const updateDetailDoctorService = (data) => {
     return async (dispatch, getState) => {
         try {
             let res = await userService.updateDetailDoctorService(data);

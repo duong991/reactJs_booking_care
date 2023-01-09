@@ -87,9 +87,6 @@ class Doctor extends Component {
                                                         ? nameVi
                                                         : nameEn}
                                                 </span>
-                                                <span className="sub-title">
-                                                    Cơ xương khớp
-                                                </span>
                                             </div>
                                         </div>
                                     </div>

@@ -4,10 +4,13 @@ export const path = {
     LOGIN: "/login",
     LOG_OUT: "/logout",
     SYSTEM: "/system",
+    DOCTOR_SYSTEM: "/doctor/",
+    ADMIN_HOSPITAL_SYSTEM: "/admin-hospital/",
     DETAIL_DOCTOR: "/detail-doctor/:id",
     DETAIL_SPECIALTY: "/detail-specialty/:id",
     DETAIL_CLINIC: "/detail-clinic/:id",
     VERIFY_EMAIL_BOOKING: "/verify-booking",
+    CANCEL_EMAIL_BOOKING: "/cancel-booking",
 };
 
 export const LANGUAGES = {

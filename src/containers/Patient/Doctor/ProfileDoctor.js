@@ -50,6 +50,8 @@ class ProfileDoctor extends Component {
             let res = await userService.getProfileDoctorById(id);
             if (res && res.errCode === 0) {
                 result = res.data;
+                // let clinicId = res.data.Doctor_Info.clinicId;
+                // this.props.getClinicId(clinicId);
             }
         }
         return result;
@@ -102,6 +104,7 @@ class ProfileDoctor extends Component {
         let { dataProfile } = this.state;
         let { language, dataTime, doctorId } = this.props;
 
+        console.log(dataProfile);
         let nameVi = "",
             nameEn = "",
             nameClinic = "",
@@ -116,11 +119,10 @@ class ProfileDoctor extends Component {
         if (
             dataProfile &&
             dataProfile.Doctor_Info &&
-            dataProfile.Doctor_Info.nameClinic &&
-            dataProfile.Doctor_Info.addressClinic
+            dataProfile.Doctor_Info.Clinic
         ) {
-            nameClinic = dataProfile.Doctor_Info.nameClinic;
-            addressClinic = dataProfile.Doctor_Info.addressClinic;
+            nameClinic = dataProfile.Doctor_Info.Clinic.name;
+            addressClinic = dataProfile.Doctor_Info.Clinic.address;
         }
 
         // price

@@ -8,7 +8,6 @@ import "./UserRedux.scss";
 import TableManageUser from "./TableManageUser.js";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-import { SyncLoader } from "react-spinners";
 
 class UserRedux extends Component {
     constructor(props) {
@@ -270,11 +269,6 @@ class UserRedux extends Component {
         return (
             <div className="wrapper-container">
                 <div className="container">
-                    <SyncLoader
-                        color="black"
-                        cssOverride={{}}
-                        loading={loading}
-                    />
                     <div className="user-redux-body">
                         <div className="row g-3">
                             <div className="col-12 my-3 fs-3">

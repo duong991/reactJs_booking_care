@@ -50,13 +50,7 @@
             "manage-handbook": "Quản lý cẩm nang"
         },
         "doctor": {
-            "manage-patient": "Quản lý bệnh nhân khám bệnh",
-
-            "remedy-modal": {
-                "title": "Xác nhận gửi hóa đơn khám bệnh",
-                "submit": "Xác nhận",
-                "cancel": "Hủy"
-            }
+            "manage-patient": "Quản lý bệnh nhân khám bệnh"
         },
         "admin-hospital": {
             "manage-schedule": "Quản lý kế hoạch khám bệnh"

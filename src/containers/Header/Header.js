@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 
 import * as actions from "../../store/actions";
 import Navigator from "../../components/Navigator";
-import { adminMenu, doctorMenu } from "./menuApp";
+import { adminMenu, doctorMenu, AdminHospitalMenu } from "./menuApp";
 import "./Header.scss";
 import { FormattedMessage } from "react-intl";
 
 import { LANGUAGES, USER_ROLE } from "../../utils";
 import _ from "lodash";
+import AdminHospital from "./../../routes/AdminHospital";
 
 class Header extends Component {
     constructor(props) {
@@ -31,6 +32,8 @@ class Header extends Component {
                 menu = adminMenu;
             } else if (role === USER_ROLE.DOCTOR) {
                 menu = doctorMenu;
+            } else if (role === USER_ROLE.ADMIN_HOSPITAL) {
+                menu = AdminHospitalMenu;
             }
         }
 

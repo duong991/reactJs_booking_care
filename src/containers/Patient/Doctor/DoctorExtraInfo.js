@@ -64,6 +64,7 @@ class DoctorExtraInfo extends Component {
             paymentVi = extraInfo.paymentData.valueVi;
             paymentEn = extraInfo.paymentData.valueEn;
         }
+
         return (
             <div className="doctor-extra-info-container">
                 <div className="content-up">
@@ -71,13 +72,13 @@ class DoctorExtraInfo extends Component {
                         <FormattedMessage id="patient.extra-info-doctor.text-address" />
                     </div>
                     <div className="name-clinic">
-                        {extraInfo && extraInfo.nameClinic
-                            ? extraInfo.nameClinic
+                        {extraInfo && extraInfo.Clinic
+                            ? extraInfo.Clinic.name
                             : ""}
                     </div>
                     <div className="detail-address">
-                        {extraInfo && extraInfo.addressClinic
-                            ? extraInfo.addressClinic
+                        {extraInfo && extraInfo.Clinic
+                            ? extraInfo.Clinic.address
                             : ""}
                     </div>
                 </div>

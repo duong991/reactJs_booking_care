@@ -176,7 +176,6 @@ class ManageDoctor extends Component {
             selectedSpecialty: this.state.selectedSpecialty.value,
             note: this.state.note,
         };
-
         this.props.updateDetailDoctorRedux(data);
         this.handleClearInput();
     };
@@ -479,7 +478,7 @@ const mapDispatchToProps = (dispatch) => {
         getRequiredDoctorInfoRedux: () =>
             dispatch(actions.getRequiredDoctorInfo()),
         updateDetailDoctorRedux: (data) =>
-            dispatch(actions.updateDetailDoctor(data)),
+            dispatch(actions.updateDetailDoctorService(data)),
     };
 };
 

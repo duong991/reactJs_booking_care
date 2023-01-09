@@ -10,6 +10,7 @@ import ManageClinic from "./../containers/System/Clinic/ManageClinic";
 class System extends Component {
     render() {
         const { systemMenuPath, isLoggedIn } = this.props;
+        console.log(systemMenuPath);
         return (
             <React.Fragment>
                 {isLoggedIn && <Header />}
@@ -18,7 +19,7 @@ class System extends Component {
                         <Switch>
                             <Route
                                 path="/system/user-manage"
-                                component={UserManage}
+                                component={UserRedux}
                             />
                             <Route
                                 path="/system/user-redux"
