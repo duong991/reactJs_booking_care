@@ -67,11 +67,11 @@ class BookingModal extends Component {
         }
     }
 
-    // getClinicId = (clinicId) => {
-    //     this.setState({
-    //         clinicId: clinicId,
-    //     });
-    // };
+    getClinicId = (clinicId) => {
+        this.setState({
+            clinicId: clinicId,
+        });
+    };
 
     buildDataGender = (data) => {
         let result = [];
@@ -192,7 +192,7 @@ class BookingModal extends Component {
             selectedGender,
             clinicId,
         } = this.state;
-
+        console.log(this.state);
         return (
             <LoadingOverlay
                 active={this.state.isShowLoading}
@@ -217,6 +217,7 @@ class BookingModal extends Component {
                                 <ProfileDoctor
                                     doctorId={doctorIdFromProps}
                                     dataTime={dataTime}
+                                    getClinicId={this.getClinicId}
                                 />
                             </div>
 

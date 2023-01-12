@@ -11,6 +11,7 @@ class VerifyEmail extends Component {
         this.state = {
             statusVerified: false,
             errCode: -1,
+            resMess: "",
         };
     }
 
@@ -26,7 +27,11 @@ class VerifyEmail extends Component {
             });
 
             if (res && res.errCode === 0) {
-                this.setState({ statusVerified: true, errCode: res.errCode });
+                this.setState({
+                    statusVerified: true,
+                    errCode: res.errCode,
+                    resMess: res.errMessage,
+                });
             } else {
                 this.setState({ statusVerified: true, errCode: -1 });
             }
@@ -36,7 +41,7 @@ class VerifyEmail extends Component {
     async componentDidUpdate(prevProps, prevState) {}
 
     render() {
-        let { statusVerified, errCode } = this.state;
+        let { statusVerified, errCode, resMess } = this.state;
         return (
             <React.Fragment>
                 <HomeHeader />
@@ -45,7 +50,7 @@ class VerifyEmail extends Component {
                 ) : (
                     <div className="verify-content">
                         {errCode === 0
-                            ? "Xác nhận lịch hẹn thành công!"
+                            ? `${resMess}`
                             : "Lịch hẹn không tồn tại hoặc đã được xác nhận"}
                     </div>
                 )}

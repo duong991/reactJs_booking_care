@@ -4,6 +4,7 @@ import { connectRouter } from "connected-react-router";
 import appReducer from "./appReducer";
 import userReducer from "./userReducer";
 import adminReducer from "./adminReducer";
+import adminHospitalReducer from "./adminHospitalReducer";
 
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
@@ -31,6 +32,12 @@ const adminPersistConfig = {
     key: "admin",
     whitelist: ["genders"],
 };
+
+const adminHospitalPersistConfig = {
+    ...persistCommonConfig,
+    key: "adminHospital",
+    whitelist: ["genders"],
+};
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (history) =>
     combineReducers({
@@ -38,4 +45,5 @@ export default (history) =>
         user: persistReducer(userPersistConfig, userReducer),
         app: persistReducer(appPersistConfig, appReducer),
         admin: adminReducer,
+        adminHospital: adminHospitalReducer,
     });

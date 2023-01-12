@@ -90,6 +90,7 @@ class ManageSpecialty extends Component {
                 theme: "light",
             });
             this.handleClearData();
+            this.reloadListSpecialty();
         } else {
             toast.error("🤟🏻 Create a new specialty fail !", {
                 position: "bottom-right",

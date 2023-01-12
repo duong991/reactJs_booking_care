@@ -144,13 +144,11 @@ const adminReducer = (state = initialState, action) => {
             };
         // fetch all schedule hours
         case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS:
-            console.log("FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS");
             return {
                 ...state,
                 scheduleTime: action.data,
             };
         case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAIL:
-            console.log("FETCH_ALLCODE_SCHEDULE_TIME_FAIL");
             return {
                 ...state,
             };

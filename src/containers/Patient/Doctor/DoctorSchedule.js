@@ -42,9 +42,7 @@ class DoctorSchedule extends Component {
                 today
             );
             if (res && res.errCode === 0) {
-                this.setState({
-                    allAvailableTime: res.data ? res.data : [],
-                });
+                this.buildEndTime(res.data);
             }
         }
         this.setState({ allDay: arrDate });
@@ -71,9 +69,7 @@ class DoctorSchedule extends Component {
                 today
             );
             if (res && res.errCode === 0) {
-                this.setState({
-                    allAvailableTime: res.data ? res.data : [],
-                });
+                this.buildEndTime(res.data);
             }
         }
     }
@@ -130,9 +126,7 @@ class DoctorSchedule extends Component {
             let { doctorId } = this.props;
             let res = await userService.getScheduleDoctorByDate(doctorId, date);
             if (res && res.errCode === 0) {
-                this.setState({
-                    allAvailableTime: res.data ? res.data : [],
-                });
+                this.buildEndTime(res.data);
             }
         }
     };
@@ -150,6 +144,26 @@ class DoctorSchedule extends Component {
     closeBookingModal = () => {
         this.setState({ ...this.state, isOpenModalBooking: false });
     };
+
+    buildEndTime = (allAvailableTime) => {
+        const sixtyMinutesInMs = 60 * 60 * 1000;
+        if (allAvailableTime && allAvailableTime.length > 0) {
+            // Lấy ra thời gian hiện tại bắt đầu từ 0h
+            let currentTimeOfDate = +allAvailableTime[0].date;
+            // lặp qua các phần tử lịch hẹn
+            for (let i = 0; i < allAvailableTime.length; i++) {
+                //Tạo ra bước nhảy thời gian với mỗi lịch hẹn
+                //eg: timeType: T1 -> valueStep = 1
+                let valueStep = +allAvailableTime[i].timeType[1];
+                // tạo giá trị endTime cho mỗi lịch hẹn
+                allAvailableTime[i].endTime =
+                    currentTimeOfDate +
+                    8 * sixtyMinutesInMs +
+                    valueStep * sixtyMinutesInMs;
+            }
+        }
+        this.setState({ allAvailableTime: allAvailableTime });
+    };
     render() {
         let {
             allDay,
@@ -157,7 +171,11 @@ class DoctorSchedule extends Component {
             dataScheduleTimeModal,
             isOpenModalBooking,
         } = this.state;
+
+        let currentTime = new Date().getTime();
+
         let { language } = this.props;
+
         return (
             <React.Fragment>
                 <BookingModal
@@ -187,6 +205,7 @@ class DoctorSchedule extends Component {
                             <React.Fragment>
                                 {allAvailableTime &&
                                     allAvailableTime.length > 0 &&
+                                    allAvailableTime[0].endTime &&
                                     allAvailableTime.map((item, index) => (
                                         <button
                                             class="btn btn-info btn-schedule-custom"
@@ -195,6 +214,12 @@ class DoctorSchedule extends Component {
                                                 this.handleClickScheduleTime(
                                                     item
                                                 )
+                                            }
+                                            hidden={
+                                                item.endTime > currentTime &&
+                                                item.currentNumber !== 5
+                                                    ? false
+                                                    : true
                                             }
                                         >
                                             {language === LANGUAGES.VI

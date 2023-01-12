@@ -36,6 +36,7 @@ class TableManagerSpecialty extends Component {
     }
 
     handleDelete = (id) => {
+        this.closeModal();
         this.props.deleteSpecialtyById(id);
     };
     handleEditSpecialty = (data) => {

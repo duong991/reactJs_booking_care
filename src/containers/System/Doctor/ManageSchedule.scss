@@ -19,4 +19,17 @@
             border: 1px solid #333;
         }
     }
+    .wrapper-table-schedule {
+        width: 1300px;
+        margin: auto;
+        margin-top: 80px;
+        .title-table {
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+    }
 }

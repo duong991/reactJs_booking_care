@@ -50,8 +50,10 @@ class ProfileDoctor extends Component {
             let res = await userService.getProfileDoctorById(id);
             if (res && res.errCode === 0) {
                 result = res.data;
-                // let clinicId = res.data.Doctor_Info.clinicId;
-                // this.props.getClinicId(clinicId);
+                if (this.props.getClinicId) {
+                    let clinicId = res.data.Doctor_Info.clinicId;
+                    this.props.getClinicId(clinicId);
+                }
             }
         }
         return result;

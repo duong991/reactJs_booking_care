@@ -122,6 +122,25 @@ const userService = {
             },
         });
     },
+
+    // api quản lý lịch hẹn bác sĩ
+    getClinicIdForAdminHospital(id) {
+        return axios.get(`/api/get-clinicId-for-admin-hospital?id=${id}`);
+    },
+
+    getAllDoctorByClinicId(clinicId) {
+        return axios.get(
+            `/api/get-all-doctor-by-clinicId?clinicId=${clinicId}`
+        );
+    },
+
+    checkDoctors(data) {
+        return axios.post("/api/check-doctors", data);
+    },
+
+    deleteSchedule(data) {
+        return axios.post("/api/delete-schedule", data);
+    },
 };
 
 export default userService;

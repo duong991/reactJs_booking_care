@@ -119,6 +119,13 @@ class ManagePatient extends Component {
                                     onChange={this.handleOnChangeDatePicker}
                                     className="form-control"
                                     value={this.state.currentDate}
+                                    minDate={
+                                        new Date(
+                                            new Date().setDate(
+                                                new Date().getDate() - 1
+                                            )
+                                        )
+                                    }
                                 />
                             </div>
                             <div className="col-12 form-group mt-4">

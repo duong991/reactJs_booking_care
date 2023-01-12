@@ -10,6 +10,7 @@ import moment from "moment";
 import { LANGUAGES, dateFormat } from "../../../utils";
 import { toast } from "react-toastify";
 import _ from "lodash";
+import TableManageSchedule from "./TableManageSchedule";
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -20,17 +21,26 @@ class ManageSchedule extends Component {
             currentDate: "",
             scheduleTime: [],
             listScheduleTimeType: [],
+            clinicId: "",
         };
     }
 
     async componentDidMount() {
-        await this.props.getAllDoctorRedux();
+        let { user } = this.props;
+        let res = await userService.getClinicIdForAdminHospital(user.id);
+        this.setState({ clinicId: res.data.clinicId });
+        if (res && res.errCode === 0) {
+            await this.props.getAllDoctorOfClinic(res.data.clinicId);
+        }
+        // await this.props.getAllDoctorRedux();
         await this.props.fetchAllCodeScheduleTimeRedux();
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if (prevProps.allDoctors !== this.props.allDoctors) {
-            let dataSelect = this.buildDataInputSelect(this.props.allDoctors);
+        if (prevProps.doctorOfClinic !== this.props.doctorOfClinic) {
+            let dataSelect = this.buildDataInputSelect(
+                this.props.doctorOfClinic
+            );
             this.setState({
                 ...this.state,
                 listDoctor: dataSelect,
@@ -52,22 +62,34 @@ class ManageSchedule extends Component {
             });
         }
     }
+
     buildDataInputSelect = (data) => {
         let result = [];
         data &&
             data.length > 0 &&
             data.map((item, index) => {
                 let object = {};
-                object.label = item.fullName;
-                object.value = item.id;
+                object.label = item.User.fullName;
+                object.value = item.doctorId;
                 result.push(object);
             });
 
         return result;
     };
 
+    resetDataTime = (scheduleTime) => {
+        scheduleTime = scheduleTime.map((item) => ({
+            ...item,
+            isActive: false,
+        }));
+        this.setState({ scheduleTime: scheduleTime });
+    };
+    // Xử lý action khi người dùng thực hiện chọn bác sĩ mới
     handleChange = async (selectedDoctor) => {
         let { currentDate, scheduleTime } = this.state;
+        // reset dữ liệu schedule
+        this.resetDataTime(scheduleTime);
+        // call api lấy dữ liệu schedule
         let FormatDate = new Date(currentDate).getTime();
         if (FormatDate) {
             let scheduleOld = await userService.getScheduleDoctorByDate(
@@ -84,12 +106,17 @@ class ManageSchedule extends Component {
                 }
             });
         }
-        this.setState({ selectedDoctor });
+        this.setState({
+            selectedDoctor: selectedDoctor,
+            scheduleTime: scheduleTime,
+        });
     };
 
     handleOnChangeDatePicker = async (date) => {
         this.setState({ currentDate: date[0] });
         let { currentDate, selectedDoctor, scheduleTime } = this.state;
+        this.resetDataTime(scheduleTime);
+
         let FormatDate = new Date(currentDate).getTime();
         if (selectedDoctor.value) {
             let scheduleOld = await userService.getScheduleDoctorByDate(
@@ -106,6 +133,9 @@ class ManageSchedule extends Component {
                 }
             });
         }
+        this.setState({
+            scheduleTime: scheduleTime,
+        });
     };
 
     handleClickBtnTime = (time) => {
@@ -135,7 +165,8 @@ class ManageSchedule extends Component {
     };
 
     handleSaveSchedule = async () => {
-        let { scheduleTime, selectedDoctor, currentDate } = this.state;
+        let { scheduleTime, selectedDoctor, currentDate, clinicId } =
+            this.state;
         let result = [];
         if (!currentDate) {
             toast.error("🤟🏻 Invalid current date!", {
@@ -173,6 +204,7 @@ class ManageSchedule extends Component {
                 selectedTime.map((item) => {
                     let obj = {};
                     obj.doctorId = selectedDoctor.value;
+                    obj.clinicId = clinicId;
                     obj.date = FormatDate;
                     obj.timeType = item.keyMap;
                     result.push(obj);
@@ -206,8 +238,15 @@ class ManageSchedule extends Component {
         }
     };
     render() {
-        const { selectedDoctor, listDoctor, scheduleTime } = this.state;
-        const { language } = this.props;
+        let {
+            selectedDoctor,
+            listDoctor,
+            scheduleTime,
+            currentDate,
+            clinicId,
+        } = this.state;
+        let { language, user } = this.props;
+        let FormatDate = new Date(currentDate).getTime();
         return (
             <div className="manage-schedule-container">
                 <div className="m-s-title">
@@ -273,6 +312,13 @@ class ManageSchedule extends Component {
                         <FormattedMessage id="manage-schedule.save" />
                     </button>
                 </div>
+                <div className="wrapper-table-schedule">
+                    <div className="title-table">Danh sách bác sĩ</div>
+                    <TableManageSchedule
+                        currentDate={FormatDate}
+                        clinicId={clinicId}
+                    />
+                </div>
             </div>
         );
     }
@@ -281,16 +327,20 @@ class ManageSchedule extends Component {
 const mapStateToProps = (state) => {
     return {
         language: state.app.language,
-        allDoctors: state.admin.allDoctors,
+        // allDoctors: state.admin.allDoctors,
+        doctorOfClinic: state.adminHospital.doctorOfClinic,
         scheduleTime: state.admin.scheduleTime,
+        user: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllDoctorRedux: () => dispatch(actions.getAllDoctor()),
+        // getAllDoctorRedux: () => dispatch(actions.getAllDoctor()),
         fetchAllCodeScheduleTimeRedux: () =>
             dispatch(actions.fetchAllCodeScheduleTime()),
+        getAllDoctorOfClinic: (clinicId) =>
+            dispatch(actions.getAllDoctorOfClinic(clinicId)),
     };
 };
 
