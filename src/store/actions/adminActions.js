@@ -214,7 +214,6 @@ export const fetchTopDoctor = () => {
     return async (dispatch, getState) => {
         try {
             let res = await userService.getTopDoctorServices(6);
-            console.log(res.data);
             if (res && res.errCode === 0) {
                 dispatch(fetchTopDoctorSuccess(res.data));
             } else {

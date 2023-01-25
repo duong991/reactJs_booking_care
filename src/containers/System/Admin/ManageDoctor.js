@@ -368,7 +368,7 @@ class ManageDoctor extends Component {
                     </div>
                     <div className="col-4 mb-3 form-group">
                         <label>
-                            <FormattedMessage id="admin.select-clinic" />
+                            <FormattedMessage id="admin.province" />
                         </label>
                         <Select
                             options={listProvince}
@@ -380,30 +380,7 @@ class ManageDoctor extends Component {
                             }
                         />
                     </div>
-                    {/*    <div className="col-4 mb-3 form-group">
-                        <label>
-                            <FormattedMessage id="admin.nameClinic" />
-                        </label>
-                        <input
-                            className="form-control"
-                            value={nameClinic}
-                            onChange={(e) =>
-                                this.handleOnChangeText(e, "nameClinic")
-                            }
-                        />
-                    </div>
-                    <div className="col-4 mb-3 form-group">
-                        <label>
-                            <FormattedMessage id="admin.addressClinic" />
-                        </label>
-                        <input
-                            className="form-control"
-                            value={addressClinic}
-                            onChange={(e) =>
-                                this.handleOnChangeText(e, "addressClinic")
-                            }
-                        />
-                        </div> */}
+
                     <div className="col-4 mb-3 form-group">
                         <label>
                             <FormattedMessage id="admin.select-clinic" />

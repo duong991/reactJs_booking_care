@@ -106,7 +106,6 @@ class ProfileDoctor extends Component {
         let { dataProfile } = this.state;
         let { language, dataTime, doctorId } = this.props;
 
-        console.log(dataProfile);
         let nameVi = "",
             nameEn = "",
             nameClinic = "",

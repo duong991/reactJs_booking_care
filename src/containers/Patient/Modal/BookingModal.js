@@ -192,10 +192,10 @@ class BookingModal extends Component {
             selectedGender,
             clinicId,
         } = this.state;
-        console.log(this.state);
         return (
             <LoadingOverlay
                 active={this.state.isShowLoading}
+                // active={true}
                 spinner
                 text="Loading..."
             >

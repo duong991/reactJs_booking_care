@@ -23,7 +23,7 @@ class TableManageSchedule extends Component {
         //     console.log(this.props.currentDate);
         //     let res = await userService.checkDoctors({
         //         doctors: this.props.doctorOfClinic.map((item) => item.doctorId),
-        //         ClinicId: this.props.clinicId,
+        //         clinicId: this.props.clinicId,
         //         currentDate: this.props.currentDate,
         //     });
         //     console.log(res);
@@ -38,7 +38,7 @@ class TableManageSchedule extends Component {
         ) {
             let res = await userService.checkDoctors({
                 doctors: this.props.doctorOfClinic.map((item) => item.doctorId),
-                ClinicId: this.props.clinicId,
+                clinicId: this.props.clinicId,
                 currentDate: this.props.currentDate,
             });
             this.setState({ checkDoctors: res.data });
@@ -69,7 +69,7 @@ class TableManageSchedule extends Component {
         if (res && res.errCode === 0) {
             let res = await userService.checkDoctors({
                 doctors: this.props.doctorOfClinic.map((item) => item.doctorId),
-                ClinicId: this.props.clinicId,
+                clinicId: this.props.clinicId,
                 currentDate: this.props.currentDate,
             });
             toast.info("🤟🏻 Xóa thành công", {

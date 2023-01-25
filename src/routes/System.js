@@ -10,7 +10,6 @@ import ManageClinic from "./../containers/System/Clinic/ManageClinic";
 class System extends Component {
     render() {
         const { systemMenuPath, isLoggedIn } = this.props;
-        console.log(systemMenuPath);
         return (
             <React.Fragment>
                 {isLoggedIn && <Header />}
